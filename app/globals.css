@@ -31,3 +31,16 @@ body {
     text-wrap: balance;
   }
 }
+
+
+@layer base {
+  @font-face {
+    font-family: "Eco Coding WGL4 W01 Regular";
+    src: url("https://db.onlinewebfonts.com/t/fce1ae337c2b8b2bf2518b7d5127e030.eot");
+    src: url("https://db.onlinewebfonts.com/t/fce1ae337c2b8b2bf2518b7d5127e030.eot?#iefix")format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/fce1ae337c2b8b2bf2518b7d5127e030.woff2")format("woff2"),
+    url("https://db.onlinewebfonts.com/t/fce1ae337c2b8b2bf2518b7d5127e030.woff")format("woff"),
+    url("https://db.onlinewebfonts.com/t/fce1ae337c2b8b2bf2518b7d5127e030.ttf")format("truetype"),
+    url("https://db.onlinewebfonts.com/t/fce1ae337c2b8b2bf2518b7d5127e030.svg#Eco Coding WGL4 W01 Regular")format("svg");
+}
+}
