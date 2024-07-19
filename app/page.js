@@ -6,10 +6,11 @@ import { BackgroundGradientAnimation } from './components/ui/BackgroundGradientA
 import InstagramEmbedComponent from './components/InstagramEmbedComponent';
 import { BackgroundGradient } from './components/ui/BackgroundGradient';
 import { AuroraBackground } from './components/ui/AuroraBackground';
+import StatisticsComponent from './components/StatisticsComponent';
+
+const words = ['algoritma', 'otomatis', 'emotionless'];
 
 export default function Home() {
-  const words = ['algoritma', 'otomatis', 'emotionless'];
-
   return (
     <>
       <AuroraBackground>
@@ -75,9 +76,10 @@ export default function Home() {
             </BackgroundGradient>
           </div>
         </div>
+        <StatisticsComponent />
       </AuroraBackground>
 
-      <div className='w-full h-[5rem] bg-blue-500 mt-20'></div>
+      <div className='w-full h-[5rem] bg-blue-500 mt-100'></div>
       <InstagramEmbedComponent />
 
       <div className='h-[50rem] mt-[100vh] w-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative inline-block items-center justify-center'>
