@@ -16,10 +16,10 @@ export default function Home() {
       <AuroraBackground>
         <div className='h-screen w-full inline-block md:flex items-center justify-center mt-[10rem] lg:mt-[-5rem] lg:h-[90vh] lg:px-20'>
           <div className='w-full md:w-1/2 text-center items-center justify-center'>
-            {/* <div className='xl:text-6xl sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center'>
-        Bantu kamu trading
-        <br /> dengan <FlipWords words={words} duration={2000} />
-      </div> */}
+            <div className='xl:text-6xl sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center'>
+              Trading
+              <FlipWords words={words} duration={2000} />
+            </div>
             <h1 className='text-4xl font-bold text-white'>
               Selamat datang di{' '}
               <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-ecocoding'>
