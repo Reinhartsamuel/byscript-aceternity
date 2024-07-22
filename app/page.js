@@ -7,6 +7,8 @@ import InstagramEmbedComponent from './components/InstagramEmbedComponent';
 import { BackgroundGradient } from './components/ui/BackgroundGradient';
 import { AuroraBackground } from './components/ui/AuroraBackground';
 import StatisticsComponent from './components/StatisticsComponent';
+import { HeroHighlightComponent } from './components/HeroHighlightsComponent';
+import { ImageGallery } from './components/ImageGallery';
 
 const words = ['algoritma', 'otomatis', 'emotionless'];
 
@@ -50,7 +52,7 @@ export default function Home() {
             </div>
           </div>
           <div className='w-400 md:w-1/2 mx-auto'>
-            <BackgroundGradient className='rounded-[22px]  p-4 sm:p-10 bg-zinc-900'>
+            <BackgroundGradient className='rounded-[22px] p-4 sm:p-10 bg-zinc-900'>
               <img
                 src={
                   'https://byscript-bucket.s3.ap-southeast-2.amazonaws.com/sniper.webp'
@@ -76,15 +78,32 @@ export default function Home() {
             </BackgroundGradient>
           </div>
         </div>
-        <StatisticsComponent />
+        <div className='mt-40'>
+          <StatisticsComponent />
+        </div>
       </AuroraBackground>
 
-      <div className='w-full h-[5rem] bg-blue-500 mt-100'></div>
+      {/* <div className='w-full h-[5rem] bg-blue-500 mt-100'></div> */}
+      <HeroHighlightComponent />
+
       <InstagramEmbedComponent />
+      <div className='w-full mt-20 inline-block items-center justify-center'>
+        <h1 className='text-2xl mt-10 font-bold text-center mx-auto'>
+          Gabung komunitas byScript
+        </h1>
+        <h3 className='text-center mb-10'>
+          50+ member sudah merasakan manfaat autotrade, tinggal kamu
+        </h3>
+        <ImageGallery />
+      </div>
+      <div className='w-full h-screen mt-20 flex items-center justify-center mx-auto'>
+        <InstagramEmbedComponent id='C3h_mt1P-tV' captioned />
+      </div>
 
       <div className='h-[50rem] mt-[100vh] w-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative inline-block items-center justify-center'>
         {/* Radial gradient for the container to give a faded look */}
         <div className='absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]'></div>
+        {/* <h4 className='text-white text-3xl'>hello guys</h4> */}
       </div>
       <Carousel1 />
     </>
