@@ -16,8 +16,8 @@ export default function RootLayout({ children }) {
     <html lang='en'>
       <body className={inter.className}>
         <Suspense>
-          {/* <Navbar /> */}
-          <FloatingNav />
+          <Navbar />
+          {/* <FloatingNav /> */}
           {children}
         </Suspense>
       </body>

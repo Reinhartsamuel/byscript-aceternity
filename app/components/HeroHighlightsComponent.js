@@ -35,8 +35,8 @@ export function HeroHighlightComponent() {
           apapun kondisi market!
         </Highlight>
       </motion.h1>
-      <h3 className='mt-5 mx-auto text-sm text-center text-slate-400'>
-        dengan platformbyScript kamu dapat trading dengan otomatis menggunakan
+      <h3 className='mt-5 mx-auto max-w-4xl text-sm text-center text-slate-400'>
+        dengan platform byScript kamu dapat trading dengan otomatis menggunakan
         algoritma, sehingga kamu bisa mendapatkan profit maksimal, bahkan ketika{' '}
         <i>market crash</i> sekalipun 📈📉.
       </h3>
