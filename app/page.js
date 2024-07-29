@@ -9,6 +9,7 @@ import { AuroraBackground } from './components/ui/AuroraBackground';
 import StatisticsComponent from './components/StatisticsComponent';
 import { HeroHighlightComponent } from './components/HeroHighlightsComponent';
 import { ImageGallery } from './components/ImageGallery';
+import SignalPreviewComponent from './components/SignalPreviewComponent';
 
 const words = ['algoritma', 'otomatis', 'emotionless'];
 
@@ -16,19 +17,19 @@ export default function Home() {
   return (
     <>
       {/* <AuroraBackground> */}
-      <div className='h-screen w-full inline-block md:flex items-center justify-center mt-[10rem] lg:mt-[-5rem] lg:h-[90vh] lg:px-20'>
+      <div className='h-screen w-full inline-block md:flex items-center justify-center lg:h-[90vh] lg:px-20'>
         <div className='w-full md:w-1/2 text-center items-center justify-center'>
           <div className='xl:text-6xl sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center'>
             Trading
             <FlipWords words={words} duration={2000} />
           </div>
-          <h1 className='text-4xl font-bold text-white'>
+          <h1 className='text-4xl font-bold text-white xl:text-7xl'>
             Selamat datang di{' '}
             <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-ecocoding'>
               byScript
             </span>
           </h1>
-          <h1 className='text-md align-left text-slate-300'>
+          <h1 className='text-md align-left text-slate-300 mt-5'>
             Platform{' '}
             <span className='italic text-slate-100'>Algorithmic Trading</span>{' '}
             pertama di Indonesia
@@ -49,6 +50,9 @@ export default function Home() {
                 Sign In
               </div>
             </button>
+            <div className='hidden md:block'>
+              <StatisticsComponent />
+            </div>
           </div>
         </div>
         <div className='w-400 md:w-1/2 mx-auto'>
@@ -78,11 +82,11 @@ export default function Home() {
           </BackgroundGradient>
         </div>
       </div>
-      <div className='mt-40'>
+      <div className='mt-40 md:hidden'>
         <StatisticsComponent />
       </div>
       {/* </AuroraBackground> */}
-
+      {/* EXCHANGES LOGO */}
       <div className='w-full mx-auto flex flex-wrap justify-center items-center bg-slate-50 mt-100 xl:px-20'>
         <img
           className='w-[10rem] mt-10'
@@ -162,17 +166,29 @@ export default function Home() {
           alt={'coinbase'}
         />
       </div>
-        <HeroHighlightComponent />
+
+      <HeroHighlightComponent />
+
+      <div className='w-full h-screen mt-20 inline-block items-center justify-center mx-auto'>
+        <h1 className='text-3xl mt-10 font-bold text-center mx-auto md:text-5xl lg:text-7xl'>
+          LIVE SIGNAL 📣📈📉
+        </h1>
+        <h3 className='text-center mx-auto'>Signal live dari trading plan byscript, otomatis dari algoritma yang kami kembangkan</h3>
+        <SignalPreviewComponent />
+      </div>
+
+      <div className='w-full h-screen mt-20 inline-block items-center justify-center mx-auto'>
+      </div>
 
       <div className='w-full h-screen mt-20 flex items-center justify-center mx-auto'>
         <InstagramEmbedComponent />
       </div>
       <div className='w-full mt-20 inline-block items-center justify-center'>
-        <h1 className='text-2xl mt-10 font-bold text-center mx-auto'>
+        <h1 className='text-2xl mt-10 font-bold text-center mx-auto md:text-6xl'>
           Gabung komunitas byScript
         </h1>
-        <h3 className='text-center mb-10'>
-          50+ member sudah merasakan manfaat autotrade, tinggal kamu
+        <h3 className='text-center mb-10 text-red'>
+          50+ member sudah menggunakan trading otomatis, 10 member sudah <i>break-even point</i> (BEP) tinggal kamu
         </h3>
         <ImageGallery />
       </div>
@@ -185,7 +201,6 @@ export default function Home() {
         <div className='absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]'></div>
         {/* <h4 className='text-white text-3xl'>hello guys</h4> */}
       </div>
-      <Carousel1 />
     </>
   );
 }
