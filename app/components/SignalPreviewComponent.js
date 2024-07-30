@@ -35,6 +35,7 @@ const PairImageComponent = ({ pair = 'BTC_USDT' }) => {
 const SignalPreviewComponent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -50,6 +51,8 @@ const SignalPreviewComponent = () => {
       });
       setData(array);
       setLoading(false);
+    },(error) => {
+      setErrorMsg(error.message)
     });
     return () => unsubscribe();
   }, []);
@@ -60,6 +63,8 @@ const SignalPreviewComponent = () => {
         <Spinner />
       </div>
     );
+    if (errorMsg)
+      return <p>Error! ::: {errorMsg}</p>
 
   return (
     <>
