@@ -1,178 +1,110 @@
 'use client';
-
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import React, { useEffect, useState } from 'react';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { CheckCircle2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import React, { useState } from 'react';
-import { cn } from '@/lib/utils';
+  GlowingStarsBackgroundCard,
+  GlowingStarsDescription,
+  GlowingStarsTitle,
+} from './ui/GlowingStars';
+import { useRouter } from 'next/navigation';
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { db } from '../config/firebase';
+import { priceFormat } from '../utils/priceFormat';
 
-const PricingHeader = ({ title, subtitle }) => (
-  <section className='text-center'>
-    <h2 className='text-3xl font-bold'>{title}</h2>
-    <p className='text-xl pt-1'>{subtitle}</p>
-    <br />
-  </section>
-);
+const prices = [{}, {}, {}];
 
-const PricingSwitch = ({ onSwitch }) => (
-  <Tabs defaultValue='0' className='w-40 mx-auto' onValueChange={onSwitch}>
-    <TabsList className='py-6 px-2'>
-      <TabsTrigger value='0' className='text-base'>
-        Monthly
-      </TabsTrigger>
-      <TabsTrigger value='1' className='text-base'>
-        Yearly
-      </TabsTrigger>
-    </TabsList>
-  </Tabs>
-);
+export function PricingComponent() {
+  const router = useRouter();
+  const [prices, setPrices] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const getPricing = async () => {
+    try {
+      const arr = [];
+      const productsRef = collection(db, 'products');
+      const q = query(
+        productsRef,
+        where('type', '==', 'plan'),
+        orderBy('price', 'asc')
+      );
+      // const q = query(collection(db, 'products'), where('type', '==', 'plan'));
 
-const PricingCard = ({
-  isYearly,
-  title,
-  monthlyPrice,
-  yearlyPrice,
-  description,
-  features,
-  actionLabel,
-  popular,
-  exclusive,
-}) => (
-  <Card
-    className={cn(
-      `w-72 flex flex-col justify-between py-1 ${
-        popular ? 'border-rose-400' : 'border-zinc-700'
-      } mx-auto sm:mx-0`,
-      {
-        'animate-background-shine bg-white dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors':
-          exclusive,
-      }
-    )}
-  >
-    <div>
-      <CardHeader className='pb-8 pt-4'>
-        {isYearly && yearlyPrice && monthlyPrice ? (
-          <div className='flex justify-between'>
-            <CardTitle className='text-zinc-700 dark:text-zinc-300 text-lg'>
-              {title}
-            </CardTitle>
-            <div
-              className={cn(
-                'px-2.5 rounded-xl h-fit text-sm py-1 bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white',
-                {
-                  'bg-gradient-to-r from-orange-400 to-rose-400 dark:text-black ':
-                    popular,
-                }
-              )}
-            >
-              Save ${monthlyPrice * 12 - yearlyPrice}
-            </div>
-          </div>
-        ) : (
-          <CardTitle className='text-zinc-700 dark:text-zinc-300 text-lg'>
-            {title}
-          </CardTitle>
-        )}
-        <div className='flex gap-0.5'>
-          <h3 className='text-3xl font-bold'>
-            {yearlyPrice && isYearly
-              ? '$' + yearlyPrice
-              : monthlyPrice
-              ? '$' + monthlyPrice
-              : 'Custom'}
-          </h3>
-          <span className='flex flex-col justify-end text-sm mb-1'>
-            {yearlyPrice && isYearly ? '/year' : monthlyPrice ? '/month' : null}
-          </span>
-        </div>
-        <CardDescription className='pt-1.5 h-12'>{description}</CardDescription>
-      </CardHeader>
-      <CardContent className='flex flex-col gap-2'>
-        {features.map((feature) => (
-          <CheckItem key={feature} text={feature} />
-        ))}
-      </CardContent>
-    </div>
-    <CardFooter className='mt-2'>
-      <Button className='relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
-        <div className='absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur' />
-        {actionLabel}
-      </Button>
-    </CardFooter>
-  </Card>
-);
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        arr.push({ id: doc.id, ...doc.data() });
+      });
+      setPrices(arr);
+      console.log(arr, 'arr');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-const CheckItem = ({ text }) => (
-  <div className='flex gap-2'>
-    <CheckCircle2 size={18} className='my-auto text-green-400' />
-    <p className='pt-0.5 text-zinc-700 dark:text-zinc-300 text-sm'>{text}</p>
-  </div>
-);
-
-export default function page() {
-  const [isYearly, setIsYearly] = useState(false);
-  const togglePricingPeriod = (value) => setIsYearly(parseInt(value) === 1);
-
-  const plans = [
-    {
-      title: 'Basic',
-      monthlyPrice: 10,
-      yearlyPrice: 100,
-      description: 'Essential features you need to get started',
-      features: [
-        'Example Feature Number 1',
-        'Example Feature Number 2',
-        'Example Feature Number 3',
-      ],
-      actionLabel: 'Get Started',
-    },
-    {
-      title: 'Pro',
-      monthlyPrice: 25,
-      yearlyPrice: 250,
-      description: 'Perfect for owners of small & medium businessess',
-      features: [
-        'Example Feature Number 1',
-        'Example Feature Number 2',
-        'Example Feature Number 3',
-      ],
-      actionLabel: 'Get Started',
-      popular: true,
-    },
-    {
-      title: 'Enterprise',
-      price: 'Custom',
-      description: 'Dedicated support and infrastructure to fit your needs',
-      features: [
-        'Example Feature Number 1',
-        'Example Feature Number 2',
-        'Example Feature Number 3',
-        'Super Exclusive Feature',
-      ],
-      actionLabel: 'Contact Sales',
-      exclusive: true,
-    },
-  ];
+  useEffect(() => {
+    getPricing();
+  }, []);
   return (
-    <div className='py-8'>
-      <PricingHeader
-        title='Pricing Plans'
-        subtitle="Choose the plan that's right for you"
-      />
-      <PricingSwitch onSwitch={togglePricingPeriod} />
-      <section className='flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8'>
-        {plans.map((plan) => {
-          return <PricingCard key={plan.title} {...plan} isYearly={isYearly} />;
-        })}
-      </section>
+    <div className='flex py-20 items-center antialiased overflow-x-scroll'>
+      {prices.map((x, i) => (
+        <div
+          key={i}
+          className='bg-[linear-gradient(110deg,#333_0.6%,#222)] flex flex-col items-center p-6 mt-2 mx-1 max-h-[40rem]  min-w-[360px] rounded-xl border border-[#eaeaea]'
+        >
+          <h2 className='text-white font-bold text-xl'>{x?.name}</h2>
+          <h3 className='text-slate-300 font-bold text-3xl'>
+            IDR {priceFormat(x?.price)}
+          </h3>
+
+          <div className='mt-10 flex flex-col items-center'>
+            <ul>
+              {x?.features?.map((y, idx) => (
+                <li
+                  key={idx}
+                  className='mt-[5px] text-slate-200 flex items-center gap-2'
+                >
+                  <svg
+                    stroke='currentColor'
+                    fill='currentColor'
+                    stroke-width='0'
+                    viewBox='0 0 512 512'
+                    focusable='false'
+                    class='css-169zzeb'
+                    role='presentation'
+                    height='1em'
+                    width='1em'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path d='M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z'></path>
+                  </svg>
+                  {y}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button className='mt-[10rem] w-full bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-[2px] h-[5rem] text-xs font-semibold leading-6  text-white inline-block'>
+            <span className='absolute inset-0 overflow-hidden rounded-full'>
+              <span className='absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100' />
+            </span>
+            <div className='relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-5 px-4 ring-1 ring-white/10 '>
+              <span>Daftar</span>
+              <svg
+                fill='none'
+                height='16'
+                viewBox='0 0 24 24'
+                width='16'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M10.75 8.75L14.25 12L10.75 15.25'
+                  stroke='currentColor'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='1.5'
+                />
+              </svg>
+            </div>
+            <span className='absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40' />
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

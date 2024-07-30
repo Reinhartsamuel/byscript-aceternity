@@ -10,6 +10,8 @@ import StatisticsComponent from './components/StatisticsComponent';
 import { HeroHighlightComponent } from './components/HeroHighlightsComponent';
 import { ImageGallery } from './components/ImageGallery';
 import SignalPreviewComponent from './components/SignalPreviewComponent';
+import { StepsComponent } from './components/StepsComponent';
+import { PricingComponent } from './components/PricingComponent';
 
 const words = ['algoritma', 'otomatis', 'emotionless'];
 
@@ -173,14 +175,21 @@ export default function Home() {
         <h1 className='text-3xl mt-10 font-bold text-center mx-auto md:text-5xl lg:text-7xl'>
           LIVE SIGNAL 📣📈📉
         </h1>
-        <h3 className='text-center mx-auto'>Signal live dari trading plan byscript, otomatis dari algoritma yang kami kembangkan</h3>
+        <h3 className='text-center mx-auto'>
+          Signal live dari trading plan byscript, otomatis dari algoritma yang
+          kami kembangkan
+        </h3>
         <SignalPreviewComponent />
       </div>
 
-      <div className='w-full h-screen mt-20 inline-block items-center justify-center mx-auto'>
+      <div className='w-full my-1000 flex flex-col my-[20rem]'>
+        <h1 className='text-2xl mt-10 font-bold text-center mx-auto md:text-6xl'>
+          Cara mengaktifkan autotrade
+        </h1>
+        <StepsComponent />
       </div>
 
-      <div className='w-full h-screen mt-20 flex items-center justify-center mx-auto'>
+      <div className='w-full h-screen mt-20 flex flex-col items-center justify-center mx-auto'>
         <InstagramEmbedComponent />
       </div>
       <div className='w-full mt-20 inline-block items-center justify-center'>
@@ -188,7 +197,8 @@ export default function Home() {
           Gabung komunitas byScript
         </h1>
         <h3 className='text-center mb-10 text-red'>
-          50+ member sudah menggunakan trading otomatis, 10 member sudah <i>break-even point</i> (BEP) tinggal kamu
+          50+ member sudah menggunakan trading otomatis, 10 member sudah{' '}
+          <i>break-even point</i> (BEP) tinggal kamu
         </h3>
         <ImageGallery />
       </div>
@@ -200,6 +210,11 @@ export default function Home() {
         {/* Radial gradient for the container to give a faded look */}
         <div className='absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]'></div>
         {/* <h4 className='text-white text-3xl'>hello guys</h4> */}
+      </div>
+      <div className='min-h-screen'>
+        <h1 className='text-5xl mt-10 font-bold text-center mx-auto'>Pricing</h1>
+        <h3 className='text-center text-white mt-5'>Pendaftar baru dapat promo gratis satu bulan pertama</h3>
+        <PricingComponent />
       </div>
     </>
   );
