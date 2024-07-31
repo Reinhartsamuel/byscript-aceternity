@@ -1,3 +1,5 @@
+'use client'
+import { authFirebase } from '@/app/config/firebase';
 import {
   Disclosure,
   DisclosureButton,
@@ -8,6 +10,8 @@ import {
   MenuItems,
 } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -23,6 +27,29 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+  const [user, setUser] = useState(null);
+  const handleLogout = async ()  => {
+    try {
+      await authFirebase.signOut();
+    } catch (error) {
+      window.alert(error.message)
+    }
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(authFirebase, (user) => {
+      if (user) {
+        setUser(user);
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        // ...
+      } else {
+        setUser(null);
+        // User is signed out
+        // ...
+      }
+    });
+  }, []);
   return (
     <Disclosure as='nav'>
       <div className='px-2 md:px-5'>
@@ -75,15 +102,24 @@ export default function Example() {
             <div className='flex gap-4 items-center justify-center'>
               <Menu as='div' className='relative ml-3'>
                 <div>
-                  <MenuButton className='relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
-                    <span className='absolute -inset-1.5' />
-                    <span className='sr-only'>Open user menu</span>
-                    <img
-                      alt=''
-                      src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                      className='h-8 w-8 rounded-full'
-                    />
-                  </MenuButton>
+                  {!user ? (
+                    <button className='relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
+                      <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
+                      <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
+                        Sign In
+                      </span>
+                    </button>
+                  ) : (
+                    <MenuButton className='relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
+                      <span className='absolute -inset-1.5' />
+                      <span className='sr-only'>Open user menu</span>
+                      <img
+                        alt=''
+                        src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                        className='h-8 w-8 rounded-full'
+                      />
+                    </MenuButton>
+                  )}
                 </div>
                 <MenuItems
                   transition
@@ -105,22 +141,12 @@ export default function Example() {
                       Settings
                     </a>
                   </MenuItem>
-                  <MenuItem>
-                    <a
-                      href='#'
-                      className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'
-                    >
+                  <MenuItem onClick={handleLogout}>
+ 
                       Sign out
-                    </a>
                   </MenuItem>
                 </MenuItems>
               </Menu>
-              <button className='relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
-                <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
-                <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
-                  Sign In
-                </span>
-              </button>
             </div>
           </div>
         </div>
