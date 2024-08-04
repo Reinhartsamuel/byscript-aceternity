@@ -11,6 +11,7 @@ const app_mode = process.env.NEXT_PUBLIC_APP_MODE;
 const firebaseConfig = {
     apiKey: "AIzaSyBrJtG-8_KeYSXal6UR1o3SUCX1NwzfW4g",
     authDomain: "byscript-io.firebaseapp.com",
+    // authDomain : "auth.byscript.io",
     projectId: "byscript-io",
     storageBucket: "byscript-io.appspot.com",
     messagingSenderId: "757580490638",

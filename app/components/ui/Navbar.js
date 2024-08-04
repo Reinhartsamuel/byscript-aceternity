@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { authFirebase } from '@/app/config/firebase';
 import {
   Disclosure,
@@ -11,6 +11,7 @@ import {
 } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const navigation = [
@@ -26,20 +27,22 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
+export default function Navbar() {
   const [user, setUser] = useState(null);
-  const handleLogout = async ()  => {
+  const router = useRouter();
+  const handleLogout = async () => {
     try {
       await authFirebase.signOut();
     } catch (error) {
-      window.alert(error.message)
+      window.alert(error.message);
     }
-  }
+  };
 
   useEffect(() => {
     onAuthStateChanged(authFirebase, (user) => {
       if (user) {
         setUser(user);
+        console.log(user, 'user navbar');
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
         // ...
@@ -52,7 +55,7 @@ export default function Example() {
   }, []);
   return (
     <Disclosure as='nav'>
-      <div className='px-2 md:px-5'>
+      <div className='px-2 border-b-[1px] border-b-slate-700 md:px-5'>
         <div className='relative flex h-16 items-center justify-between'>
           <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
             {/* Mobile menu button*/}
@@ -72,7 +75,7 @@ export default function Example() {
           <div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
             <div className='flex flex-shrink-0 items-center'>
               <img
-                alt='Your Company'
+                alt='byScript'
                 src='https://i.ibb.co.com/RB9rQy3/Whats-App-Image-2024-05-19-at-16-02-06.jpg'
                 className='h-8 w-auto rounded-lg'
               />
@@ -100,53 +103,58 @@ export default function Example() {
           <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
             {/* Profile dropdown */}
             <div className='flex gap-4 items-center justify-center'>
-              <Menu as='div' className='relative ml-3'>
-                <div>
-                  {!user ? (
-                    <button className='relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
-                      <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
-                      <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
-                        Sign In
-                      </span>
-                    </button>
-                  ) : (
-                    <MenuButton className='relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
-                      <span className='absolute -inset-1.5' />
-                      <span className='sr-only'>Open user menu</span>
-                      <img
-                        alt=''
-                        src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
-                        className='h-8 w-8 rounded-full'
-                      />
-                    </MenuButton>
-                  )}
-                </div>
-                <MenuItems
-                  transition
-                  className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in'
-                >
-                  <MenuItem>
-                    <a
-                      href='#'
-                      className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'
-                    >
-                      Your Profile
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      href='#'
-                      className='block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100'
-                    >
-                      Settings
-                    </a>
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>
- 
-                      Sign out
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
+              <button onClick={() => console.log(user)}>cek</button>
+              {!user ? (
+                <button className='relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
+                onClick={() => router.push('auth/login')}>
+                  <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
+                  <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
+                    Sign In
+                  </span>
+                </button>
+              ) : (
+                <Menu as='div' className='relative ml-3'>
+                  <MenuButton className='relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800'>
+                    <span className='absolute -inset-1.5' />
+                    <span className='sr-only'>Open user menu</span>
+                    <img
+                      alt=''
+                      src={user?.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'}
+                      className='h-8 w-8 rounded-full'
+                    />
+                  </MenuButton>
+
+                  <MenuItems
+                    transition
+                    className='absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-slate-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in'
+                  >
+                    <MenuItem cursor={'pointer'}>
+                      <a
+                        href={user && (user?.displayName?.replace(' ','-') || user?.email?.split('@')[0])?.toLowerCase()}
+                        className='block px-4 py-2 text-sm text-gray-100 data-[focus]:bg-slate-600'
+                      >
+                        Dashboard
+                      </a>
+                    </MenuItem>
+                    <MenuItem cursor={'pointer'}>
+                      <a
+                        href='#'
+                        className='block px-4 py-2 text-sm text-gray-100 data-[focus]:bg-slate-600'
+                      >
+                        Settings
+                      </a>
+                    </MenuItem>
+                    <MenuItem cursor={'pointer'}>
+                      <a
+                        onClick={handleLogout}
+                        className='block px-4 py-2 text-sm text-gray-100 data-[focus]:bg-slate-600 cursor-pointer'
+                      >
+                        Sign out
+                      </a>
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
+              )}
             </div>
           </div>
         </div>

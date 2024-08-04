@@ -26,8 +26,8 @@ module.exports = {
         third: 'moveInCircle 40s linear infinite',
         fourth: 'moveHorizontal 40s ease infinite',
         fifth: 'moveInCircle 20s ease infinite',
-        scroll:
-          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+        scroll: 'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
+         shimmer: 'shimmer 2s linear infinite',
       },
       keyframes: {
         moveHorizontal: {
@@ -76,6 +76,14 @@ module.exports = {
             transform: "translate(calc(-50% - 0.5rem))",
           },
         },
+        shimmer: {
+          from: {
+            "backgroundPosition": "0 0"
+          },
+          to: {
+            "backgroundPosition": "-200% 0"
+          }
+        }
       },
       fontFamily: {
         eco_coding: ['Eco Coding WGL4 W01 Regular', 'sans-serif'],

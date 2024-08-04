@@ -66,7 +66,6 @@ export function PricingComponent() {
                     stroke-width='0'
                     viewBox='0 0 512 512'
                     focusable='false'
-                    class='css-169zzeb'
                     role='presentation'
                     height='1em'
                     width='1em'

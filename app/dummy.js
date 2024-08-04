@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const dummySignals = [
   {
     secret:
@@ -15593,3 +15595,41 @@ export const coins = [
     icon: 'https://s2.coinmarketcap.com/static/img/coins/128x128/1892.png',
   },
 ];
+
+
+
+export const dummyActiveTradingPlan = [
+  {
+    tp_name : 'vertexmax',
+    status : 'ACTIVE',
+    tp_author : 'byScript',
+    bot_id : '12312332',
+    createdAt : moment().add('-15', 'days').toDate(),
+    exchange : 'gate',
+    exchange_image : 'https://static.airpackapp.com/fe-next/homepage/prod/_next/static/media/open_sesame_night.47e06968.png?w=750&q=75',
+    pair : 'BTC_USDT',
+    market : 'spot',
+  },
+  {
+    tp_name : 'sniper',
+    status : 'NOT_ACTIVE',
+    tp_author : 'byScript',
+    bot_id : '12312332',
+    createdAt : moment().add('-31', 'days').toDate(),
+    exchange : 'binance',
+    exchange_image : 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Binance_logo.svg/1264px-Binance_logo.svg.png',
+    pair : 'SOL_USDT',
+    market : 'spot',
+  },
+  {
+    tp_name : 'vertexmax',
+    status : 'ACTIVE',
+    tp_author : 'byScript',
+    bot_id : '12312332',
+    createdAt : moment().add('-2', 'days').toDate(),
+    exchange : 'gate',
+    exchange_image : 'https://static.airpackapp.com/fe-next/homepage/prod/_next/static/media/open_sesame_night.47e06968.png?w=750&q=75',
+    pair : 'ARG_USDT',
+    market : 'spot',
+  },
+]
