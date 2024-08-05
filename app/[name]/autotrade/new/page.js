@@ -1,4 +1,5 @@
 'use client';
+import SignalPreviewComponent from '@/app/components/SignalPreviewComponent';
 import { coins } from '@/app/dummy';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -29,114 +30,117 @@ const page = ({ params }) => {
         </h3>
       </div>
 
-      <div className='grid grid-cols-1 lg:grid-cols-2'>
-        <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
-          <h2>1. Pilih Pair</h2>
-          <AutoCompleteSearchComponent
-            setPair={setPair}
-            pair={pair}
-            coinIndex={'coinA'}
-          />
-          <AutoCompleteSearchComponent
-            setPair={setPair}
-            pair={pair}
-            coinIndex={'coinB'}
-          />
-          <h2 className='mt-10'>2. Nominal Trading</h2>
-          <div className='relative mb-6'>
-            <div className='absolute inset-y-0 start-0 flex items-center px-3 pointer-events-none'>
-              <h4 className='font-bold'>USD</h4>
-            </div>
-            <input
-              type='number'
-              id='input-group-1'
-              className='bg-gray-50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [appearance:textfield] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-16 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-              placeholder='10'
+      <div className='w-full flex flex-col items-start gap-2 lg:flex-row'>
+        <div className='flex flex-col gap-4 w-full'>
+          <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
+            <h2>1. Pilih Pair</h2>
+            <AutoCompleteSearchComponent
+              setPair={setPair}
+              pair={pair}
+              coinIndex={'coinA'}
             />
-          </div>
-          <h2 className='mt-10 cursor-pointer'>3. Pilih Trading Plan</h2>
-          {/* <div className='w-full rounded border border-gray-200 dark:border-gray-600 cursor-pointer flex items-center ps-4 '>
-            <input
+            <AutoCompleteSearchComponent
+              setPair={setPair}
+              pair={pair}
+              coinIndex={'coinB'}
+            />
+            <h2 className='mt-10'>2. Nominal Trading</h2>
+            <div className='relative mb-6'>
+              <div className='absolute inset-y-0 start-0 flex items-center px-3 pointer-events-none'>
+                <h4 className='font-bold'>USD</h4>
+              </div>
+              <input
+                type='number'
+                id='input-group-1'
+                className='bg-gray-50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [appearance:textfield] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-16 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                placeholder='10'
+              />
+            </div>
+            <h2 className='mt-10 cursor-pointer'>3. Pilih Trading Plan</h2>
+            <div className='flex items-center ps-4 border border-gray-200 dark:border-gray-600 rounded cursor-pointer'>
+              <input
+                id='bordered-radio-1'
+                type='radio'
+                value=''
+                name='bordered-radio'
+                className='cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+              />
+              <label
+                htmlFor='bordered-radio-1'
+                className='w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer'
+              >
+                Vertexmax
+              </label>
+            </div>
+            <div className='flex items-center ps-4 border border-gray-200 dark:border-gray-600 rounded cursor-pointer'>
+              <input
                 id='bordered-radio-2'
                 type='radio'
                 value=''
                 name='bordered-radio'
-                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                className='cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
               />
               <label
-                for='bordered-radio-2'
-                className='w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                htmlFor='bordered-radio-2'
+                className='w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer'
               >
-                Checked state
+                Sniper
               </label>
-            </div> */}
-          <div className='flex items-center ps-4 border border-gray-200 dark:border-gray-600 rounded cursor-pointer'>
-            <input
-              id='bordered-radio-1'
-              type='radio'
-              value=''
-              name='bordered-radio'
-              className='cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
-            <label
-              for='bordered-radio-1'
-              className='w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer'
-            >
-              Vertexmax
-            </label>
+            </div>
           </div>
-          <div className='flex items-center ps-4 border border-gray-200 dark:border-gray-600 rounded cursor-pointer'>
-            <input
-              id='bordered-radio-2'
-              type='radio'
-              value=''
-              name='bordered-radio'
-              className='cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
-            <label
-              for='bordered-radio-2'
-              className='w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer'
-            >
-              Sniper
-            </label>
-          </div>
+          <button className='p-[3px] mx-2 relative active:scale-95 transition ease-in-out duration-100'>
+            <div className='absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg' />
+            <div className='px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white transition duration-300 ease-in-out hover:bg-transparent'>
+              Buat Autotrade
+            </div>
+          </button>
         </div>
-        <div className='flex flex-col gap-4'>
+
+        <div className='flex flex-col gap-4 w-full'>
           <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
-            <div class='flex w-full justify-between mx-2'>
+            <div class='flex flex-col sm:flex-row w-full  justify-between mx-2'>
               <div className='flex flex-col gap-0'>
-                <p className='text-sm font-thin text-slate-200'>
+                <p className='text-xs font-thin text-white lg:text-sm'>
                   Detail Trading Plan
                 </p>
-                <h2 className='font-bold text-3xl leading-2 text-slate-200'>
+                <h2 className='font-bold text-xl leading-2 text-white'>
                   Vertexmax
                 </h2>
               </div>
-
-              <button className='inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
+              <button className='inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
                 Lihat Hasil Backtest
               </button>
             </div>
-            <ul class='w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white'>
-              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-                <div class='flex items-center ps-3'>
-                 x
+            <ul class='w-full text-sm my-10 font-medium text-gray-900 bg-white border border-gray-400 rounded-lg dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200'>
+              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div class='flex justify-between items-center px-3 py-4'>
+                  <h3> Net Profit</h3>
+                  <h3 className='font-bold text-green-500'>KONTOL</h3>
                 </div>
               </li>
-              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-                <div class='flex items-center ps-3'>
-                 y
+              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div class='flex justify-between items-center px-3 py-4'>
+                  <h3>Percent Profitable</h3>
+                  <h3 className='font-bold text-green-500'>KONTOL</h3>
                 </div>
               </li>
-              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600'>
-                <div class='flex items-center ps-3'>
-                 z
+              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div class='flex justify-between items-center px-3 py-4'>
+                  <h3>Max Drawdown</h3>
+                  <h3 className='font-bold text-red-600'>KONTOL</h3>
+                </div>
+              </li>
+              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div class='flex justify-between items-center px-3 py-4'>
+                  <h3>Backtest Pair</h3>
+                  <h3>KONTOL</h3>
                 </div>
               </li>
             </ul>
           </div>
           <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
-            yy
+            <h1>Live Signal Terakhir</h1>
+            <SignalPreviewComponent text={'sm'} />
           </div>
         </div>
       </div>
@@ -177,7 +181,7 @@ function AutoCompleteSearchComponent(props) {
     <div className='flex flex-col'>
       <form className='w-full mx-auto'>
         <label
-          for='default-search'
+          htmlFor='default-search'
           className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
         >
           Search

@@ -5,15 +5,21 @@ import {
   getCollectionFirebase,
   setDocumentFirebase,
 } from '@/app/utils/firebaseApi';
+import { cn } from '@/lib/util';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const provider = new GoogleAuthProvider();
 
 const page = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [info, setInfo] = useState({ email: '', password: '' });
+  const [alert, setAlert] = useState({
+    message: '',
+    status : '',
+  });
 
   const handleLogin = async () => {
     setLoading(true);
@@ -61,7 +67,7 @@ const page = () => {
         });
       } catch (error) {
         console.log(error.message, 'error send emailemail');
-      };
+      }
 
       const name = user?.displayName || user?.email?.split('@')[0];
       router.push(`/${name?.toLowerCase()?.split(' ')?.join('-')}`);
@@ -72,14 +78,27 @@ const page = () => {
     }
   };
 
-  const handleLogout = async () => {
+  const onLoginEmail = async () => {
+    setLoading(true);
     try {
-      await authFirebase.signOut();
-      router.push('/');
+      // search email in firestore users
+      const findUser = await getCollectionFirebase('users', [
+        { field: 'email', operator: '==', value: info?.email },
+      ]);
+      if (Array.isArray(findUser) && findUser?.length > 0) {
+        // user registered
+      } else {
+        // user not found
+      }
     } catch (error) {
-      console.error(error.message, 'error signout');
+      setAlert({message:error.message, status : 'error'});
+    } finally {
+      setLoading(false);
     }
   };
+
+
+
   return (
     <div className='h-screen w-full flex'>
       <div className='h-full hidden md:flex flex-col items-center justify-between py-10 w-[50%] bg-[#18181B] bg-slate-900'>
@@ -115,8 +134,13 @@ const page = () => {
               autocomplete='email'
               autocorrect='off'
             />
-            <button className='w-full px-8 py-2 h-11  bg-black text-white text-sm rounded-md hover:bg-black/[0.8] hover:shadow-lg'>
-              Masuk dengan Email
+            <button
+              className={cn(
+                'w-full px-8 py-2 h-11  bg-black text-white text-sm rounded-md hover:bg-black/[0.8] hover:shadow-lg',
+                loading && 'disabled'
+              )}
+            >
+              {loading ? <Spinner /> : 'Masuk dengan Email'}
             </button>
           </div>
           <div className='relative my-4 flex w-full items-center text-xs uppercase text-slate-900'>
@@ -157,6 +181,27 @@ const page = () => {
           </p>
         </div>
       </div>
+      {alert?.message && (
+        <div
+          class='flex items-center p-4 m-4 text-sm text-blue-800 rounded-lg bg-blue-50 absolute transition ease-in-out'
+          role='alert'
+        >
+          <svg
+            class='flex-shrink-0 inline w-4 h-4 me-3'
+            aria-hidden='true'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='currentColor'
+            viewBox='0 0 20 20'
+          >
+            <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z' />
+          </svg>
+          <span class='sr-only'>Info</span>
+          <div>
+            <span class='font-medium'>Info alert!</span> Change a few things up
+            and try submitting again.
+          </div>
+        </div>
+      )}
     </div>
   );
 };

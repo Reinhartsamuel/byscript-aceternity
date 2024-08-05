@@ -9,13 +9,14 @@ import {
   onSnapshot,
   orderBy,
   limit,
+  where,
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import { coins } from '../dummy';
 import PairImageComponent from './ui/PairImageComponent';
+import { cn } from '@/lib/util';
 
 
-const SignalPreviewComponent = () => {
+const SignalPreviewComponent = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -25,6 +26,7 @@ const SignalPreviewComponent = () => {
     const q = query(
       collection(db, 'webhooks'),
       orderBy('createdAt', 'desc'),
+      // where('trading_plan_name', '==', 'XMA'),
       limit(10)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -35,7 +37,9 @@ const SignalPreviewComponent = () => {
       setData(array);
       setLoading(false);
     },(error) => {
+      console.log(error.message, '::::error onsnapshot');
       setErrorMsg(error.message)
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -53,7 +57,7 @@ const SignalPreviewComponent = () => {
     <>
       <table className='w-full max-w-3xl bg-white shadow-md rounded-xl mx-auto mt-10 overflow-scroll'>
         <thead>
-          <tr className='bg-blue-gray-100 text-gray-700 text-xl'>
+          <tr className={cn('bg-blue-gray-100 text-gray-700 text-xl', props.text && `text-${props.text}`)}>
             <th className='py-1 px-2 text-center'>Pair</th>
             <th className='py-1 px-2 text-center'>Trading Plan</th>
             <th className='py-1 px-2 text-center'>Price</th>
