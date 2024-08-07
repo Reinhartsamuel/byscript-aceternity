@@ -87,46 +87,43 @@ export default function Home() {
         </div>
       </div> */}
 
-        <div className='h-screen w-full pt-10 inline-block md:flex items-center justify-center lg:h-[90vh] lg:px-20 z-20'>
-          <div className='w-full md:w-1/2 text-center items-center justify-center'>
-            <div className='xl:text-6xl sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center'>
-              Trading
-              <FlipWords words={words} duration={2000} />
-            </div>
-            <h1 className='text-4xl font-bold text-white xl:text-7xl'>
-              Selamat datang di{' '}
-              <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-ecocoding'>
-                byScript
+      <div className='h-screen w-full pt-10 inline-block md:flex items-center justify-center lg:h-[90vh] lg:px-20 z-20'>
+        <div className='w-full md:w-1/2 text-center items-center justify-center'>
+          <div className='sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center lg:text-[1.5rem]'>
+            Trading
+            <FlipWords words={words} duration={2000} className={'lg:text-[1.5rem]'} />
+          </div>
+          <h1 className='text-4xl font-bold text-white xl:text-6xl'>
+            Automated Algorithmic Trading with {' '}
+            <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-[eco_coding]'>
+              byScript
+            </span>
+          </h1>
+          <h1 className='text-md align-left text-slate-300 mt-5'>
+            Platform{' '}
+            <span className='italic text-slate-100'>Algorithmic Trading</span>{' '}
+            pertama di Indonesia, Bantu Kamu Traders Cuan Trading Otomatis Pake Algoritma
+          </h1>
+          <div className='mt-10'>
+            <button className='w-[90%] mx-auto relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
+              <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
+              <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
+                Setup Autotrade Sekarang
               </span>
-            </h1>
-            <h1 className='text-md align-left text-slate-300 mt-5'>
-              Platform{' '}
-              <span className='italic text-slate-100'>Algorithmic Trading</span>{' '}
-              pertama di Indonesia
-            </h1>
-            <h3 className='text-slate-500 text-center text-sm italic'>
-              Bantu Kamu Traders Cuan Trading Otomatis Pake Algoritma
-            </h3>
-            <div className='mt-10'>
-              <button className='w-[90%] mx-auto relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
-                <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
-                <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
-                  Setup Autotrade Sekarang
-                </span>
-              </button>
-              <button className='w-[90%] p-[3px] relative my-5'>
-                <div className='absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg' />
-                <div className='px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white bg-transparent active:bg-violet-700'>
-                  Sign In
-                </div>
-              </button>
-              <div className='hidden md:block'>
-                <StatisticsComponent />
+            </button>
+            <button className='w-[90%] p-[3px] relative my-5'>
+              <div className='absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg' />
+              <div className='px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white bg-transparent active:bg-violet-700'>
+                Sign In
               </div>
+            </button>
+            <div className='hidden md:block'>
+              <StatisticsComponent />
             </div>
           </div>
-          <div className='w-400 md:w-1/2 mx-auto'>
-            <BackgroundGradient className='rounded-[22px] p-4 sm:p-10 bg-zinc-900'>
+        </div>
+        <div className='w-400 md:w-1/2 mx-auto'>
+          {/* <BackgroundGradient className='rounded-[22px] p-4 sm:p-10 bg-zinc-900'>
               <img
                 src={
                   'https://byscript-bucket.s3.ap-southeast-2.amazonaws.com/sniper.webp'
@@ -149,9 +146,18 @@ export default function Home() {
                   $100
                 </span>
               </button>
-            </BackgroundGradient>
+            </BackgroundGradient> */}
+          {/* <Carousel1 images={['https://byscript-bucket.s3.ap-southeast-2.amazonaws.com/xma.webp']} /> */}
+          <div className='w-full h-full flex justify-center'>
+            <img
+              src={
+                'https://byscript-bucket.s3.ap-southeast-2.amazonaws.com/xma.webp'
+              }
+              className='w-[60%]'
+            />
           </div>
         </div>
+      </div>
 
       <div className='mt-40 md:hidden'>
         <StatisticsComponent />
@@ -258,9 +264,9 @@ export default function Home() {
         <StepsComponent />
       </div>
 
-      <div className='w-full h-screen mt-20 flex flex-col items-center justify-center mx-auto'>
+      {/* <div className='w-full h-screen mt-20 flex flex-col items-center justify-center mx-auto'>
         <InstagramEmbedComponent />
-      </div>
+      </div> */}
       <div className='w-full mt-20 inline-block items-center justify-center'>
         <h1 className='text-2xl mt-10 font-bold text-center mx-auto md:text-6xl'>
           Gabung komunitas byScript
@@ -271,9 +277,9 @@ export default function Home() {
         </h3>
         <ImageGallery />
       </div>
-      <div className='w-full h-screen mt-20 flex items-center justify-center mx-auto'>
+      {/* <div className='w-full h-screen mt-20 flex items-center justify-center mx-auto'>
         <InstagramEmbedComponent id='C3h_mt1P-tV' captioned />
-      </div>
+      </div> */}
       <TestimonialsComponent />
 
       <div className='min-h-screen'>

@@ -115,25 +115,25 @@ const page = ({ params }) => {
               <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
                 <div class='flex justify-between items-center px-3 py-4'>
                   <h3> Net Profit</h3>
-                  <h3 className='font-bold text-green-500'>KONTOL</h3>
+                  <h3 className='font-bold text-green-500'>xx</h3>
                 </div>
               </li>
               <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
                 <div class='flex justify-between items-center px-3 py-4'>
                   <h3>Percent Profitable</h3>
-                  <h3 className='font-bold text-green-500'>KONTOL</h3>
+                  <h3 className='font-bold text-green-500'>xx</h3>
                 </div>
               </li>
               <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
                 <div class='flex justify-between items-center px-3 py-4'>
                   <h3>Max Drawdown</h3>
-                  <h3 className='font-bold text-red-600'>KONTOL</h3>
+                  <h3 className='font-bold text-red-600'>xx</h3>
                 </div>
               </li>
               <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
                 <div class='flex justify-between items-center px-3 py-4'>
                   <h3>Backtest Pair</h3>
-                  <h3>KONTOL</h3>
+                  <h3>xx</h3>
                 </div>
               </li>
             </ul>
