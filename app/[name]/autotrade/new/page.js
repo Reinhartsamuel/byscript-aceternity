@@ -98,7 +98,7 @@ const page = ({ params }) => {
 
         <div className='flex flex-col gap-4 w-full'>
           <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
-            <div class='flex flex-col sm:flex-row w-full  justify-between mx-2'>
+            <div className='flex flex-col sm:flex-row w-full  justify-between mx-2'>
               <div className='flex flex-col gap-0'>
                 <p className='text-xs font-thin text-white lg:text-sm'>
                   Detail Trading Plan

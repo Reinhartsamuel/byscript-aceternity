@@ -1,5 +1,4 @@
-import { admin } from '../../../lib/firebase-admin-config';
-
+import * as admin from 'firebase-admin';
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   

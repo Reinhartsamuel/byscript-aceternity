@@ -183,7 +183,7 @@ const page = () => {
       </div>
       {alert?.message && (
         <div
-          class='flex items-center p-4 m-4 text-sm text-blue-800 rounded-lg bg-blue-50 absolute transition ease-in-out'
+          className='flex items-center p-4 m-4 text-sm text-blue-800 rounded-lg bg-blue-50 absolute transition ease-in-out'
           role='alert'
         >
           <svg
