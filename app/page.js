@@ -89,10 +89,10 @@ export default function Home() {
 
       <div className='h-screen w-full pt-10 inline-block md:flex items-center justify-center lg:h-[90vh] lg:px-20 z-20'>
         <div className='w-full md:w-1/2 text-center items-center justify-center'>
-          <div className='sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center lg:text-[1.5rem]'>
+          {/* <div className='sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center lg:text-[1.5rem]'>
             Trading
             <FlipWords words={words} duration={2000} className={'lg:text-[1.5rem]'} />
-          </div>
+          </div> */}
           <h1 className='text-4xl font-bold text-white xl:text-6xl'>
             Automated Algorithmic Trading with {' '}
             <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-[eco_coding]'>

@@ -42,7 +42,7 @@ export function PricingComponent() {
     getPricing();
   }, []);
   return (
-    <div className='flex py-20 items-center antialiased overflow-x-scroll'>
+    <div className='flex py-20 items-center justify-center antialiased overflow-x-scroll'>
       {prices.map((x, i) => (
         <div
           key={i}
@@ -58,9 +58,9 @@ export function PricingComponent() {
               {x?.features?.map((y, idx) => (
                 <li
                   key={idx}
-                  className='mt-[5px] text-slate-200 flex items-center gap-2'
+                  className='mt-[5px] text-slate-200 flex lg:text-xl items-center gap-2'
                 >
-                  <svg
+                  {/* <svg
                     stroke='currentColor'
                     fill='currentColor'
                     stroke-width='0'
@@ -72,8 +72,8 @@ export function PricingComponent() {
                     xmlns='http://www.w3.org/2000/svg'
                   >
                     <path d='M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z'></path>
-                  </svg>
-                  {y}
+                  </svg> */}
+                  ✅ {y}
                 </li>
               ))}
             </ul>

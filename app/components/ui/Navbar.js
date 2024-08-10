@@ -102,7 +102,7 @@ export default function Navbar() {
           <div className='absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0'>
             {/* Profile dropdown */}
             <div className='flex gap-4 items-center justify-center'>
-              <button onClick={() => console.log(user)}>cek</button>
+              {/* <button onClick={() => console.log(user)}>cek</button> */}
               {!user ? (
                 <button className='relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'
                 onClick={() => router.push('auth/login')}>
