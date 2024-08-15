@@ -5,7 +5,6 @@ import {
   getCollectionFirebase,
 } from '../utils/firebaseApi';
 import { authFirebase } from '../config/firebase';
-import { Button, Card } from 'flowbite-react';
 import moment from 'moment';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -33,9 +32,10 @@ const AutotraderBotComponent = () => {
       console.log(error.message);
     }
   };
+
   useEffect(() => {
     getDcaBots();
-  }, []);
+  }, [authFirebase.currentUser?.uid]);
   return (
     <div className='mx-6 mt-10'>
       <div className='flex items-center gap-4'>
@@ -50,6 +50,7 @@ const AutotraderBotComponent = () => {
           +
         </button>
       </div>
+      <p>UID : {authFirebase.currentUser?.uid}</p>
       {data?.count === 0 ? (
         <p>
           Kamu belum mempunyai akun autotrader, silahkan{' '}
@@ -63,7 +64,7 @@ const AutotraderBotComponent = () => {
             {data?.count} akun autotrader
           </p>
           {data?.dcaBots?.map((x, i) => (
-            <Card href='#' className='max-w-sm bg-gray-800' key={i}>
+            <div href='#'  className='flex flex-col gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700' key={i}>
               <h5 className='text-lg font-bold tracking-tight text-gray-900 dark:text-white'>
                 {x?.id}
               </h5>
@@ -75,7 +76,7 @@ const AutotraderBotComponent = () => {
                   Status: <span>{x?.status}</span>
                 </p>
               </div>
-            </Card>
+            </div>
           ))}
         </>
       )}

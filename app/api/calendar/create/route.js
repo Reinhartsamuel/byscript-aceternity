@@ -45,7 +45,9 @@ const createEvent = async (auth, event) => {
       },
       notifications: true,
     };
+    console.log('before calendar');
     const calendar = google.calendar({ version: 'v3', auth });
+    console.log('after calendar');
 
     // Extract the conference ID from the response
     const result = await calendar.events.insert({
@@ -53,6 +55,16 @@ const createEvent = async (auth, event) => {
       calendarId: 'primary',
       resource: eventDetails,
     });
+    console.log('after calendar.events.insert');
+    console.log(result, 'result calendar.events.insert');
+
+
+
+
+
+
+
+    
     const eventPatch = {
       conferenceData: {
         createRequest: { requestId: result.data.id },
@@ -65,11 +77,12 @@ const createEvent = async (auth, event) => {
       sendNotifications: true,
       conferenceDataVersion: 1,
     });
-    // console.log('anjing::::', anjing);
+    console.log('anjing::::', anjing);
     await adminDb.collection('calendar_events').doc(result.data.id).set({...result.data, createdAt : new Date()});
     return result.data;
   } catch (error) {
-    throw new Error(error);
+    console.log(error.message, 'error create event');
+    throw new Error(error.message);
   }
 };
 

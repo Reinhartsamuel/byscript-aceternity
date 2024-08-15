@@ -1,7 +1,6 @@
 'use client';
 import { authFirebase } from '@/app/config/firebase';
 import { addDocumentFirebase } from '@/app/utils/firebaseApi';
-import { Button } from 'flowbite-react';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
@@ -115,7 +114,7 @@ const page = ({ params }) => {
                 tradeAmount.current = parseInt(e.target.value);
               }}
             />
-            <Button
+            <button
               color='purple'
               onClick={handleAdd}
               disabled={loading}
@@ -124,7 +123,7 @@ const page = ({ params }) => {
               className='mt-2 w-full'
             >
               Save
-            </Button>
+            </button>
           </form>
         </div>
       </div>

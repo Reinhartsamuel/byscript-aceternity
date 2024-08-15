@@ -3,7 +3,7 @@ import { FaGear } from 'react-icons/fa6';
 
 const BillingHistoryComponent = () => {
   return (
-    <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
+    <div className='rounded-lg bg-gray-800 p-4 shadow-md font-sans flex flex-col gap-1'>
       <h2 className='text-xl text-bold text-slate-200 font-bold'>
         Histori Pembayaran
       </h2>

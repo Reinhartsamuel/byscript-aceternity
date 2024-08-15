@@ -13,11 +13,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Suspense>
-          {/* <Navbar /> */}
-          {/* <FloatingNav /> */}
-          {children}
-        </Suspense>
+          <Suspense>
+            {/* <Navbar /> */}
+            {/* <FloatingNav /> */}
+            {children}
+          </Suspense>
       </body>
     </html>
   );

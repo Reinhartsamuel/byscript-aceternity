@@ -3,10 +3,10 @@ import { FaGear } from 'react-icons/fa6';
 
 const SubscriptionComponent = () => {
   return (
-    <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2  font-sans flex flex-col gap-1'>
-      <h2 className='text-xl text-bold text-slate-200 font-bold'>Langgangan</h2>
+    <div className='rounded-lg bg-gray-800 p-4 shadow-md   font-sans flex flex-col gap-1'>
+      <h2 className='text-xl text-bold text-slate-100 font-bold'>Credit</h2>
       <p className='text-gray-200 text-sm font-thin'>
-        Kamu sendang berlangganan <strong>Subscription 3 Bulan</strong>{' '}
+        Kamu sedang berlangganan <strong>Subscription 3 Bulan</strong>{' '}
         (berakhir 12 Agustus 2024).
       </p>
       <button className='w-full p-[3px] relative mt-5'>
