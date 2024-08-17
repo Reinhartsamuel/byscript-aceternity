@@ -1,65 +1,53 @@
 'use client';
 import React from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  Flex,
-  HStack,
-  Heading,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
 import { Fade } from 'react-awesome-reveal';
 
 const ActivitiesComponent = ({ data, options, setIndex, setData }) => {
   return (
     <>
       <Fade direction='up' duration={500}>
-        <Container maxW={'7xl'} pt={{ base: 100, lg: '8%' }}>
-          <Stack flexDirection={'column'} alignItems={'center'}>
-            <Text fontSize={'xl'} fontWeight={'bold'}>
-              Aktivitas:
-            </Text>
-            <Container maxW={'xl'} mt={10}>
+        <div className="max-w-7xl pt-20">
+          <div className="flex flex-col items-center">
+            <h2 className="text-xl font-bold">Aktivitas:</h2>
+            <div className="max-w-xl mt-10">
               {options?.criterions?.map((item, i) => (
-                <Box
+                <div
                   key={i}
-                  p={5}
-                  borderColor={'gray'}
-                  borderWidth={2}
-                  cursor={'pointer'}
-                  w={'100%'}
-                  _hover={{
-                    transition: 'all 0.1s',
-                    transform: 'scale(1.01)',
-                  }}
-                  my={'1rem'}
+                  className="p-5 border-2 border-gray-300 cursor-pointer w-full my-4 hover:scale-101 transition duration-100"
                   onClick={() => setData((prev) => ({...prev, activity : item?.title }))}
                 >
-                  <HStack gap={2}>
-                    <Checkbox isChecked={data?.activity === item.title} size={'lg'} />
-                    <Stack gap={0}>
-                      <Text fontWeight={'bold'}>{item?.title}</Text>
-                      <Text>{item?.description}</Text>
-                    </Stack>
-                  </HStack>
-                </Box>
+                  <div className="flex gap-2">
+                    <input
+                      type="checkbox"
+                      checked={data?.activity === item.title}
+                      className="w-4 h-4"
+                    />
+                    <div className="flex flex-col gap-0">
+                      <h3 className="font-bold">{item?.title}</h3>
+                      <p>{item?.description}</p>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </Container>
-          </Stack>
-          <Flex justifyContent={'flex-end'}>
-            <HStack>
-              <Button onClick={() => setIndex((prev) => prev - 1)}>
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div className="flex gap-2">
+              <button
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                onClick={() => setIndex((prev) => prev - 1)}
+              >
                 {'<'}- Kembali
-              </Button>
-              <Button onClick={() => setIndex((prev) => prev + 1)}>
+              </button>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => setIndex((prev) => prev + 1)}
+              >
                 Lanjut -{'>'}
-              </Button>
-            </HStack>
-          </Flex>
-        </Container>
+              </button>
+            </div>
+          </div>
+        </div>
       </Fade>
     </>
   );

@@ -1,18 +1,11 @@
 'use client';
-import {
-  Progress,
-  Stack,
-
-} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import CriterionComponent from './CriterionComponent';
-import ActivitiesComponent from './ActivitiesComponent';
-import BalanceComponent from './BalanceComponent';
 import ProfileComponent from './ProfileComponent';
 import MeetingBookingComponent from './MeetingBookingComponent';
 import SummaryComponent from './SummaryComponent';
 import FormsComponent from './FormsComponent';
 import { authFirebase } from '../config/firebase';
+import { cn } from '@/lib/util';
 
 const options = {
   criterions: [
@@ -119,8 +112,10 @@ const page = () => {
 
   return (
     <>
-        <Stack w={'100vw'} minH={'100vh'}>
-          <Progress value={index/5 * 100} size={'xs'} colorScheme={'gray'} setData={setData} />
+        <div className='w-full min-h-100' w={'100vw'} minH={'100vh'}>
+          <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+            <div className={cn("bg-blue-600 h-2.5 rounded-full dark:bg-blue-500", `w-${index/5 * 100}%`)}></div>
+          </div>
           {/* {index === 0 && <CriterionComponent options={options} setIndex={setIndex} setData={setData} data={data} />}
           {index === 1 && <ActivitiesComponent options={options} setIndex={setIndex} setData={setData} data={data} />}
           {index === 1 && <BalanceComponent options={options} setIndex={setIndex} setData={setData} data={data} />} */}
@@ -129,8 +124,7 @@ const page = () => {
           {index === 2 && <MeetingBookingComponent setIndex={setIndex} setData={setData} data={data} />}
           {index === 3 && <SummaryComponent setIndex={setIndex} setData={setData} data={data}  />}
           {/* <pre>{JSON.stringify(data, null,2)}</pre> */}
-        </Stack>
-      
+        </div>
     </>
   );
 };

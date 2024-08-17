@@ -1,24 +1,14 @@
 'use client';
-import {
-  Button,
-  Container,
-  Flex,
-  HStack,
-  Heading,
-  Input,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getSingleDocumentFirebase } from '../utils/firebaseApi';
 
 const FormsComponent = (props) => {
   const { data: parentData, setData: setParentData, setIndex } = props;
   const [data, setData] = useState({});
-  const toast = useToast();
+  const toast = (message) => {
+    console.log(message);
+  };
+
   const getData = async () => {
     try {
       const result = await getSingleDocumentFirebase(
@@ -48,116 +38,110 @@ const FormsComponent = (props) => {
     setData({ ...data, forms: latestAnswer });
   };
 
-
   const handleDebug = () => {
     console.log(parentData, 'parentData');
-    console.log({
-        ...parentData, 
-        forms : data?.forms || []
-    }, 'ini hasilnya');
+    console.log(
+      {
+        ...parentData,
+        forms: data?.forms || [],
+      },
+      'ini hasilnya'
+    );
     setParentData({
-        ...parentData, 
-        forms : data?.forms || []
-    })
-  }
+      ...parentData,
+      forms: data?.forms || [],
+    });
+  };
 
   useEffect(() => {
     getData();
   }, []);
+
   return (
-    <Container maxW={'7xl'} pt={{ base: 100, lg: '8%' }}>
-      <Stack
-        flexDirection={'column'}
-        alignItems={'center'}
-        justifyContent={'center'}
-      >
-        <Heading size={'3xl'} textAlign={'center'}>
+    <div className='max-w-7xl pt-20'>
+      <div className='flex flex-col items-center justify-center'>
+        <h1 className='text-3xl text-center'>
           Selamat datang di{' '}
-          <Heading
-            size={'3xl'}
-            fontFamily={'EcoCodingWGL4'}
-            //   ml={'1rem'}
-            as={'span'}
-            bgGradient={'linear(to-r, #6EE7B7, #3B82F6)'}
-            bgClip={'text'}
+          <span
+            className='bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text'
+            style={{ fontFamily: 'EcoCodingWGL4' }}
           >
             byScript
-          </Heading>
-        </Heading>
-        <Text color={'slategray'} fontStyle={'italic'}>
-          Lengkapi form di bawah ini
-        </Text>
+          </span>
+        </h1>
+        <p className='text-slate-500 italic'>Lengkapi form di bawah ini</p>
         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         {data?.forms?.map((x, i) => (
-          <Stack
+          <div
             key={i}
-            w={{ base: 'full', md: '80%', lg: '50%' }}
-            borderWidth={1}
-            borderColor={'gray.700'}
-            mt={5}
-            rounded={'md'}
-            shadow={'lg'}
-            p={10}
+            className='w-full md:w-4/5 lg:w-2/5 mt-5 rounded-md shadow-lg p-10'
           >
-            <Heading fontWeight={'bold'}>{x?.question}</Heading>
+            <h2 className='font-bold'>{x?.question}</h2>
             {x?.type === 'text' && (
-              <Input onChange={(e) => handleChange(x, e.target.value)} />
+              <input
+                onChange={(e) => handleChange(x, e.target.value)}
+                className='w-full p-2 pl-10 text-sm text-gray-700'
+              />
             )}
             {x?.type === 'date' && (
-              <Input
-                type={'date'}
+              <input
+                type='date'
                 onChange={(e) => handleChange(x, e.target.value)}
+                className='w-full p-2 pl-10 text-sm text-gray-700'
               />
             )}
             {x?.type === 'datetime' && (
-              <Input
-                type={'datetime-local'}
+              <input
+                type='datetime-local'
                 onChange={(e) => handleChange(x, e.target.value)}
+                className='w-full p-2 pl-10 text-sm text-gray-700'
               />
             )}
             {x?.type === 'checkbox' && (
-              <Stack>
+              <div>
                 {x?.options?.map((y, idx) => (
-                  <Checkbox
-                    key={idx}
-                    onChange={(e) => handleChange(x, e.target.value)}
-                    value={y}
-                  >
-                    {y}
-                  </Checkbox>
-                ))}
-              </Stack>
-            )}
-            {x?.type === 'radio' && (
-              <RadioGroup>
-                <Stack>
-                  {x?.options?.map((y, idx) => (
-                    <Radio
-                      key={idx}
+                  <label key={idx} className='flex items-center'>
+                    <input
+                      type='checkbox'
                       onChange={(e) => handleChange(x, e.target.value)}
                       value={y}
-                    >
-                      {y}
-                    </Radio>
-                  ))}
-                </Stack>
-              </RadioGroup>
+                      // className='mr-2'
+                    />
+                    {y}
+                  </label>
+                ))}
+              </div>
             )}
-          </Stack>
+            {x?.type === 'radio' && (
+              <div>
+                {x?.options?.map((y, idx) => (
+                  <label key={idx} className='flex items-center'>
+                    <input
+                      type='radio'
+                      onChange={(e) => handleChange(x, e.target.value)}
+                      value={y}
+                      className='mr-2'
+                    />
+                    {y}
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
         ))}
-      </Stack>
-      <Button onClick={handleDebug}>debug</Button>
-      <Flex justifyContent={'flex-end'} mt={10}>
-        <HStack>
-          <Button onClick={() => setIndex((prev) => prev - 1)}>
+      </div>
+      {/* <button onClick={handleDebug}>debug</button> */}
+      <div className='flex justify-end mt-10'>
+        <div className='flex'>
+          <button onClick={() => setIndex((prev) => prev - 1)}>
             {'<'}- Kembali
-          </Button>
-          <Button onClick={() => setIndex((prev) => prev + 1)}>
+          </button>
+          <button onClick={() => setIndex((prev) => prev + 1)}>
             Lanjut -{'>'}
-          </Button>
-        </HStack>
-      </Flex>
-    </Container>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

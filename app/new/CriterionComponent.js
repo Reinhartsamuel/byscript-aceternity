@@ -1,83 +1,61 @@
 'use client';
 import React from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  Flex,
-  HStack,
-  Heading,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
-import { Fade } from 'react-awesome-reveal';
 
 const CriterionComponent = ({ options, setIndex, data, setData }) => {
   return (
     <>
       {/* <Fade direction='up' duration={500}> */}
-        <Container maxW={'7xl'} pt={{ base: 100, lg: '8%' }}>
-          <Stack
-            flexDirection={'column'}
-            alignItems={'center'}
-            justifyContent={'center'}
+        <div className="max-w-7xl pt-20">
+          <div
+            className="flex flex-col items-center justify-center"
           >
-            <Heading size={'3xl'} textAlign={'center'}>
+            <h1 className="text-3xl text-center">
               Selamat datang di{' '}
-              <Heading
-                size={'3xl'}
-                fontFamily={'EcoCodingWGL4'}
-                //   ml={'1rem'}
-                as={'span'}
-                bgGradient={'linear(to-r, #6EE7B7, #3B82F6)'}
-                bgClip={'text'}
+              <span
+                className="text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text"
               >
                 byScript
-              </Heading>
-            </Heading>
-            <Text
-              mt={5}
-              textAlign={'center'}
-              fontSize={'xl'}
-              fontWeight={'bold'}
+              </span>
+            </h1>
+            <p
+              className="mt-5 text-xl text-center font-bold"
             >
               Pilih kriteria di bawah ini yang paling cocok denganmu:
-            </Text>
-            <Container maxW={'xl'}>
+            </p>
+            <div className="max-w-xl">
               {options?.criterions?.map((item, i) => (
-                <Box
+                <div
                   key={i}
-                  p={5}
-                  borderColor={'gray'}
-                  borderWidth={2}
-                  cursor={'pointer'}
-                  w={'100%'}
-                  _hover={{
-                    transition: 'all 0.1s',
-                    transform: 'scale(1.01)',
-                  }}
-                  my={'1rem'}
+                  className="p-5 border-2 border-gray-300 cursor-pointer w-full my-4 hover:scale-101 transition duration-100"
                   onClick={() => setData({...data, profile : item?.title })}
                 >
-                  <HStack gap={2}>
-                    <Checkbox isChecked={data?.profile === item.title} onChange={() => {}} size={'lg'} />
-                    <Stack gap={0}>
-                      <Text fontWeight={'bold'}>{item?.title}</Text>
-                      <Text>{item?.description}</Text>
-                    </Stack>
-                  </HStack>
-                </Box>
+                  <div className="flex gap-2">
+                    <input
+                      type="checkbox"
+                      checked={data?.profile === item.title}
+                      className="w-4 h-4"
+                    />
+                    <div className="flex flex-col gap-0">
+                      <h3 className="font-bold">{item?.title}</h3>
+                      <p>{item?.description}</p>
+                    </div>
+                  </div>
+                </div>
               ))}
-            </Container>
-          </Stack>
-          <Flex justifyContent={'flex-end'}>
-            <HStack>
-              {/* <Button>{'<'}- prev</Button> */}
-              <Button onClick={() => setIndex((prev) => prev + 1)}>Lanjut -{'>'}</Button>
-            </HStack>
-          </Flex>
-        </Container>
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div className="flex gap-2">
+              {/* <button>{'<'}- prev</button> */}
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => setIndex((prev) => prev + 1)}
+              >
+                Lanjut -{'>'}
+              </button>
+            </div>
+          </div>
+        </div>
       {/* </Fade> */}
     </>
   );

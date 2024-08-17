@@ -1,27 +1,8 @@
 'use client';
 import React from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  Flex,
-  HStack,
-  Heading,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-  useToast,
-} from '@chakra-ui/react';
-import { Fade } from 'react-awesome-reveal';
 import Cities from '../config/cititesAndRegions.json';
 
 const ProfileComponent = ({ setIndex, data, setData }) => {
-  const toast = useToast();
   const handlePhone = (e) => {
     let phone = '62' + e.target.value;
 
@@ -29,109 +10,86 @@ const ProfileComponent = ({ setIndex, data, setData }) => {
     if (phone.startsWith('+')) phone = phone.slice(1);
 
     setData({ ...data, phoneNumber: phone });
-
   };
 
   const validate = () => {
     if (!data?.name || !data?.email || !data?.phoneNumber)
-      return toast({
-        title: 'Data belum lengkap!',
-        description:
-          'Mohon lengkapi semua data sebelum lanjut ke step berikutnya',
-        status: 'error',
-        duration: 3000,
-        position: 'top-right',
-        isClosable: true,
-      });
+      console.log('Data belum lengkap!');
 
     setIndex((prev) => prev + 1);
   };
-  return (
-    <>
-      {/* <Fade direction='up' duration={500}> */}
-      <Container maxW={'7xl'} pt={{ base: 100, lg: '8%' }}>
-        <Stack
-          flexDirection={'column'}
-          // alignItems={'center'}
-          // justifyContent={'center'}
-        >
-          <Text mt={5} textAlign={'center'} fontSize={'xl'} fontWeight={'bold'}>
-            Isi data diri kamu dengan benar:
-          </Text>
 
-          <Stack mt={10}>
-            <Box>
-              <Text>Nama Lengkap</Text>
-              <Input
-                _placeholder={{ color: 'gray.100' }}
-                placeholder={'Masukkan nama anda'}
-                onChange={(e) => setData({ ...data, name: e.target.value })}
-                value={data?.name}
-                defaultValue={data?.name}
+  return (
+    <div className='max-w-7xl pt-20'>
+      <div className='flex flex-col'>
+        <p className='text-xl font-bold text-center mt-5'>
+          Isi data diri kamu dengan benar:
+        </p>
+
+        <div className='mt-10'>
+          <div>
+            <p>Nama Lengkap</p>
+            <input
+              className='w-full p-2 pl-10 text-sm text-gray-700'
+              placeholder='Masukkan nama anda'
+              onChange={(e) => setData({ ...data, name: e.target.value })}
+              value={data?.name}
+            />
+          </div>
+          <div>
+            <p>Email</p>
+            <input
+              className='w-full p-2 pl-10 text-sm text-gray-700'
+              placeholder='Masukkan email'
+              type='email'
+              onChange={(e) => setData({ ...data, email: e.target.value })}
+              value={data?.email}
+            />
+          </div>
+          <div>
+            <p>Nomor Telepon (WA aktif)</p>
+            <div className='flex'>
+              <span className='bg-gray-100 p-2'>+62</span>
+              <input
+                className='w-full p-2 pl-10 text-sm text-gray-700'
+                type='tel'
+                placeholder='Masukkan nomor telepon'
+                onChange={handlePhone}
               />
-            </Box>
-            <Box>
-              <Text>Email</Text>
-              <Input
-                _placeholder={{ color: 'gray.100' }}
-                placeholder={'Masukkan email'}
-                type={'email'}
-                onChange={(e) => setData({ ...data, email: e.target.value })}
-                value={data?.email}
-                defaultValue={data?.email}
-              />
-            </Box>
-            <Box>
-              <Text>Nomor Telepon (WA aktif)</Text>
-              <InputGroup>
-                <InputLeftAddon>+62</InputLeftAddon>
-                <Input
-                  // bg={'white'}
-                  color={'white'}
-                  _placeholder={{ color: 'gray.100' }}
-                  type={'tel'}
-                  placeholder={'Masukkan nomor telepon'}
-                  onChange={handlePhone}
-                  // value={data?.phoneNumber}
-                />
-              </InputGroup>
-            </Box>
-            <Box>
-              <Text>Kota</Text>
-              <Select
-                onChange={(e) => setData({ ...data, city: e.target.value })}
-              >
-                {Cities?.map((x, i) => (
-                  <option key={i} value={`${x?.type} ${x?.city_name}`}>
-                    {x?.city_name} ({x?.type})
-                  </option>
-                ))}
-              </Select>
-            </Box>
-            {/* <Box>
-                <Text>Alamat</Text>
-                <Textarea
-                  _placeholder={{ color: 'gray.100' }}
-                  placeholder={'Alamat lengkap'}
-                  onChange={(e) =>
-                    setData({ ...data, address: e.target.value })
-                  }
-                  value={data?.address}
-                />
-              </Box> */}
-          </Stack>
-        </Stack>
-        <Flex justifyContent={'flex-end'} mt={10}>
-          <HStack>
-            <Button onClick={() => setIndex((prev) => prev - 1)}>
+            </div>
+          </div>
+          <div>
+            <p>Kota</p>
+            <select
+              onChange={(e) => setData({ ...data, city: e.target.value })}
+            >
+              {Cities?.map((x, i) => (
+                <option key={i} value={`${x?.type} ${x?.city_name}`}>
+                  {x?.city_name} ({x?.type})
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* <div>
+            <p>Alamat</p>
+            <textarea
+              className="w-full p-2 pl-10 text-sm text-gray-700"
+              placeholder="Alamat lengkap"
+              onChange={(e) => setData({ ...data, address: e.target.value })}
+              value={data?.address}
+            />
+          </div> */}
+        </div>
+        <div className='flex justify-end mt-10'>
+          <div className='flex'>
+            <button onClick={() => setIndex((prev) => prev - 1)}>
               {'<'}- Kembali
-            </Button>
-            <Button onClick={validate}>Lanjut -{'>'}</Button>
-          </HStack>
-        </Flex>
-      </Container>
-      {/* </Fade> */}
-    </>
+            </button>
+            <button onClick={validate}>Lanjut -{'>'}</button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
