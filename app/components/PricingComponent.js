@@ -42,55 +42,60 @@ export function PricingComponent() {
     getPricing();
   }, []);
   return (
-    <div className='flex py-20 items-center justify-center antialiased overflow-x-scroll'>
-      {prices.map((x, i) => (
-        <div
-          key={i}
-          className='bg-[linear-gradient(110deg,#333_0.6%,#222)] flex flex-col items-center p-6 mt-2 mx-1 max-h-[40rem]  min-w-[360px] rounded-xl border border-[#eaeaea]'
-        >
-          <h2 className='text-white font-bold text-xl'>{x?.name}</h2>
-          <h3 className='text-slate-300 font-bold text-3xl'>
-            IDR {priceFormat(x?.price)}
-          </h3>
-
-          <div className='mt-10 flex flex-col items-center'>
-            <ul>
-              {x?.features?.map((y, idx) => (
-                <li
-                  key={idx}
-                  className='mt-[5px] text-slate-200 flex lg:text-xl items-center gap-2'
-                >
-                  ✅ {y}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <button className='mt-[10rem] w-full bg-slate-800 no-underline group cursor-pointer relative shadow-2xl shadow-zinc-900 rounded-full p-[2px] h-[5rem] text-xs font-semibold leading-6  text-white inline-block'>
-            <span className='absolute inset-0 overflow-hidden rounded-full'>
-              <span className='absolute inset-0 rounded-full bg-[image:radial-gradient(75%_100%_at_50%_0%,rgba(56,189,248,0.6)_0%,rgba(56,189,248,0)_75%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100' />
-            </span>
-            <div className='relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-5 px-4 ring-1 ring-white/10 '>
-              <span>Daftar</span>
-              <svg
-                fill='none'
-                height='16'
-                viewBox='0 0 24 24'
-                width='16'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M10.75 8.75L14.25 12L10.75 15.25'
-                  stroke='currentColor'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='1.5'
-                />
-              </svg>
-            </div>
-            <span className='absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-emerald-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40' />
-          </button>
+    <section className='bg-white dark:bg-gray-900'>
+      <div className='py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6'>
+        <div className='mx-auto max-w-screen-md text-center mb-8 lg:mb-12'>
+          <h2 className='mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white'>
+            Pricing
+          </h2>
+          <p className='mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400'>
+            Daftar sekarang gratis trial satu bulan pertama
+          </p>
         </div>
-      ))}
-    </div>
+        <div className='space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0'>
+          {/* <!-- Pricing Card --> */}
+
+          {prices?.length > 0 && prices?.map((x,i) => (
+          <div key={i} className='flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white'>
+          <h3 className='mb-4 text-2xl font-semibold'>{x?.name}</h3>
+          <p className='font-light text-gray-500 sm:text-lg dark:text-gray-400'>
+            Best option for personal use & for your next project.
+          </p>
+          <div className='flex justify-center items-baseline my-8'>
+            <span className='mr-2 text-5xl font-extrabold'>IDR {priceFormat(x?.price)}</span>
+          </div>
+          {/* <!-- List --> */}
+          <ul role='list' className='mb-8 space-y-4 text-left'>
+
+            {x?.features?.length > 0 && x?.features?.map((feature,j) => (
+                          <li className='flex items-center space-x-3' key={j}>
+                          {/* <!-- Icon --> */}
+                          <svg
+                            className='flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400'
+                            fill='currentColor'
+                            viewBox='0 0 20 20'
+                            xmlns='http://www.w3.org/2000/svg'
+                          >
+                            <path
+                              fill-rule='evenodd'
+                              d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                              clip-rule='evenodd'
+                            ></path>
+                          </svg>
+                          <span>{feature}</span>
+                        </li>
+            ))}
+          </ul>
+          <a
+            href='#'
+            className='text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900'
+          >
+            Get started
+          </a>
+        </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

@@ -24,7 +24,7 @@ const StatisticsComponent = () => {
       <div className='flex w-screen justify-evenly h-[10rem] md:w-full'>
         {statistics.map((x, i) => (
           <div className='flex flex-col items-center justify-center' key={i}>
-            <h1 className='text-2xl font-bold text-white xl:text-4xl'>
+            <h1 className='text-2xl font-bold text-white xl:text-5xl'>
               {/* <CountUp
               start={0}
               end={100}

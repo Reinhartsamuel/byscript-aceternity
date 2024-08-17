@@ -6,28 +6,27 @@ import { StepsComponent } from './components/StepsComponent';
 import { PricingComponent } from './components/PricingComponent';
 import { TestimonialsComponent } from './components/TestimonialsComponent';
 import Navbar from './components/ui/Navbar';
+import Footer from './components/Footer';
 
 export default function Home() {
   return (
     <>
       <Navbar />
-   
-      <div className='h-screen w-full pt-10 inline-block md:flex items-center justify-center lg:h-[90vh] lg:px-20 z-20'>
-        <div className='w-full md:w-1/2 text-center items-center justify-center'>
-          {/* <div className='sm:text-3xl mx-[2rem] font-normal text-neutral-600 dark:text-neutral-400 leading-normal text-center lg:text-[1.5rem]'>
-            Trading
-            <FlipWords words={words} duration={2000} className={'lg:text-[1.5rem]'} />
-          </div> */}
-          <h1 className='text-4xl font-bold text-white xl:text-6xl'>
-            Automated Algorithmic Trading with {' '}
+      <div className="absolute top-0 z-[-20] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]" />
+      <div className='h-screen w-full pt-10 inline-block md:flex items-center justify-center lg:px-20 z-20'>
+      <div className="absolute inset-0 -z-10 size-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" />
+        <div className='w-full md:w-2/3 text-center items-center justify-center'>
+          <h1 className='text-4xl font-bold text-white xl:text-8xl'>
+            Algorithmic Trading with{' '}
             <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-[eco_coding]'>
               byScript
             </span>
           </h1>
-          <h1 className='text-md align-left text-slate-300 mt-5'>
+          <h1 className='text-md align-left text-slate-200 mt-5'>
             Platform{' '}
-            <span className='italic text-slate-100'>Algorithmic Trading</span>{' '}
-            pertama di Indonesia, Bantu Kamu Traders Cuan Trading Otomatis Pake Algoritma
+            <span className='italic text-slate-200'>Algorithmic Trading</span>{' '}
+            pertama di Indonesia, Bantu Kamu Traders Cuan Trading Otomatis Pake
+            Algoritma
           </h1>
           <div className='mt-10'>
             <button className='w-[90%] mx-auto relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
@@ -53,7 +52,7 @@ export default function Home() {
               src={
                 'https://byscript-bucket.s3.ap-southeast-2.amazonaws.com/xma.webp'
               }
-              className='w-[60%]'
+              className='lg:px-20'
             />
           </div>
         </div>
@@ -145,7 +144,21 @@ export default function Home() {
 
       <HeroHighlightComponent />
 
-      <div className='w-full h-screen mt-20 inline-block items-center justify-center mx-auto'>
+      {/* <div className='relative w-screen h-screen'>
+        <div class='absolute inset-0 -z-10 h-full w-full flex flex-col gap-4 items-center justify-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]'>
+          <h2 className='text-center text-3xl font-medium text-gray-900 dark:text-gray-50 sm:text-6xl'>
+           hehe
+          </h2>
+          <iframe
+            width={'1100px'}
+            height={'592px'}
+            src='https://www.youtube.com/embed/WUJHi118SAQ'
+            controls
+          />
+        </div>
+      </div> */}
+
+      <div className='w-full h-screen mt-20 inline-block items-center justify-center mx-auto bg-transparent'>
         <h1 className='text-3xl mt-10 font-bold text-center mx-auto md:text-5xl lg:text-7xl'>
           LIVE SIGNAL 📣📈📉
         </h1>
@@ -163,7 +176,6 @@ export default function Home() {
         <StepsComponent />
       </div>
 
-
       <div className='w-full mt-20 inline-block items-center justify-center'>
         <h1 className='text-2xl mt-10 font-bold text-center mx-auto md:text-6xl'>
           Gabung komunitas byScript
@@ -177,14 +189,10 @@ export default function Home() {
       <TestimonialsComponent />
 
       <div className='min-h-screen'>
-        <h1 className='text-5xl mt-10 font-bold text-center mx-auto'>
-          Pricing
-        </h1>
-        <h3 className='text-center text-white mt-5'>
-          Pendaftar baru dapat promo gratis satu bulan pertama
-        </h3>
         <PricingComponent />
       </div>
+
+      <Footer />
     </>
   );
 }
