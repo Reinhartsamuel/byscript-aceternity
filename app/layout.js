@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] });
 const ecoCoding = localfont({
   src:[{
     path : '../public/fonts/eco_coding_wgl_4_bold.ttf',
-    weight : '700'
+    weight : '800'
   }],
   variable:'--font-ecoCoding'
 })

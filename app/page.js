@@ -12,13 +12,13 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className="absolute top-0 z-[-20] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]" />
-      <div className='h-screen w-full pt-10 inline-block md:flex items-center justify-center lg:px-20 z-20'>
-      <div className="absolute inset-0 -z-10 size-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" />
+      {/* <div className="absolute top-0 z-[-20] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]" /> */}
+      <div className='h-[100vh] w-full pt-10 inline-block md:flex items-center justify-center lg:px-20 z-20'>
+      <div className="absolute  -z-10 size-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" />
         <div className='w-full md:w-2/3 text-center items-center justify-center'>
           <h1 className='text-4xl font-bold text-white xl:text-8xl'>
             Algorithmic Trading with{' '}
-            <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-ecoCoding'>
+            <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-ecoCoding font-bold'>
               byScript
             </span>
           </h1>
@@ -62,7 +62,7 @@ export default function Home() {
         <StatisticsComponent />
       </div>
       {/* EXCHANGES LOGO */}
-      <div className='w-full mx-auto flex flex-wrap justify-center items-center bg-slate-50 mt-100 xl:px-20'>
+      <div className='w-full mx-auto flex flex-wrap justify-center items-center bg-slate-50 xl:px-20'>
         <img
           className='w-[10rem] mt-10'
           src={
