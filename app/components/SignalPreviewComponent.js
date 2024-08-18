@@ -96,7 +96,7 @@ const SignalPreviewComponent = (props) => {
                 <td className='px-6 py-4'>
                   {x?.trading_plan_id?.split('_')[0]}
                 </td>
-                <td className='px-6 py-4'>$50.25</td>
+                <td className='px-6 py-4'>${x?.price}</td>
                 <td className='px-6 py-4'>
                   {moment
                     .unix(x?.createdAt?.seconds)

@@ -18,7 +18,7 @@ export default function Home() {
         <div className='w-full md:w-2/3 text-center items-center justify-center'>
           <h1 className='text-4xl font-bold text-white xl:text-8xl'>
             Algorithmic Trading with{' '}
-            <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-[eco_coding]'>
+            <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-ecoCoding'>
               byScript
             </span>
           </h1>

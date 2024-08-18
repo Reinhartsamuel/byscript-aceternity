@@ -84,7 +84,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        eco_coding: ['Eco Coding WGL4 W01 Regular', 'sans-serif'],
+        // eco_coding: ['Eco Coding WGL4 W01 Regular', 'sans-serif'],
+        ecoCoding : ['var(--font-ecoCoding)']
       },
     },
   },
