@@ -7,7 +7,6 @@ export async function POST(request) {
   const body = await request.json();
   const { order_id, status_code, gross_amount,transaction_status, signature_key, transaction_time } = body;
 
-  // const serverKey = appMode === "staging" ?  process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY_SANDBOX : "kontoll"
   const serverKey = process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY_SANDBOX
   let errorData = undefined;
 

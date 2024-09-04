@@ -10,13 +10,15 @@ import {
   getCollectionFirebase,
 } from '../utils/firebaseApi';
 import { useParams } from 'next/navigation';
+import useFetchData from '../hooks/QueryHook';
+import useCountDocuments from '../hooks/CountHook';
 
 const ExchangesComponent = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [loading, setLoading] = useState(false);
-  const [exchanges, setExchanges] = useState([]);
-  const [data, setData] = useState({ exchanges: [{}], count: 0 });
+  // const [loading, setLoading] = useState(false);
+  // const [exchanges, setExchanges] = useState([]);
+  // const [data, setData] = useState({ exchanges: [{}], count: 0 });
   const name =
     authFirebase.currentUser?.displayName ||
     authFirebase.currentUser?.email?.split('@')[0];
@@ -33,7 +35,7 @@ const ExchangesComponent = () => {
         text: 'Silakan pilih waktu Senin-Jumat pukul 11.00 - 17.00',
       });
     try {
-      setLoading(true);
+      // setLoading(true);
       // console.log(selectedDate);
       const postData = {
         summary: `Onboarding 1 on 1 ${name} bersama byScript`,
@@ -128,22 +130,45 @@ const ExchangesComponent = () => {
     }
   };
 
-  const getData = async () => {
-    try {
-      const conditions = [
-        { field: 'uid', operator: '==', value: authFirebase.currentUser?.uid },
-      ];
-      const res = await getCollectionFirebase('exchanges', conditions);
-      const count = await countDocumentsFirebase('exchanges', conditions);
-      // setData({ count, exchanges: res });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const getData = async () => {
+  //   try {
+  // const conditions = [
+  //   { field: 'uid', operator: '==', value: authFirebase.currentUser?.uid },
+  // ];
+  //     const res = await getCollectionFirebase('exchanges', conditions);
+  //     const count = await countDocumentsFirebase('exchanges', conditions);
+  //     // setData({ count, exchanges: res });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
+  const { data, loading, error, loadMore } = useFetchData({
+    collectionName: 'exchange_accounts',
+    conditions: [
+      { field: 'email', operator: '==', value: authFirebase.currentUser?.email },
+    ],
+    limitQuery: 5,
+    dependencies: [authFirebase.currentUser?.email],
+  });
+
+  const { counttt } = useCountDocuments({
+    collectionName: 'exchange_accounts',
+    conditions: [
+      { field: 'email', operator: '==', value: authFirebase.currentUser?.email },
+    ],
+    dependencies: [authFirebase.currentUser?.email],
+  });
+
+  if(!authFirebase.currentUser) return (
+    <div className='w-full h-screen flex flex-col items-center justify-center'>
+      <Spinner />
+    </div>
+  )
 
   return (
     <>
@@ -160,15 +185,16 @@ const ExchangesComponent = () => {
             +
           </button>
         </div>
-        {/* {data.exchanges?.length === 0 ? ( */}
-        {false ? (
-          <p>Kamu belum mempunyai akun autotrader</p>
+        {data?.length === 0 ? (
+          <p className='text-[0.75rem] font-light text-slate-200 mb-4'>
+            Kamu belum mempunyai akun akun exchange tersambung dengan byScript
+          </p>
         ) : (
           <>
             <p className='text-[0.75rem] font-light text-slate-200 mb-4'>
-              {data?.count} akun autotrader
+              {counttt || 0} akun exchange tersambung
             </p>
-            {data?.exchanges?.map((y, i) => (
+            {data?.map((y, i) => (
               <div
                 key={i}
                 className='flex flex-col gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'
@@ -182,7 +208,7 @@ const ExchangesComponent = () => {
                   alt={y?.name || 'gate'}
                 />
                 <div className='flex w-full justify-between'>
-                <p className='text-gray-200 text-sm font-thin'>
+                  <p className='text-gray-200 text-sm font-thin'>
                     Created: {moment.unix(y?.createdAt?.seconds).fromNow()}
                   </p>
                   <p className='text-gray-200 text-sm font-thin'>
@@ -193,6 +219,7 @@ const ExchangesComponent = () => {
             ))}
           </>
         )}
+        {error && <p>{error.message}</p>}
       </div>
 
       {/* MODAL */}

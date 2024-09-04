@@ -7,35 +7,71 @@ import {
 import { authFirebase } from '../config/firebase';
 import moment from 'moment';
 import { useParams, useRouter } from 'next/navigation';
+import useFetchData from '../hooks/QueryHook';
+import useCountDocuments from '../hooks/CountHook';
+import Spinner from '../components/ui/Spinner';
 
 const AutotraderBotComponent = () => {
   const router = useRouter();
-    const params = useParams();
-  const [data, setData] = useState({
-    dcaBots: [],
-    count: 0,
+  const params = useParams();
+  // const [data, setData] = useState({
+  //   dcaBots: [],
+  //   count: 0,
+  // });
+
+  // const getDcaBots = async () => {
+  //   try {
+  //     const conditions = [
+  //       { field: 'uid', operator: '==', value: authFirebase.currentUser.uid },
+  //     ];
+  //     const res = await getCollectionFirebase('dca_bots', conditions, {
+  //       field: 'createdAt',
+  //       direction: 'desc',
+  //     });
+
+  //     const count = await countDocumentsFirebase('dca_bots', conditions);
+  //     setData({ count, dcaBots: res });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getDcaBots();
+  // }, [authFirebase.currentUser?.uid]);
+
+  const { data, loading, error, loadMore } = useFetchData({
+    collectionName: 'dca_bots',
+    conditions: [
+      {
+        field: 'email',
+        operator: '==',
+        value: authFirebase.currentUser?.email,
+      },
+    ],
+    limitQuery: 5,
+    dependencies: [authFirebase.currentUser?.email],
   });
 
-  const getDcaBots = async () => {
-    try {
-      const conditions = [
-        { field: 'uid', operator: '==', value: authFirebase.currentUser.uid },
-      ];
-      const res = await getCollectionFirebase('dca_bots', conditions, {
-        field: 'createdAt',
-        direction: 'desc',
-      });
+  const { counttt } = useCountDocuments({
+    collectionName: 'dca_bots',
+    conditions: [
+      {
+        field: 'email',
+        operator: '==',
+        value: authFirebase.currentUser?.email,
+      },
+    ],
+    dependencies: [authFirebase.currentUser?.email],
+  });
 
-      const count = await countDocumentsFirebase('dca_bots', conditions);
-      setData({ count, dcaBots: res });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  if (!authFirebase.currentUser)
+    return (
+      <div className='w-full h-screen flex flex-col items-center justify-center'>
+        <Spinner />
+      </div>
+    );
 
-  useEffect(() => {
-    getDcaBots();
-  }, [authFirebase.currentUser?.uid]);
   return (
     <div className='mx-6 mt-10'>
       <div className='flex items-center gap-4'>
@@ -50,8 +86,8 @@ const AutotraderBotComponent = () => {
           +
         </button>
       </div>
-      <p>UID : {authFirebase.currentUser?.uid}</p>
-      {data?.count === 0 ? (
+      {/* <p>UID : {authFirebase.currentUser?.uid}</p> */}
+      {counttt === 0 ? (
         <p>
           Kamu belum mempunyai akun autotrader, silahkan{' '}
           <span className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
@@ -63,21 +99,27 @@ const AutotraderBotComponent = () => {
           <p className='text-[0.75rem] font-light text-slate-200 mb-4'>
             {data?.count} akun autotrader
           </p>
-          {data?.dcaBots?.map((x, i) => (
-            <div href='#'  className='flex flex-col gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700' key={i}>
-              <h5 className='text-lg font-bold tracking-tight text-gray-900 dark:text-white'>
-                {x?.id}
-              </h5>
-              <div className='flex w-full justify-between'>
-                <p className='font-normal text-sm text-gray-700 dark:text-gray-400'>
-                  Created: {moment.unix(x?.createdAt?.seconds).fromNow()}
-                </p>
-                <p className='font-normal text-sm text-gray-700 dark:text-gray-400'>
-                  Status: <span>{x?.status}</span>
-                </p>
+          <div className='flex flex-col md:flex-row gap-2'>
+            {data?.map((x, i) => (
+              <div
+                href='#'
+                className='flex flex-col gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'
+                key={i}
+              >
+                <h5 className='text-lg font-bold tracking-tight text-gray-900 dark:text-white'>
+                  ID: {x?.bot_id}
+                </h5>
+                <div className='flex w-full justify-between'>
+                  <p className='font-normal text-sm text-gray-700 dark:text-gray-400'>
+                    Created: {moment.unix(x?.createdAt?.seconds).fromNow()}
+                  </p>
+                  <p className='font-normal text-sm text-gray-700 dark:text-gray-400'>
+                    Status: <span>{x?.status || '-'}</span>
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </>
       )}
     </div>

@@ -26,11 +26,11 @@ const ProfileComponent = ({ setIndex, data, setData }) => {
           Isi data diri kamu dengan benar:
         </p>
 
-        <div className='mt-10'>
+        <div className='block w-full mt-2 p-6 bg-white border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700'>
           <div>
             <p>Nama Lengkap</p>
             <input
-              className='w-full p-2 pl-10 text-sm text-gray-700'
+              className='mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
               placeholder='Masukkan nama anda'
               onChange={(e) => setData({ ...data, name: e.target.value })}
               value={data?.name}
@@ -39,7 +39,7 @@ const ProfileComponent = ({ setIndex, data, setData }) => {
           <div>
             <p>Email</p>
             <input
-              className='w-full p-2 pl-10 text-sm text-gray-700'
+              className='mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
               placeholder='Masukkan email'
               type='email'
               onChange={(e) => setData({ ...data, email: e.target.value })}
@@ -48,10 +48,12 @@ const ProfileComponent = ({ setIndex, data, setData }) => {
           </div>
           <div>
             <p>Nomor Telepon (WA aktif)</p>
-            <div className='flex'>
-              <span className='bg-gray-100 p-2'>+62</span>
+            <div className='flex relative'>
+              <span className='bg-gray-100 absolute left-0 top-0 bottom-0 text-gray-900 mt-2 rounded-l-lg flex justify-center items-center px-2'>
+                +62
+              </span>
               <input
-                className='w-full p-2 pl-10 text-sm text-gray-700'
+                className='mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-20 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 type='tel'
                 placeholder='Masukkan nomor telepon'
                 onChange={handlePhone}
@@ -62,6 +64,7 @@ const ProfileComponent = ({ setIndex, data, setData }) => {
             <p>Kota</p>
             <select
               onChange={(e) => setData({ ...data, city: e.target.value })}
+              className='mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
             >
               {Cities?.map((x, i) => (
                 <option key={i} value={`${x?.type} ${x?.city_name}`}>
@@ -70,22 +73,21 @@ const ProfileComponent = ({ setIndex, data, setData }) => {
               ))}
             </select>
           </div>
-          {/* <div>
-            <p>Alamat</p>
-            <textarea
-              className="w-full p-2 pl-10 text-sm text-gray-700"
-              placeholder="Alamat lengkap"
-              onChange={(e) => setData({ ...data, address: e.target.value })}
-              value={data?.address}
-            />
-          </div> */}
         </div>
         <div className='flex justify-end mt-10'>
           <div className='flex'>
-            <button onClick={() => setIndex((prev) => prev - 1)}>
-              {'<'}- Kembali
+            <button
+              className='text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
+              onClick={() => setIndex((prev) => prev - 1)}
+            >
+              ⬅️ Kembali
             </button>
-            <button onClick={validate}>Lanjut -{'>'}</button>
+            <button
+              className='text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
+              onClick={validate}
+            >
+              Lanjut ➡️
+            </button>
           </div>
         </div>
       </div>

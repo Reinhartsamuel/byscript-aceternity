@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { getSingleDocumentFirebase } from '../utils/firebaseApi';
+import PrevNextButton from '../components/PrevNextButton';
 
 const FormsComponent = (props) => {
   const { data: parentData, setData: setParentData, setIndex } = props;
@@ -58,14 +59,11 @@ const FormsComponent = (props) => {
   }, []);
 
   return (
-    <div className='max-w-7xl pt-20'>
+    <div className='w-2xl pt-20'>
       <div className='flex flex-col items-center justify-center'>
-        <h1 className='text-3xl text-center'>
+        <h1 className='text-3xl text-center font-bold'>
           Selamat datang di{' '}
-          <span
-            className='bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text'
-            style={{ fontFamily: 'EcoCodingWGL4' }}
-          >
+          <span className='bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent font-ecoCoding font-bold'>
             byScript
           </span>
         </h1>
@@ -74,14 +72,43 @@ const FormsComponent = (props) => {
         {data?.forms?.map((x, i) => (
           <div
             key={i}
-            className='w-full md:w-4/5 lg:w-2/5 mt-5 rounded-md shadow-lg p-10'
+            className='block w-full mt-2 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'
           >
             <h2 className='font-bold'>{x?.question}</h2>
             {x?.type === 'text' && (
-              <input
-                onChange={(e) => handleChange(x, e.target.value)}
-                className='w-full p-2 pl-10 text-sm text-gray-700'
-              />
+              // <input
+              //   onChange={(e) => handleChange(x, e.target.value)}
+              //   className='w-full p-2 pl-10 text-sm text-gray-700'
+              // />
+              <form class='flex items-center max-w-lg mx-auto'>
+                <label for='voice-search' class='sr-only'>
+                  Search
+                </label>
+                <div class='relative w-full'>
+                  <div class='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      stroke-width='1.5'
+                      stroke='currentColor'
+                      class='size-6'
+                    >
+                      <path
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        d='M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z'
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    onChange={(e) => handleChange(x, e.target.value)}
+                    type='text'
+                    className='mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    required
+                  />
+                </div>
+              </form>
             )}
             {x?.type === 'date' && (
               <input
@@ -131,16 +158,7 @@ const FormsComponent = (props) => {
         ))}
       </div>
       {/* <button onClick={handleDebug}>debug</button> */}
-      <div className='flex justify-end mt-10'>
-        <div className='flex'>
-          <button onClick={() => setIndex((prev) => prev - 1)}>
-            {'<'}- Kembali
-          </button>
-          <button onClick={() => setIndex((prev) => prev + 1)}>
-            Lanjut -{'>'}
-          </button>
-        </div>
-      </div>
+     <PrevNextButton setIndex={setIndex} />
     </div>
   );
 };

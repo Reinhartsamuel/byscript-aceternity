@@ -92,7 +92,15 @@ export const InfiniteMovingCards = ({
               <span className=' relative z-20 text-sm leading-[1.6] text-gray-100 font-normal'>
                 {item.quote}
               </span>
-              <div className='relative z-20 mt-6 flex flex-row items-center'>
+              <div className='relative z-20 mt-6 flex flex-row items-center gap-2'>
+                <img
+                  src={
+                    item.avatar ||
+                    'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541'
+                  }
+                  alt={item.name}
+                  className='h-10 w-10 object-cover rounded-full'
+                />
                 <span className='flex flex-col gap-1'>
                   <span className=' text-sm leading-[1.6] text-gray-400 font-normal'>
                     {item.name}

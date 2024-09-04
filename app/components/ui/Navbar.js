@@ -16,11 +16,11 @@ import { useEffect, useState } from 'react';
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Pricing', href: '#pricing' },
+  { name: 'Pricing', href: '/#pricing' },
   // { name: "Events", href: "/event" },
-  { name: 'Subscription', href: '/subscriptions' },
-  { name: 'Marketplace', href: '/marketplace' },
-  { name: 'Affiliate', href: '/affiliate' },
+  // { name: 'Subscription', href: '/subscriptions' },
+  // { name: 'Marketplace', href: '/marketplace' },
+  // { name: 'Affiliate', href: '/affiliate' },
 ];
 
 function classNames(...classes) {
@@ -33,6 +33,7 @@ export default function Navbar() {
   const handleLogout = async () => {
     try {
       await authFirebase.signOut();
+      router.push('/')
     } catch (error) {
       window.alert(error.message);
     }
@@ -47,6 +48,7 @@ export default function Navbar() {
         // ...
       } else {
         setUser(null);
+        router.push('/');
         // User is signed out
         // ...
       }

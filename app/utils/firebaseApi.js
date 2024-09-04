@@ -39,13 +39,13 @@ export const getSingleDocumentFirebase = async (collectionName, docName) => {
     const docRef = doc(db, collectionName, docName);
     const docSnapshot = await getDoc(docRef);
 
-    if (docSnapshot.exists) {
-      const docData = docSnapshot.data();
-      // Lakukan manipulasi data atau operasi lain jika diperlukan
-      return { id: docSnapshot.id, ...docData };
+    if (docSnapshot.data() === undefined ) {
+      return null
     } else {
-      return null;
+      const docData = docSnapshot.data();
+      return { id: docSnapshot.id, ...docData };
     }
+
   } catch (error) {
     throw new Error(error.message, 'Failed to send  error message');
   }
@@ -510,7 +510,7 @@ export const setDocumentFirebase = async (collectionName, docName, data) => {
   }
 };
 
-export const addDocumentFirebase = async (collectionName, data, companyId) => {
+export const addDocumentFirebase = async (collectionName, data, companyId = 'byscript') => {
   try {
     if (!data.createdAt) data.createdAt = new Date();
     if (!data.lastUpdated) data.lastUpdated = new Date();

@@ -58,73 +58,79 @@ const options = {
       image: './undraw-learn.png',
     },
   ],
-  balance : [
+  balance: [
     {
-      id:1,
-      value : 'USD 0 - 100',
-      minBalance:0,
-      maxBalance:100
-      
+      id: 1,
+      value: 'USD 0 - 100',
+      minBalance: 0,
+      maxBalance: 100,
     },
     {
-      id:2,
-      value : 'USD 100 - 1000',
-      minBalance:100,
-      maxBalance:1000
+      id: 2,
+      value: 'USD 100 - 1000',
+      minBalance: 100,
+      maxBalance: 1000,
     },
     {
-      id:3,
-      value : 'USD 1000 - 5000',
-      minBalance:1000,
-      maxBalance:5000
+      id: 3,
+      value: 'USD 1000 - 5000',
+      minBalance: 1000,
+      maxBalance: 5000,
     },
     {
-      id:4,
-      value : '>USD 5000',
-      minBalance:5000,
-      maxBalance:null
-    }
-  ]
+      id: 4,
+      value: '>USD 5000',
+      minBalance: 5000,
+      maxBalance: null,
+    },
+  ],
 };
 
 const page = () => {
   const [index, setIndex] = useState(0);
   const [data, setData] = useState({
-    profile:'',name:authFirebase.currentUser?.displayName || '', 
-    email: authFirebase.currentUser?.email || '', 
-    phoneNumber: authFirebase.currentUser?.phoneNumber || '', 
-    minBalance:0,
-    maxBalance: null
+    profile: '',
+    name: authFirebase.currentUser?.displayName || '',
+    email: authFirebase.currentUser?.email || '',
+    phoneNumber: authFirebase.currentUser?.phoneNumber || '',
+    minBalance: 0,
+    maxBalance: null,
   });
-
-
-
-  useEffect(() => {
-    const position = async () => {
-      await navigator.geolocation.getCurrentPosition(
-        (position) => console.log(position, 'this is position'), 
-        (err) => console.log(err, 'errrr')
-      );
-    }
-
-    // position();
-  },[])
 
   return (
     <>
-        <div className='w-full min-h-100' w={'100vw'} minH={'100vh'}>
-          <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
-            <div className={cn("bg-blue-600 h-2.5 rounded-full dark:bg-blue-500", `w-${index/5 * 100}%`)}></div>
+      <div className='w-full min-h-screen flex flex-col items-center relative bg-transparent'>
+        <div className='absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] -z-10' />
+        <div className='w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700'>
+          <div class='w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700'>
+            <div
+              className='bg-blue-600 h-2.5 rounded-full'
+              style={{ width: `${(index / 3) * 100 + 5}%` }}
+            ></div>
           </div>
-          {/* {index === 0 && <CriterionComponent options={options} setIndex={setIndex} setData={setData} data={data} />}
+        </div>
+
+        {/* {index === 0 && <CriterionComponent options={options} setIndex={setIndex} setData={setData} data={data} />}
           {index === 1 && <ActivitiesComponent options={options} setIndex={setIndex} setData={setData} data={data} />}
           {index === 1 && <BalanceComponent options={options} setIndex={setIndex} setData={setData} data={data} />} */}
-          {index === 0 && <FormsComponent setIndex={setIndex} setData={setData} data={data} />}
-          {index === 1 && <ProfileComponent setIndex={setIndex} setData={setData} data={data} />}
-          {index === 2 && <MeetingBookingComponent setIndex={setIndex} setData={setData} data={data} />}
-          {index === 3 && <SummaryComponent setIndex={setIndex} setData={setData} data={data}  />}
-          {/* <pre>{JSON.stringify(data, null,2)}</pre> */}
-        </div>
+        {index === 0 && (
+          <FormsComponent setIndex={setIndex} setData={setData} data={data} />
+        )}
+        {index === 1 && (
+          <ProfileComponent setIndex={setIndex} setData={setData} data={data} />
+        )}
+        {index === 2 && (
+          <MeetingBookingComponent
+            setIndex={setIndex}
+            setData={setData}
+            data={data}
+          />
+        )}
+        {index === 3 && (
+          <SummaryComponent setIndex={setIndex} setData={setData} data={data} />
+        )}
+        {/* <pre>{JSON.stringify(data, null,2)}</pre> */}
+      </div>
     </>
   );
 };

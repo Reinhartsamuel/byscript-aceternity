@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={ecoCoding.variable}>
-          <Suspense>
+          <Suspense fallback={<p>loading gan</p>}>
             {/* <Navbar /> */}
             {/* <FloatingNav /> */}
             {children}

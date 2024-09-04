@@ -14,7 +14,7 @@ export default function Home() {
       <Navbar />
       {/* <div className="absolute top-0 z-[-20] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]" /> */}
       <div className='h-[100vh] w-full pt-10 inline-block md:flex items-center justify-center lg:px-20 z-20'>
-      <div className="absolute  -z-10 size-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" />
+        <div className='absolute  -z-10 size-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]' />
         <div className='w-full md:w-2/3 text-center items-center justify-center'>
           <h1 className='text-4xl font-bold text-white xl:text-8xl'>
             Algorithmic Trading with{' '}
@@ -29,18 +29,22 @@ export default function Home() {
             Algoritma
           </h1>
           <div className='mt-10'>
-            <button className='w-[90%] mx-auto relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
-              <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
-              <span className='inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
-                Setup Autotrade Sekarang
-              </span>
-            </button>
-            <button className='w-[90%] p-[3px] relative my-5'>
-              <div className='absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg' />
-              <div className='px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white bg-transparent active:bg-violet-700'>
-                Sign In
-              </div>
-            </button>
+            <a href='/new'>
+              <button className='w-[90%] mx-auto relative inline-flex h-12 overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50'>
+                <span className='absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]' />
+                <span className='inline-flex lg:text-xl h-full w-full cursor-pointer items-center justify-center rounded-lg bg-slate-950 px-3 text-sm font-medium text-white backdrop-blur-3xl'>
+                  Connect Exchange
+                </span>
+              </button>
+            </a>
+            <a href="/auth/login">
+              <button className='w-[90%] p-[3px] relative my-5'>
+                <div className='absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg' />
+                <div className='px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white bg-transparent active:bg-violet-700'>
+                  Sign In
+                </div>
+              </button>
+            </a>
             <div className='hidden md:block'>
               <StatisticsComponent />
             </div>
@@ -188,7 +192,7 @@ export default function Home() {
       </div>
       <TestimonialsComponent />
 
-      <div className='min-h-screen'>
+      <div className='min-h-screen' id='pricing'>
         <PricingComponent />
       </div>
 
