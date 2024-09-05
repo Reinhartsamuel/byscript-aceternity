@@ -185,7 +185,7 @@ export default function Home() {
           Gabung komunitas byScript
         </h1>
         <h3 className='text-center mb-10 text-red'>
-          50+ member sudah menggunakan trading otomatis, 10 member sudah{' '}
+          50+ member sudah menggunakan trading otomatis, 40 member sudah{' '}
           <i>break-even point</i> (BEP) tinggal kamu
         </h3>
         <ImageGallery />
