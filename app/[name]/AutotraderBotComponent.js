@@ -53,7 +53,7 @@ const AutotraderBotComponent = () => {
     dependencies: [authFirebase.currentUser?.email],
   });
 
-  const { counttt } = useCountDocuments({
+  const { count: counttt } = useCountDocuments({
     collectionName: 'dca_bots',
     conditions: [
       {

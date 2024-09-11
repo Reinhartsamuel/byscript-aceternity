@@ -5,10 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Spinner from '../components/ui/Spinner';
 import { authFirebase } from '../config/firebase';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import {
-  countDocumentsFirebase,
-  getCollectionFirebase,
-} from '../utils/firebaseApi';
+
 import { useParams } from 'next/navigation';
 import useFetchData from '../hooks/QueryHook';
 import useCountDocuments from '../hooks/CountHook';
@@ -156,7 +153,7 @@ const ExchangesComponent = () => {
     dependencies: [authFirebase.currentUser?.email],
   });
 
-  const { counttt } = useCountDocuments({
+  const { count:counttt } = useCountDocuments({
     collectionName: 'exchange_accounts',
     conditions: [
       { field: 'email', operator: '==', value: authFirebase.currentUser?.email },
@@ -200,7 +197,7 @@ const ExchangesComponent = () => {
                 className='flex flex-col gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'
               >
                 <img
-                  className='w-20'
+                  className='w-20 bg-gray-100'
                   src={
                     y?.exchange_thumbnail ||
                     'https://static.airpackapp.com/fe-next/homepage/prod/_next/static/media/open_sesame_night.47e06968.png?w=750&q=75'

@@ -32,7 +32,7 @@ export function PricingComponent() {
         arr.push({ id: doc.id, ...doc.data() });
       });
       setPrices(arr);
-      console.log(arr, 'arr');
+      // console.log(arr, 'arr');
     } catch (error) {
       console.log(error.message);
     }

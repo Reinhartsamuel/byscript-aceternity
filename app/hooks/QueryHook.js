@@ -91,7 +91,9 @@ const useFetchData = ({
           5,
           lastVisible.createdAt
         );
-        setData([...data, ...res]);
+        const newData = [...data, ...res];
+        setData(newData);
+        setLastVisible(newData[newData.length - 1]);
       } catch (error) {
         Swal.fire({
           title: 'error',
