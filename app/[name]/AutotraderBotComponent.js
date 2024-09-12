@@ -89,7 +89,7 @@ const AutotraderBotComponent = () => {
       {/* <p>UID : {authFirebase.currentUser?.uid}</p> */}
       {counttt === 0 ? (
         <p>
-          Kamu belum mempunyai akun autotrader, silahkan{' '}
+          Kamu belum mempunyai akun autotrader, silakan{' '}
           <span className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>
             <a href={params?.name + '/autotraders/new'}>buat di sini</a>
           </span>
