@@ -5,13 +5,26 @@ import { authFirebase } from '../config/firebase';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
-const SubscriptionComponent= dynamic(() => import ( './SubscriptionComponent'),{ssr:false})
-const BillingHistoryComponent= dynamic(() => import ( './BillingHistoryComponent'),{ssr:false})
-const AutoTradeComponent= dynamic(() => import ( './AutoTradeComponent'),{ssr:false})
-const ActivitiesComponent= dynamic(() => import ( './ActivitiesComponent'),{ssr:false})
-const AutotraderBotComponent= dynamic(() => import ( './AutotraderBotComponent'),{ssr:false})
-const ExchangesComponent = dynamic(() => import('./ExchangesComponent'), { ssr: false });
-
+const SubscriptionComponent = dynamic(() => import('./SubscriptionComponent'), {
+  ssr: false,
+});
+const BillingHistoryComponent = dynamic(
+  () => import('./BillingHistoryComponent'),
+  { ssr: false }
+);
+const AutoTradeComponent = dynamic(() => import('./AutoTradeComponent'), {
+  ssr: false,
+});
+const ActivitiesComponent = dynamic(() => import('./ActivitiesComponent'), {
+  ssr: false,
+});
+const AutotraderBotComponent = dynamic(
+  () => import('./AutotraderBotComponent'),
+  { ssr: false }
+);
+const ExchangesComponent = dynamic(() => import('./ExchangesComponent'), {
+  ssr: false,
+});
 
 const page = ({ params }) => {
   const [user, setUser] = useState(null);
