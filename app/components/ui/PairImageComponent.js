@@ -1,9 +1,9 @@
 import { coins } from '@/app/dummy';
 
-const PairImageComponent = ({ pair = 'BTC_USDT', width = 10 }) => {
+const PairImageComponent = ({ pair = 'USDT_BTC', width = 10 }) => {
   const arr = pair.split('_');
-  const coinA = arr[0];
-  const coinB = arr[1];
+  const coinA = arr[1];
+  const coinB = arr[0];
   const inset = parseInt(width) < 10 ? '-1rem' : '-0.5rem'
   return (
     <div className='flex justify-center'>

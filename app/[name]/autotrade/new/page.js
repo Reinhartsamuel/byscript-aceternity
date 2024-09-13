@@ -111,27 +111,27 @@ const page = ({ params }) => {
                 Lihat Hasil Backtest
               </button>
             </div>
-            <ul class='w-full text-sm my-10 font-medium text-gray-900 bg-white border border-gray-400 rounded-lg dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200'>
-              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
-                <div class='flex justify-between items-center px-3 py-4'>
+            <ul className='w-full text-sm my-10 font-medium text-gray-900 bg-white border border-gray-400 rounded-lg dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200'>
+              <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div className='flex justify-between items-center px-3 py-4'>
                   <h3> Net Profit</h3>
                   <h3 className='font-bold text-green-500'>xx</h3>
                 </div>
               </li>
-              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
-                <div class='flex justify-between items-center px-3 py-4'>
+              <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div className='flex justify-between items-center px-3 py-4'>
                   <h3>Percent Profitable</h3>
                   <h3 className='font-bold text-green-500'>xx</h3>
                 </div>
               </li>
-              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
-                <div class='flex justify-between items-center px-3 py-4'>
+              <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div className='flex justify-between items-center px-3 py-4'>
                   <h3>Max Drawdown</h3>
                   <h3 className='font-bold text-red-600'>xx</h3>
                 </div>
               </li>
-              <li class='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
-                <div class='flex justify-between items-center px-3 py-4'>
+              <li className='w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600 '>
+                <div className='flex justify-between items-center px-3 py-4'>
                   <h3>Backtest Pair</h3>
                   <h3>xx</h3>
                 </div>

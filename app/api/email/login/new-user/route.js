@@ -67,8 +67,8 @@ export async function POST(request) {
         name: body?.name,
       },
     ],
-    bcc:[
-      {name : 'Reinhart', email : 'reinhartsams@gmail.com'},
+    bcc: [
+      { name: 'Reinhart', email: 'reinhartsams@gmail.com' },
       // {name : 'Edwin', email : 'edwinfardyanto@gmail.com'},
     ],
     subject: 'Registrasi byScript',

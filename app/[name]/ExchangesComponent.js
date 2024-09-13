@@ -147,25 +147,34 @@ const ExchangesComponent = () => {
   const { data, loading, error, loadMore } = useFetchData({
     collectionName: 'exchange_accounts',
     conditions: [
-      { field: 'email', operator: '==', value: authFirebase.currentUser?.email },
+      {
+        field: 'email',
+        operator: '==',
+        value: authFirebase.currentUser?.email,
+      },
     ],
     limitQuery: 5,
     dependencies: [authFirebase.currentUser?.email],
   });
 
-  const { count:counttt } = useCountDocuments({
+  const { count: counttt } = useCountDocuments({
     collectionName: 'exchange_accounts',
     conditions: [
-      { field: 'email', operator: '==', value: authFirebase.currentUser?.email },
+      {
+        field: 'email',
+        operator: '==',
+        value: authFirebase.currentUser?.email,
+      },
     ],
     dependencies: [authFirebase.currentUser?.email],
   });
 
-  if(!authFirebase.currentUser) return (
-    <div className='w-full h-screen flex flex-col items-center justify-center'>
-      <Spinner />
-    </div>
-  )
+  if (!authFirebase.currentUser)
+    return (
+      <div className='w-full h-screen flex flex-col items-center justify-center'>
+        <Spinner />
+      </div>
+    );
 
   return (
     <>
@@ -197,10 +206,10 @@ const ExchangesComponent = () => {
                 className='flex flex-col gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700'
               >
                 <img
-                  className='w-20 bg-gray-100'
+                  className='w-20'
                   src={
-                    y?.exchange_thumbnail ||
-                    'https://static.airpackapp.com/fe-next/homepage/prod/_next/static/media/open_sesame_night.47e06968.png?w=750&q=75'
+                    y?.exchange_name === 'GATE' ? 'https://static.airpackapp.com/fe-next/homepage/prod/_next/static/media/open_sesame_night.47e06968.png?w=750&q=75' :
+                    y?.exchange_thumbnail
                   }
                   alt={y?.name || 'gate'}
                 />

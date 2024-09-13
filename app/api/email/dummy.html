@@ -1,14 +1,4 @@
-import moment from 'moment';
-import { headers } from 'next/headers';
-import { userAgent } from 'next/server';
-
-export async function POST(request) {
-  const body = await request.json();
-  const ipAddress = IP();
-  const {ua} =  userAgent(request);
-
-
-  const htmlContent = `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -27,6 +17,7 @@ export async function POST(request) {
         align-items: center;
         height: 100vh;
       }
+
       .gradient-text {
         background-image: linear-gradient(to right, #6c5ce7, #7a29cb);
         -webkit-background-clip: text;
@@ -42,6 +33,8 @@ export async function POST(request) {
         justify-content: center;
         align-items: center;
         background-color: black;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
       }
       .subtitle {
         color: white;
@@ -50,6 +43,7 @@ export async function POST(request) {
         font-size: 12px;
         font-weight: 200;
       }
+
       .container {
         width: 80%;
         background-color: #f3f4f6;
@@ -72,6 +66,7 @@ export async function POST(request) {
       }
     </style>
   </head>
+
   <body>
     <div class="nav">
       <img
@@ -81,13 +76,13 @@ export async function POST(request) {
     </div>
     <div class="main">
       <div class="container">
-        <p>Hi ${body?.name},</p>
+        <p>Hi Reinhart,</p>
         <br />
         <p>Kamu baru saja melakukan login ke byScript ke akunmu.</p>
         <br />
-        <strong>Login time</strong>: ${moment().format('YYYY-MM-DD HH:mm:ss')}}<br />
-        <strong>IP address</strong>: ${ipAddress}<br />
-        <strong>User agent</strong>: ${ua}<br />
+        <strong>Login time</strong>: 12:12:12 - 12 Agustus 2024<br />
+        <strong>IP address</strong>: 127.16.20.11<br />
+        <strong>User agent</strong>: Mozilla<br />
         <br />
         <p>
           Best regards,<br />
@@ -97,57 +92,3 @@ export async function POST(request) {
     </div>
   </body>
 </html>
-`;
-
-  const emailBody = {
-    sender: {
-      name: 'byScript.io',
-      email: 'edwinfardyanto@mgail.com',
-    },
-    bcc: [
-      {
-        name: 'reieie',
-        email: 'reinhartsams@gmail.com',
-      },
-    ],
-    to: [
-      {
-        email: body?.email,
-        name: body?.name,
-      },
-    ],
-    subject: 'Kamu Telah Login di byScript',
-    htmlContent: htmlContent,
-  };
-
-  if (body?.content) emailBody.htmlContent = body?.content;
-  if (body?.subject) emailBody.subject = body?.subject;
-
-  try {
-    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'post',
-      body: JSON.stringify(emailBody),
-      headers: {
-        accept: 'application/json',
-        'api-key': process.env.BREVO_API_KEY,
-        'content-type': 'application/json',
-      },
-    });
-    const result = await res.json();
-    return Response.json({ ...result });
-  } catch (error) {
-    return Response.json({ status: false, message: error.message });
-  }
-}
-
-
-function IP() {
-  const FALLBACK_IP_ADDRESS = '0.0.0.0'
-  const forwardedFor = headers().get('x-forwarded-for')
- 
-  if (forwardedFor) {
-    return forwardedFor.split(',')[0] ?? FALLBACK_IP_ADDRESS
-  }
- 
-  return headers().get('x-real-ip') ?? FALLBACK_IP_ADDRESS
-}

@@ -12,9 +12,6 @@ const BillingHistoryComponent = dynamic(
   () => import('./BillingHistoryComponent'),
   { ssr: false }
 );
-const AutoTradeComponent = dynamic(() => import('./AutoTradeComponent'), {
-  ssr: false,
-});
 const ActivitiesComponent = dynamic(() => import('./ActivitiesComponent'), {
   ssr: false,
 });
@@ -39,6 +36,11 @@ const page = ({ params }) => {
       setUser(user);
     });
   }, []);
+  const handleTest = async () => {
+    const res = await fetch('/api/playground');
+    const data = await res.json();
+    console.log(data);
+  }
 
   return (
     <>
@@ -60,9 +62,8 @@ const page = ({ params }) => {
           <BillingHistoryComponent />
         </div> */}
         <AutotraderBotComponent />
-        {/* <AutoTradeComponent /> */}
       </div>
-      {/* <ActivitiesComponent /> */}
+      <ActivitiesComponent />
     </>
   );
 };

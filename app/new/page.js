@@ -102,7 +102,7 @@ const page = () => {
       <div className='w-full min-h-screen flex flex-col items-center relative bg-transparent'>
         <div className='absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] -z-10' />
         <div className='w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700'>
-          <div class='w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700'>
+          <div className='w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700'>
             <div
               className='bg-blue-600 h-2.5 rounded-full'
               style={{ width: `${(index / 3) * 100 + 5}%` }}

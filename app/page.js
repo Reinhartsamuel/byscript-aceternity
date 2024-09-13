@@ -148,19 +148,6 @@ export default function Home() {
 
       <HeroHighlightComponent />
 
-      {/* <div className='relative w-screen h-screen'>
-        <div class='absolute inset-0 -z-10 h-full w-full flex flex-col gap-4 items-center justify-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]'>
-          <h2 className='text-center text-3xl font-medium text-gray-900 dark:text-gray-50 sm:text-6xl'>
-           hehe
-          </h2>
-          <iframe
-            width={'1100px'}
-            height={'592px'}
-            src='https://www.youtube.com/embed/WUJHi118SAQ'
-            controls
-          />
-        </div>
-      </div> */}
 
       <div className='w-full h-screen mt-20 inline-block items-center justify-center mx-auto bg-transparent'>
         <h1 className='text-3xl mt-10 font-bold text-center mx-auto md:text-5xl lg:text-7xl'>
