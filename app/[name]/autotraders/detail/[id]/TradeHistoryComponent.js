@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Spinner from './ui/Spinner';
 import moment from 'moment';
 import {
   collection,
@@ -9,41 +8,61 @@ import {
   onSnapshot,
   orderBy,
   limit,
+  where,
 } from 'firebase/firestore';
-import { db } from '../config/firebase';
-import PairImageComponent from './ui/PairImageComponent';
+import { db } from '@/app/config/firebase';
+import Spinner from '@/app/components/ui/Spinner';
+import PairImageComponent from '@/app/components/ui/PairImageComponent';
 
-const SignalPreviewComponent = (props) => {
+
+const TradeHistoryComponent
+ = (props) => {
+  const {collectionName = '3commas_logs'} = props;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const trading_plan_id = (props.trading_plan_pair || [])[0]
+    ?.split('_')
+    ?.shift();
+  const pair = (props.trading_plan_pair || [])[0]
+    ?.split('_')
+    ?.slice(1)
+    ?.join('_');
 
   useEffect(() => {
-    setLoading(true);
-    const q = query(
-      collection(db, 'webhooks'),
-      orderBy('createdAt', 'desc'),
-      // where('trading_plan_name', '==', 'XMA'),
-      limit(10)
-    );
-    const unsubscribe = onSnapshot(
-      q,
-      (querySnapshot) => {
-        const array = [];
-        querySnapshot.forEach((doc) => {
-          array.push({ id: doc?.id, ...doc?.data() });
-        });
-        setData(array);
-        setLoading(false);
-      },
-      (error) => {
-        console.log(error.message, '::::error onsnapshot');
-        setErrorMsg(error.message);
-        setLoading(false);
-      }
-    );
-    return () => unsubscribe();
-  }, []);
+    if (trading_plan_id !== undefined && pair !== undefined) {
+      setLoading(true);
+      let unsubscribe;
+      const q = query(
+        collection(db, collectionName),
+        orderBy('createdAt', 'desc'),
+        where('trading_plan_id', '==', trading_plan_id),
+        where('pair', '==', pair),
+        limit(10)
+      );
+  
+        unsubscribe = onSnapshot(
+          q,
+          (querySnapshot) => {
+            const array = [];
+            querySnapshot.forEach((doc) => {
+              array.push({ id: doc?.id, ...doc?.data() });
+            });
+            setData(array);
+            setLoading(false);
+          },
+          (error) => {
+            console.log(error.message, '::::error onsnapshot');
+            setErrorMsg(error.message);
+            setLoading(false);
+          }
+        );
+      return () => unsubscribe();
+    } else {
+      // console.log('salah koding');
+    }
+
+  }, [trading_plan_id, pair]);
 
   if (loading)
     return (
@@ -120,4 +139,5 @@ const SignalPreviewComponent = (props) => {
   );
 };
 
-export default SignalPreviewComponent;
+export default TradeHistoryComponent
+;

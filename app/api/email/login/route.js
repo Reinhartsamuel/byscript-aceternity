@@ -25,7 +25,6 @@ export async function POST(request) {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 100vh;
       }
       .gradient-text {
         background-image: linear-gradient(to right, #6c5ce7, #7a29cb);
@@ -51,7 +50,7 @@ export async function POST(request) {
         font-weight: 200;
       }
       .container {
-        width: 80%;
+        width: 100%;
         background-color: #f3f4f6;
         border-radius: 1rem;
         padding: 1rem;
@@ -83,9 +82,9 @@ export async function POST(request) {
       <div class="container">
         <p>Hi ${body?.name},</p>
         <br />
-        <p>Kamu baru saja melakukan login ke byScript ke akunmu.</p>
+        <p>Kamu baru saja login ke akun byScript.</p>
         <br />
-        <strong>Login time</strong>: ${moment().format('YYYY-MM-DD HH:mm:ss')}}<br />
+        <strong>Login time</strong>: ${moment().format('YYYY-MM-DD HH:mm:ss')}<br />
         <strong>IP address</strong>: ${ipAddress}<br />
         <strong>User agent</strong>: ${ua}<br />
         <br />
