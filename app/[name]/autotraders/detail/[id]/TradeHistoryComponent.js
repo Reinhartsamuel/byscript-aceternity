@@ -17,7 +17,7 @@ import PairImageComponent from '@/app/components/ui/PairImageComponent';
 
 const TradeHistoryComponent
  = (props) => {
-  const {collectionName = '3commas_logs'} = props;
+  const {collectionName = '3commas_logs', bot_id} = props;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -36,6 +36,7 @@ const TradeHistoryComponent
       const q = query(
         collection(db, collectionName),
         orderBy('createdAt', 'desc'),
+        where('bot_id', '==', bot_id),
         where('trading_plan_id', '==', trading_plan_id),
         where('pair', '==', pair),
         limit(10)
@@ -75,7 +76,7 @@ const TradeHistoryComponent
   return (
     <>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
-        <table className='w-full xl:w-3/5 text-xs text-left text-gray-500 dark:text-gray-400 mx-auto'>
+        <table className='w-full overflow-scroll xl:w-3/5 text-xs text-left text-gray-500 dark:text-gray-400 mx-auto'>
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
               <th scope='col' className='px-2 py-1'>
@@ -92,6 +93,9 @@ const TradeHistoryComponent
               </th>
               <th scope='col' className='px-2 py-1'>
                 Action
+              </th>
+              <th scope='col' className='px-2 py-1'>
+                id
               </th>
             </tr>
           </thead>
@@ -113,7 +117,7 @@ const TradeHistoryComponent
                 <td className='px-6 py-4'>
                   {x?.trading_plan_id?.split('_')[0]}
                 </td>
-                <td className='px-6 py-4'>${x?.price}</td>
+                <td className='px-6 py-4'>${JSON.parse(x?.requestBody)?.price}</td>
                 <td className='px-6 py-4'>
                   {moment
                     .unix(x?.createdAt?.seconds)
@@ -122,13 +126,16 @@ const TradeHistoryComponent
                 <td className='px-6 py-4'>
                   <p
                     className={`text-center text-xl font-bold ${
-                      x?.action === 'close_at_market_price'
+                      JSON.parse(x?.requestBody)?.action === 'close_at_market_price'
                         ? 'text-red-600'
                         : 'text-green-600'
                     }`}
                   >
-                    {x?.action === 'close_at_market_price' ? 'SELL' : 'BUY'}
+                    {JSON.parse(x?.requestBody)?.action === 'close_at_market_price' ? 'SELL' : 'BUY'}
                   </p>
+                </td>
+                <td className='px-6 py-4'>
+                  <p className='text-xs'>{x?.id}</p>
                 </td>
               </tr>
             ))}

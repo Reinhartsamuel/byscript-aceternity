@@ -172,38 +172,40 @@ const page = ({ params }) => {
           </div>
           <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
             <h1>Force Entry / Exit</h1>
-            <button
-              onClick={() => handleForce('entry')}
-              disabled={false}
-              className={cn(
-                'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white cursor-pointer bg-green-600 hover:bg-green-700 active:bg-green-500 transition duration-200'
-              )}
-            >
-              {loading ? (
-                <Spinner />
-              ) : (
-                <>
-                  <IoEnter />
-                  <p>Force Entry</p>
-                </>
-              )}
-            </button>
-            <button
-              onClick={() => handleForce('exit')}
-              disabled={false}
-              className={cn(
-                'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-500 transition duration-200'
-              )}
-            >
-              {loading ? (
-                <Spinner />
-              ) : (
-                <>
-                  <IoExit />
-                  <p>Force Exit</p>
-                </>
-              )}
-            </button>
+            <div className="flex flex-col lg:flex-row gap-2">
+              <button
+                onClick={() => handleForce('entry')}
+                disabled={false}
+                className={cn(
+                  'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white cursor-pointer bg-green-600 hover:bg-green-700 active:bg-green-500 transition duration-200'
+                )}
+              >
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    <IoEnter />
+                    <p>Force Entry</p>
+                  </>
+                )}
+              </button>
+              <button
+                onClick={() => handleForce('exit')}
+                disabled={false}
+                className={cn(
+                  'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-500 transition duration-200'
+                )}
+              >
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    <IoExit />
+                    <p>Force Exit</p>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -211,6 +213,7 @@ const page = ({ params }) => {
           <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
             <h1>Trade History</h1>
             <TradeHistoryComponent
+            bot_id={detail?.bot_id}
               text={'sm'}
               trading_plan_pair={detail?.trading_plan_pair}
             />
@@ -292,7 +295,7 @@ function useForceAction({ detail, setLoading }) {
     if (isDenied || !isConfirmed) return;
     setLoading(true);
     try {
-      await Promise.all(
+      const resultPromise = await Promise.all(
         detail?.trading_plan_pair?.map(async (x) => {
           const sendBodyTo3Commas = {
             message_type: 'bot',
@@ -304,7 +307,7 @@ function useForceAction({ detail, setLoading }) {
           if (action === 'exit') {
             sendBodyTo3Commas.action = 'close_at_market_price';
           }
-          // console.log(sendBodyTo3Commas, 'body to 3commas');
+          console.log(sendBodyTo3Commas, 'body to 3commas');
           const res = await fetch(threeCommasUrl, {
             method: 'POST',
             headers: {
@@ -316,11 +319,13 @@ function useForceAction({ detail, setLoading }) {
           return await res.text();
         })
       );
+      console.log(resultPromise,'resultPromise');
       Swal.fire({
         title: 'Success',
         text: `${action} autotrader success`,
         icon: 'success',
       });
+
     } catch (error) {
       Swal.fire({
         title: 'Error',
