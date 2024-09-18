@@ -7,9 +7,9 @@ import useFetchData from '../hooks/QueryHook';
 import useCountDocuments from '../hooks/CountHook';
 import Spinner from '../components/ui/Spinner';
 import { cn } from '@/lib/util';
-import { RiRobot2Fill } from "react-icons/ri";
+import { RiRobot2Fill } from 'react-icons/ri';
 import PairImageComponent from '../components/ui/PairImageComponent';
-
+import Modal from '../components/ui/Modal';
 
 const yaitulah = [
   {
@@ -157,6 +157,7 @@ const yaitulah = [
 const AutotraderBotComponent = () => {
   const router = useRouter();
   const params = useParams();
+  const [addAutotraderModal, setAddAutotraderModal] = useState(false);
   const { data } = useFetchData({
     collectionName: 'dca_bots',
     conditions: [
@@ -181,7 +182,6 @@ const AutotraderBotComponent = () => {
     ],
     dependencies: [authFirebase.currentUser?.email],
   });
-
 
   if (!authFirebase.currentUser)
     return (
@@ -222,7 +222,9 @@ const AutotraderBotComponent = () => {
               <div
                 className='w-full rounded-lg bg-gray-800 p-4 shadow-md font-sans flex flex-col gap-4 ease-out duration-100 hover:scale-105 hover:shadow-lg active:scale-95 cursor-pointer'
                 key={i}
-                onClick={() => router.push(`${params.name}/autotraders/detail/${x?.id}`)}
+                onClick={() =>
+                  router.push(`${params.name}/autotraders/detail/${x?.id}`)
+                }
               >
                 <div className='flex w-full justify-between'>
                   <div className='flex flex-col'>
@@ -291,8 +293,19 @@ const AutotraderBotComponent = () => {
           </div>
         </>
       )}
+      <ModalAddAutotrader
+        addAutotraderModal={addAutotraderModal}
+        setAddAutotraderModal={setAddAutotraderModal}
+      />
     </div>
   );
 };
 
 export default AutotraderBotComponent;
+
+function ModalAddAutotrader({
+  addAutotraderModal,
+  setAddAutotraderModal
+}) {
+  return <Modal open={addAutotraderModal} onClose={() =>setAddAutotraderModal(false)}></Modal>;
+}

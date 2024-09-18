@@ -308,7 +308,7 @@ function useForceAction({ detail, setLoading }) {
             sendBodyTo3Commas.action = 'close_at_market_price';
           }
           console.log(sendBodyTo3Commas, 'body to 3commas');
-          const res = await fetch(threeCommasUrl, {
+          const res = await fetch('/api/signal/force-entry', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -316,7 +316,7 @@ function useForceAction({ detail, setLoading }) {
             body: JSON.stringify(sendBodyTo3Commas),
           });
 
-          return await res.text();
+          return await res.json();
         })
       );
       console.log(resultPromise,'resultPromise');
