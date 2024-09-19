@@ -8,14 +8,14 @@ const PairImageComponent = ({ pair = 'USDT_BTC', width = 10 }) => {
   return (
     <div className='flex justify-center'>
       <img
-        className={`w-10 h-10 z-13 rounded-full`}
-        // className={`w-${width} h-${width} z-13 rounded-full`}
+        // className={`w-10 h-10 z-13 rounded-full`}
+        className={`w-${width} h-${width} z-13 rounded-full`}
         src={getImage(coinA)}
         alt={coinA}
       />
       <img
-        className={`w-10 h-10 rounded-full ml-[-0.8rem]`}
-        // className={`w-${width} h-${width} rounded-full ml-[${inset}]`}
+        // className={`w-10 h-10 rounded-full ml-[-0.8rem]`}
+        className={`w-${width} h-${width} rounded-full ml-[${inset}]`}
         src={getImage(coinB)}
         alt={coinB}
       />

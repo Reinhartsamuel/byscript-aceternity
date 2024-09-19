@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { authFirebase } from '../config/firebase';
 import moment from 'moment';
 import { useParams, useRouter } from 'next/navigation';
@@ -229,7 +229,13 @@ const AutotraderBotComponent = () => {
                 <div className='flex w-full justify-between'>
                   <div className='flex flex-col'>
                     <h4 className='uppercase font-extrabold text-sm text-slate-200'>
-                      {x?.id}
+                    {
+                    moment
+                      .unix(x?.createdAt?.seconds)
+                      .format('YYYY-MM-DD') +
+                    '-' +
+                    x?.createdAt?.seconds
+                  }
                     </h4>
                   </div>
                   <p className='text-slate-200 text-[0.75rem] font-thin'>
