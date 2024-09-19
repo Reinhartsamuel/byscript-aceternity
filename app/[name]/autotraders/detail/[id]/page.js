@@ -59,15 +59,32 @@ const page = ({ params }) => {
       </div>
       <div className='mt-10 mx-2'>
         <h1 className='text-3xl font-bold text-slate-100'>Detail Autotrader</h1>
-        <h3 className='font-extralight text-sm text-slate-400 leading--5'>
+        {/* <h3 className='font-extralight text-sm text-slate-400 leading--5'>
           description
-        </h3>
+        </h3> */}
       </div>
 
       <div className='w-full flex flex-col items-start gap-2 lg:flex-row'>
         <div className='flex flex-col gap-4 w-full'>
           <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
             <div className='flex flex-col gap-2 divide-y divide-slate-700'>
+            <div className='flex w-full justify-between h-10 items-end'>
+                <p className='text-gray-100 font-light text-sm'>Status</p>
+                <p
+                  className={cn(
+                    'font-bold text-sm',
+                    detail?.status === 'ACTIVE'
+                      ? 'text-green-500'
+                      : detail?.status === 'STOPPED'
+                      ? 'text-red-500'
+                      : detail?.status === 'REQUESTED'
+                      ? 'text-orange-500'
+                      : 'text-red-100'
+                  )}
+                >
+                  {detail?.status || '-'}
+                </p>
+              </div>
               <div className='flex w-full justify-between h-10 items-end'>
                 <p className='text-gray-100 font-light text-sm'>Created at</p>
                 <p className='text-gray-100 font-light text-sm'>
@@ -122,23 +139,6 @@ const page = ({ params }) => {
                     </div>
                   ))}
                 </div>
-              </div>
-              <div className='flex w-full justify-between h-10 items-end'>
-                <p className='text-gray-100 font-light text-sm'>Status</p>
-                <p
-                  className={cn(
-                    'font-bold text-sm',
-                    detail?.status === 'ACTIVE'
-                      ? 'text-green-500'
-                      : detail?.status === 'STOPPED'
-                      ? 'text-red-500'
-                      : detail?.status === 'REQUESTED'
-                      ? 'text-orange-500'
-                      : 'text-red-100'
-                  )}
-                >
-                  {detail?.status || '-'}
-                </p>
               </div>
             </div>
             <div className='flex flex-wrap gap-1 justify-end items-center p-4 md:p-5 border-t border-gray-200 dark:border-gray-600'>

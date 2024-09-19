@@ -13,22 +13,22 @@ import {
 import { db } from '@/app/config/firebase';
 import Spinner from '@/app/components/ui/Spinner';
 import PairImageComponent from '@/app/components/ui/PairImageComponent';
+import PropTypes from 'prop-types';
 
 const TradeHistoryComponent = (props) => {
   const { collectionName = '3commas_logs', bot_id } = props;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const trading_plan_id = (props.trading_plan_pair || [])[0]
-    ?.split('_')
-    ?.shift();
+  // const trading_plan_id = (props.trading_plan_pair || [])[0]
+  //   ?.split('_')
+  //   ?.shift();
   const pair = (props.trading_plan_pair || [])[0]
     ?.split('_')
     ?.slice(1)
     ?.join('_');
 
   useEffect(() => {
-    console.log(bot_id, 'bot_id');
     if (pair !== undefined) {
       setLoading(true);
       let unsubscribe;
@@ -73,26 +73,32 @@ const TradeHistoryComponent = (props) => {
 
   return (
     <>
-      <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
+      <div className='mt-10 overflow-x-auto shadow-md sm:rounded-lg'>
+      <div className='flex items-center gap-4'>
+          <h2 className='text-xl text-bold text-slate-200 font-bold'>
+            Trade History
+          </h2>
+        
+        </div>
         <table className='w-full overflow-scroll text-xs text-left text-gray-500 dark:text-gray-400 mx-auto'>
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
-              <th scope='col' className='px-2 py-1'>
+              <th scope='col' className='px-2 py-1 text-xs'>
                 Pair
               </th>
-              <th scope='col' className='px-2 py-1'>
+              <th scope='col' className='px-2 py-1 text-xs'>
                 Trading Plan
               </th>
-              <th scope='col' className='px-2 py-1'>
+              <th scope='col' className='px-2 py-1 text-xs'>
                 Price
               </th>
-              <th scope='col' className='px-2 py-1'>
+              <th scope='col' className='px-2 py-1 text-xs'>
                 Timestamp
               </th>
-              <th scope='col' className='px-2 py-1'>
+              <th scope='col' className='px-2 py-1 text-xs'>
                 Action
               </th>
-              {/* <th scope='col' className='px-2 py-1'>
+              {/* <th scope='col' className='px-2 py-1 text-xs'>
                 id
               </th> */}
             </tr>
@@ -133,20 +139,20 @@ const TradeHistoryComponent = (props) => {
                 >
                   <td
                     scope='row'
-                    className='px-2 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-gray-300'
+                    className='px-2 py-1 text-xs font-medium text-gray-900 whitespace-nowrap dark:text-gray-300'
                   >
                     <div className='inline-block items-center justify-center gap-2'>
                       <PairImageComponent pair={x?.pair} width={8} />
                       <p>{x?.pair}</p>
                     </div>
                   </td>
-                  <td className='px-2 py-1'>
+                  <td className='px-2 py-1 text-xs'>
                     {x?.trading_plan_id?.split('_')[0]}
                   </td>
-                  <td className='px-2 py-1'>
+                  <td className='px-2 py-1 text-xs'>
                     ${x?.requestBody ? JSON.parse(x?.requestBody)?.price : '-'}
                   </td>
-                  <td className='px-2 py-1'>
+                  <td className='px-2 py-1 text-xs'>
                     <div className=' flex flex-col justify-center'>
                       <p>
                         {moment
@@ -156,14 +162,14 @@ const TradeHistoryComponent = (props) => {
                       <p>{moment.unix(x?.createdAt?.seconds).fromNow()}</p>
                     </div>
                   </td>
-                  <td className='px-2 py-1'>
+                  <td className='px-2 py-1 text-xs'>
                     <p
                       className={`text-center text-md font-bold ${actionColor()}`}
                     >
                       {action()}
                     </p>
                   </td>
-                  {/* <td className='px-2 py-1'>
+                  {/* <td className='px-2 py-1 text-xs'>
                     <p className='text-xs'>{x?.id}</p>
                   </td> */}
                 </tr>
@@ -177,3 +183,9 @@ const TradeHistoryComponent = (props) => {
 };
 
 export default TradeHistoryComponent;
+
+TradeHistoryComponent.propTypes = {
+  bot_id: PropTypes.string,
+  trading_plan_pair: PropTypes.string,
+  collectionName: PropTypes.string,
+};

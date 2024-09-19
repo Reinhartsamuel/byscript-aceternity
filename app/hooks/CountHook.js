@@ -14,8 +14,6 @@ const useCountDocuments = ({
   useEffect(() => {
     const getCount = async () => {
       if (authRequired && !authFirebase.currentUser?.email) {
-        console.log('auth required and no user');
-        console.log(authFirebase.currentUser?.email,'authFirebase.currentUser?.email');
         return;
       }
       setLoading(true);

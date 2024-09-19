@@ -4,14 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { authFirebase } from '../config/firebase';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import TradeHistoryComponent from './autotraders/detail/[id]/TradeHistoryComponent';
+import { useExchangeStore } from '../store/exchangesStore';
+import { useAutotraderStore } from '../store/autotraderStore';
 
-const SubscriptionComponent = dynamic(() => import('./SubscriptionComponent'), {
-  ssr: false,
-});
-const BillingHistoryComponent = dynamic(
-  () => import('./BillingHistoryComponent'),
-  { ssr: false }
-);
+// const SubscriptionComponent = dynamic(() => import('./SubscriptionComponent'), {
+//   ssr: false,
+// });
+// const BillingHistoryComponent = dynamic(
+//   () => import('./BillingHistoryComponent'),
+//   { ssr: false }
+// );
 const ActivitiesComponent = dynamic(() => import('./ActivitiesComponent'), {
   ssr: false,
 });
@@ -26,6 +29,8 @@ const ExchangesComponent = dynamic(() => import('./ExchangesComponent'), {
 const page = ({ params }) => {
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const { getExchangeAccounts } = useExchangeStore();
+  const { getAutotraders } = useAutotraderStore();
   useEffect(() => {
     onAuthStateChanged(authFirebase, (user) => {
       if (!user) {
@@ -36,11 +41,13 @@ const page = ({ params }) => {
       setUser(user);
     });
   }, []);
-  const handleTest = async () => {
-    const res = await fetch('/api/playground');
-    const data = await res.json();
-    console.log(data);
-  }
+
+  useEffect(() => {
+    if (user?.email) {
+      getExchangeAccounts(user.email);
+      getAutotraders(user.email);
+    }
+  }, [user]);
 
   return (
     <>
@@ -55,13 +62,22 @@ const page = ({ params }) => {
             subscription dan trading plan.
           </h3>
         </div>
-
-        <ExchangesComponent />
-        {/* <div className='grid grid-cols-1 mt-10 mx-6 gap-2 lg:grid-cols-2'>
+        <div className='w-full grid grid-cols-1 lg:grid-cols-2'>
+          <div className='flex flex-col '>
+            <ExchangesComponent />
+            {/* <div className='grid grid-cols-1 mt-10 mx-6 gap-2 lg:grid-cols-2'>
           <SubscriptionComponent />
           <BillingHistoryComponent />
         </div> */}
-        <AutotraderBotComponent />
+            <AutotraderBotComponent />
+          </div>
+          <div className='px-6'>
+            <TradeHistoryComponent
+              bot_id={'15455557'}
+              trading_plan_pair={['XMA_USDT_ETH']}
+            />
+          </div>
+        </div>
       </div>
       <ActivitiesComponent />
     </>

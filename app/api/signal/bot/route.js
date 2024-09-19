@@ -1,7 +1,7 @@
 import { adminDb } from '@/lib/firebase-admin-config';
+import { FieldValue } from 'firebase-admin/firestore';
 
 const threeCommasUrl = 'https://app.3commas.io/trade_signal/trading_view';
-const {  FieldValue } = require('firebase-admin/firestore');
 
 // THIS IS WHAT THE BODY LOOKS LIKE :
 // {
@@ -54,36 +54,45 @@ export async function POST(request) {
     if (!doc.exists) {
       try {
         console.log(
-          `No such document! id ::: ${body?.trading_plan_id || ''}, timestamp : `,
-          new Date().getTime(), 'creating', tp_unique_id
+          `No such document! id ::: ${
+            body?.trading_plan_id || ''
+          }, timestamp : `,
+          new Date().getTime(),
+          'creating',
+          tp_unique_id
         );
         await adminDb.collection('trading_plan_pair').doc(tp_unique_id).set({
           bots_id: [],
           createdAt: new Date(),
           lastUpdated: new Date(),
           pair: body?.pair,
-          trading_plan_id: body.trading_plan_id
+          trading_plan_id: body.trading_plan_id,
         });
         const tradingPlanDoc = await adminDb
           .collection('trading_plan')
           .doc(body.trading_plan_id)
           .get();
-  
+
         if (!tradingPlanDoc.exists) {
-          console.log(`trading plan not found, creating ID : ${body.trading_plan_id}`);
-          await adminDb.collection('trading_plans').doc(body.trading_plan_id).set({
-            id: body?.trading_plan_id || '',
-            name: body?.trading_plan_id || '',
-            childrenPairs : FieldValue.arrayUnion(body?.pair),
-            createdAt : new Date()
-          });
+          console.log(
+            `trading plan not found, creating ID : ${body.trading_plan_id}`
+          );
+          await adminDb
+            .collection('trading_plans')
+            .doc(body.trading_plan_id)
+            .set({
+              id: body?.trading_plan_id || '',
+              name: body?.trading_plan_id || '',
+              childrenPairs: FieldValue.arrayUnion(body?.pair),
+              createdAt: new Date(),
+            });
         }
-  
+
         return new Response('no bots!', {
           status: 400,
         });
       } catch (error) {
-        
+        console.log(error.message);
       }
     }
     const data = doc.data();
@@ -123,18 +132,29 @@ export async function POST(request) {
     if (Array.isArray(result) && result?.length > 0) {
       await Promise.allSettled(
         result?.map(async (x) => {
+          let findBotOwner = {email:'', uid:'', name:''};
+          const botsRef = adminDb.collection('dca_bots');
+          const snapshot = await botsRef.where('bot_id', '==', x?.value?.sendBodyTo3Commas?.bot_id?.toString()).get();
+          if (!snapshot.empty) {
+            snapshot.forEach(doc => {
+              findBotOwner.email = doc.data()?.email || '';
+              findBotOwner.name = doc.data()?.name || '';
+              findBotOwner.uid = doc.data()?.uid || '';
+            });
+          } 
           await adminDb.collection('3commas_logs').add({
             requestBody: JSON.stringify(body),
             createdAt: new Date(),
             response: x,
             autotradePostBody: x?.sendBodyTo3Commas || null,
             webhookId: addWebhookResult?.id || '',
-            trading_plan_id : body?.trading_plan_id,
-            pair : body?.pair || '',
-            timeframe : body?.timeframe || '',
+            trading_plan_id: body?.trading_plan_id,
+            pair: body?.pair || '',
+            timeframe: body?.timeframe || '',
             timestamp: body?.timestamp || '',
-            bot_id :x?.value?.sendBodyTo3Commas?.bot_id,
-            type: 'autotrade'
+            bot_id: x?.value?.sendBodyTo3Commas?.bot_id,
+            type: 'autotrade',
+            ...findBotOwner
           });
         })
       );
