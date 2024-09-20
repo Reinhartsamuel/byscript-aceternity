@@ -4,7 +4,7 @@ import { handleLoginGoogle } from '@/app/services/login';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import LoginEmailComponent from './LoginEmailComponent';
-import TurnstileWidget from '@/app/components/TurnstileWidget';
+// import TurnstileWidget from '@/app/components/TurnstileWidget';
 
 const page = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const page = () => {
 
   return (
     <>
-      <div className='block flex-row bg-gray-800'>
+      {/* <div className='block flex-row bg-gray-800'>
         <div
           className='cf-turnstile'
           data-sitekey='yourSitekey'
@@ -21,7 +21,7 @@ const page = () => {
       </div>
       <div className='flex h-screen w-full justify-center items-center bg-gray-800'>
         <TurnstileWidget />
-      </div>
+      </div> */}
       <div id='login-screen' className='h-screen w-full'>
         <div className='h-full hidden md:flex flex-col items-center justify-between py-10 w-[50%] bg-[#18181B] bg-slate-900'>
           <p></p>
