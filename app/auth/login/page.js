@@ -12,12 +12,16 @@ const page = () => {
 
   return (
     <>
-      <div
-        className='cf-turnstile'
-        data-sitekey='yourSitekey'
-        data-callback='javascriptCallback'
-      ></div>
-      <TurnstileWidget />
+      <div className='block flex-row bg-gray-800'>
+        <div
+          className='cf-turnstile'
+          data-sitekey='yourSitekey'
+          data-callback='javascriptCallback'
+        ></div>
+      </div>
+      <div className='flex h-screen w-full justify-center items-center bg-gray-800'>
+        <TurnstileWidget />
+      </div>
       <div id='login-screen' className='h-screen w-full'>
         <div className='h-full hidden md:flex flex-col items-center justify-between py-10 w-[50%] bg-[#18181B] bg-slate-900'>
           <p></p>
