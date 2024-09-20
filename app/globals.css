@@ -26,9 +26,9 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-#login-screen {
+/* #login-screen {
   display:none;
-}
+} */
 
 @layer utilities {
   .text-balance {

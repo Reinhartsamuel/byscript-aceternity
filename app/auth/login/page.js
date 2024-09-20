@@ -22,7 +22,7 @@ const page = () => {
       <div className='flex h-screen w-full justify-center items-center bg-gray-800'>
         <TurnstileWidget />
       </div> */}
-      <div id='login-screen' className='h-screen w-full'>
+      <div id='login-screen' className='flex h-screen w-full'>
         <div className='h-full md:flex flex-col items-center justify-between py-10 w-[50%] bg-[#18181B] bg-slate-900'>
           <p></p>
           <img
