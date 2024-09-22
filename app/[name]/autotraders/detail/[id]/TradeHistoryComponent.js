@@ -10,34 +10,36 @@ import {
   limit,
   where,
 } from 'firebase/firestore';
-import { db } from '@/app/config/firebase';
+import { authFirebase, db } from '@/app/config/firebase';
 import Spinner from '@/app/components/ui/Spinner';
 import PairImageComponent from '@/app/components/ui/PairImageComponent';
 import PropTypes from 'prop-types';
 
 const TradeHistoryComponent = (props) => {
-  const { collectionName = '3commas_logs', bot_id } = props;
+  const { collectionName = '3commas_logs', } = props;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   // const trading_plan_id = (props.trading_plan_pair || [])[0]
   //   ?.split('_')
   //   ?.shift();
-  const pair = (props.trading_plan_pair || [])[0]
-    ?.split('_')
-    ?.slice(1)
-    ?.join('_');
+  // const pair = (props.trading_plan_pair || [])[0]
+  //   ?.split('_')
+  //   ?.slice(1)
+  //   ?.join('_');
 
   useEffect(() => {
-    if (pair !== undefined) {
+    let unsubscribe = () => {};
+    if (authFirebase.currentUser?.email) {
+      console.count(authFirebase.currentUser?.email)
       setLoading(true);
-      let unsubscribe;
       const q = query(
         collection(db, collectionName),
         orderBy('createdAt', 'desc'),
-        where('bot_id', '==', bot_id),
+        where('email', '==', authFirebase.currentUser?.email),
+        // where('bot_id', '==', bot_id),
         // where('trading_plan_id', '==', trading_plan_id),
-        where('pair', '==', pair),
+        // where('pair', '==', pair),
         limit(10)
       );
 
@@ -52,16 +54,14 @@ const TradeHistoryComponent = (props) => {
           setLoading(false);
         },
         (error) => {
-          console.log(error.message, '::::error onsnapshot');
           setErrorMsg(error.message);
           setLoading(false);
         }
       );
-      return () => unsubscribe();
-    } else {
-      // console.log('salah koding');
     }
-  }, [pair]);
+
+    return () => unsubscribe();
+  }, [authFirebase?.currentUser?.email]);
 
   if (loading)
     return (
@@ -74,11 +74,10 @@ const TradeHistoryComponent = (props) => {
   return (
     <>
       <div className='mt-10 overflow-x-auto shadow-md sm:rounded-lg'>
-      <div className='flex items-center gap-4'>
+        <div className='flex items-center gap-4'>
           <h2 className='text-xl text-bold text-slate-200 font-bold'>
             Trade History
           </h2>
-        
         </div>
         <table className='w-full overflow-scroll text-xs text-left text-gray-500 dark:text-gray-400 mx-auto'>
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>

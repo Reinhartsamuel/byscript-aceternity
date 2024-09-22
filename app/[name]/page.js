@@ -75,6 +75,7 @@ const page = ({ params }) => {
             <TradeHistoryComponent
               bot_id={'15455557'}
               trading_plan_pair={['XMA_USDT_ETH']}
+              email={user?.email}
             />
           </div>
         </div>
