@@ -126,23 +126,6 @@ const ExchangesComponent = () => {
     }
   };
 
-  // const getData = async () => {
-  //   try {
-  // const conditions = [
-  //   { field: 'uid', operator: '==', value: authFirebase.currentUser?.uid },
-  // ];
-  //     const res = await getCollectionFirebase('exchanges', conditions);
-  //     const count = await countDocumentsFirebase('exchanges', conditions);
-  //     // setData({ count, exchanges: res });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
   const {
     data: exchange_accounts,
     loading,

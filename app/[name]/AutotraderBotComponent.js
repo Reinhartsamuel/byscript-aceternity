@@ -216,7 +216,7 @@ const AutotraderBotComponent = () => {
       ) : (
         <>
           <p className='text-[0.75rem] font-light text-slate-200 mb-4'>
-            {data?.count} akun autotrader
+            {counttt||0} akun autotrader
           </p>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
             {data?.map((x, i) => (
