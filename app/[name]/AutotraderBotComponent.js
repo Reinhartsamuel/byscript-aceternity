@@ -286,11 +286,11 @@ const AutotraderBotComponent = () => {
                 </div>
               </div>
             ))}
-            {data?.length !== counttt && (
+            {/* {data?.length !== counttt && (
               <div className='w-full h-full grid place-items-center'>
                 <button>lihat semua</button>
               </div>
-            )}
+            )} */}
           </div>
         </>
       )}

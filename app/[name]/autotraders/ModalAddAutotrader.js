@@ -1,6 +1,6 @@
 'use client';
 import Modal from '@/app/components/ui/Modal';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useExchangeStore } from '@/app/store/exchangesStore';
 import { authFirebase } from '@/app/config/firebase';
@@ -8,7 +8,16 @@ import Spinner from '@/app/components/ui/Spinner';
 import { cn } from '@/lib/util';
 import { useAutotraderStore } from '@/app/store/autotraderStore';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import { addDocumentFirebase } from '@/app/utils/firebaseApi';
+import {
+  addDocumentFirebase,
+  getCollectionFirebase,
+} from '@/app/utils/firebaseApi';
+import PairImageComponent from '@/app/components/ui/PairImageComponent';
+
+const tradingPlans = [
+  { name: 'XMA', id: 'XMA' },
+  // { name: 'TESTING2', id: 'TESTING2' },
+];
 
 export default function ModalAddAutotrader({ addModal, setAddModal }) {
   const { exchanges_accounts } = useExchangeStore();
@@ -34,11 +43,20 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
         icon: 'warning',
         text: 'Please fill in trade amount!',
       });
+      if (data?.trading_plan_pair?.length === 0) return Swal.fire({
+        icon: 'warning',
+        text: 'Please select trading plan and asset pair!',
+      });
 
     try {
       setLoading(true);
       await addDocumentFirebase('dca_bots', data, 'byScript');
-      getAutotraders();
+      getAutotraders(data?.email);
+      Swal.fire({
+        icon:'success',
+        text:'Autotrader requested. We will inform you when autotrader is ACTIVE'
+      })
+      setAddModal(false);
     } catch (error) {
       Swal.fire({ icon: 'error', text: error.message });
     } finally {
@@ -123,6 +141,7 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
             />
           </div>
         </div>
+        <TradingPlanSelectComponent data={data} setData={setData} />
       </div>
       <div className='flex flex-wrap gap-1 justify-end items-center p-4 md:p-5 border-t border-gray-200 dark:border-gray-600'>
         <button
@@ -141,9 +160,127 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
   );
 }
 
+function TradingPlanSelectComponent({ data, setData }) {
+  const [selectedTradingPlan, setSelectedTradingPlan] = useState(null);
+  const [availPairs, setAvailPairs] = useState([]);
+  const [selectedPairs, setSelectedPairs] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const handleSelectTP = (checked, value) => {
+    setSelectedTradingPlan(checked ? JSON.parse(value) : null);
+  };
+
+  const handleSelectPair = (checked, value) => {
+    if (checked) {
+      setSelectedPairs([...selectedPairs, JSON.parse(value)]);
+      const tpp = [...data.trading_plan_pair];
+      tpp.push(selectedTradingPlan?.name + '_' + JSON.parse(value)?.pair);
+      console.log(tpp, 'tpp');
+      setData({ ...data, trading_plan_pair: tpp });
+    } else {
+      setSelectedPairs(
+        selectedPairs.filter((pair) => pair.id !== JSON.parse(value).id)
+      );
+      const tppToDelete =
+        selectedTradingPlan?.name + '_' + JSON.parse(value)?.pair;
+      const tpp = data.trading_plan_pair?.filter((x) => x !== tppToDelete);
+      setData({ ...data, trading_plan_pair: tpp });
+    }
+  };
+
+  useEffect(() => {
+    async function getPairs() {
+      if (!selectedTradingPlan?.id) return;
+      try {
+        // console.log('getting pairs available for', selectedTradingPlan?.id);
+        setLoading(true);
+        const res = await getCollectionFirebase('trading_plan_pair', [
+          {
+            field: 'trading_plan_id',
+            operator: '==',
+            value: selectedTradingPlan?.id,
+          },
+        ]);
+        setAvailPairs(res);
+      } catch (error) {
+        setErrorMsg(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getPairs();
+    return () => {
+      setErrorMsg('');
+    };
+  }, [selectedTradingPlan]);
+  return (
+    <div className='flex gap-2'>
+      <div className='block'>
+        <p>Trading Plan:</p>
+        <div className='grid grid-cols-2'>
+          {tradingPlans.map((plan, i) => (
+            <div
+              key={i}
+              className='flex flex-col justify-between gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-700 max-h-[5rem]'
+            >
+              <div className='flex gap-1'>
+                <input
+                  value={JSON.stringify(plan)}
+                  type={'checkbox'}
+                  onClick={(e) =>
+                    handleSelectTP(e.target.checked, e.target.value)
+                  }
+                />
+                <p className='text-lg font-bold'>{plan?.name}</p>
+              </div>
+              <p className='text-xs font-thin'>See backtest</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className='block'>
+        <p>Pair:</p>
+        <div className='flex flex-wrap'>
+          {loading ? (
+            <Spinner />
+          ) : availPairs?.length > 0 ? (
+            availPairs?.map((pair, i) => (
+              <div
+                key={i}
+                className='flex flex-col justify-between gap-2 max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-700'
+              >
+                <div className='flex gap-1 items-center'>
+                  <input
+                    type={'checkbox'}
+                    onChange={(e) =>
+                      handleSelectPair(e.target.checked, e.target.value)
+                    }
+                    value={JSON.stringify(pair)}
+                  />
+                  <p className='text-lg font-bold'>{pair?.pair}</p>
+                  <PairImageComponent pair={pair?.pair} />
+                </div>
+                <p className='text-xs font-thin'>Trading plan: XMA</p>
+              </div>
+            ))
+          ) : (
+            <p className='text-xs text-gray-200 italic'>No pair available</p>
+          )}
+        </div>
+        {errorMsg && <p className='text-red-500 text-sm italic'>{errorMsg}</p>}
+      </div>
+    </div>
+  );
+}
+
 ModalAddAutotrader.propTypes = {
   addModal: PropTypes.bool,
   setAddModal: PropTypes.bool,
   loading: PropTypes.bool,
   setLoading: PropTypes.bool,
+};
+
+TradingPlanSelectComponent.propTypes = {
+  data: PropTypes.object,
+  setData: PropTypes.any,
 };
