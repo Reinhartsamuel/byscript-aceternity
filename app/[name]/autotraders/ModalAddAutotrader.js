@@ -13,6 +13,7 @@ import {
   getCollectionFirebase,
 } from '@/app/utils/firebaseApi';
 import PairImageComponent from '@/app/components/ui/PairImageComponent';
+import notifRequestAutotrader from '@/app/services/notifRequestAutotrader';
 
 const tradingPlans = [
   { name: 'XMA', id: 'XMA' },
@@ -50,8 +51,9 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
 
     try {
       setLoading(true);
-      await addDocumentFirebase('dca_bots', data, 'byScript');
+      const docId = await addDocumentFirebase('dca_bots', data, 'byScript');
       getAutotraders(data?.email);
+      if (docId) notifRequestAutotrader(docId);
       Swal.fire({
         icon:'success',
         text:'Autotrader requested. We will inform you when autotrader is ACTIVE'

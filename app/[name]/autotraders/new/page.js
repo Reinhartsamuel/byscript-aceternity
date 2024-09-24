@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
-const page = ({ params }) => {
+const page = () => {
   const router = useRouter();
   const tradeAmount = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -82,8 +82,6 @@ const page = ({ params }) => {
         showCancelButton: false,
         confirmButtonText: "Kembali",
         reverseButtons: false
-      }).then((result) => {
-        router.push(`/${params.name}`)
       })
       // router.back();
     } catch (error) {
@@ -107,7 +105,7 @@ const page = ({ params }) => {
           <form>
             <input
               type='text'
-              class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
               placeholder='100 USD'
               required
               onChange={(e) => {
@@ -118,8 +116,6 @@ const page = ({ params }) => {
               color='purple'
               onClick={handleAdd}
               disabled={loading}
-              isProcessing={loading}
-              processingLabel='Submitting...'
               className='mt-2 w-full'
             >
               Save
