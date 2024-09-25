@@ -140,6 +140,9 @@ export async function POST(request) {
               findBotOwner.email = doc.data()?.email || '';
               findBotOwner.name = doc.data()?.name || '';
               findBotOwner.uid = doc.data()?.uid || '';
+              findBotOwner.exchange_name = doc.data()?.exchange_name || '';
+              findBotOwner.exchange_thumbnail = doc.data()?.exchange_thumbnail || '';
+              findBotOwner.autotraderCreatedAt = doc.data()?.createdAt || '';
             });
           } 
           await adminDb.collection('3commas_logs').add({
