@@ -10,125 +10,18 @@ import useFetchData from '../hooks/QueryHook';
 import useCountDocuments from '../hooks/CountHook';
 import { exchanges } from '../dummy';
 import Modal from '../components/ui/Modal';
+import PropTypes from 'prop-types';
 
 const ExchangesComponent = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+
   // const [loading, setLoading] = useState(false);
   // const [exchanges, setExchanges] = useState([]);
   // const [data, setData] = useState({ exchanges: [{}], count: 0 });
-  const name =
-    authFirebase.currentUser?.displayName ||
-    authFirebase.currentUser?.email?.split('@')[0];
-
-  const handleSubmit = async () => {
-    const inTimeWindow =
-      moment(selectedDate).format('HH') >= '11' &&
-      moment(selectedDate).format('HH') <= '17' &&
-      moment(selectedDate).format('mm') <= '59';
-    if (!inTimeWindow)
-      return Swal.fire({
-        icon: 'error',
-        text: 'Silakan pilih waktu Senin-Jumat pukul 11.00 - 17.00',
-      });
-    try {
-      // setLoading(true);
-      // console.log(selectedDate);
-      const postData = {
-        summary: `Onboarding 1 on 1 ${name} bersama byScript`,
-        location: 'Online',
-        description: 'Connect Exchange',
-        start: {
-          dateTime: moment(selectedDate)
-            // .utcOffset(7 * 60)
-            .format('YYYY-MM-DDTHH:mm:ss'),
-          timeZone: 'Asia/Jakarta',
-        },
-        end: {
-          dateTime: moment(selectedDate)
-            .utcOffset(7 * 60)
-            .add(1, 'hours')
-            .format(),
-          timeZone: 'Asia/Jakarta',
-        },
-        attendees: [
-          // { email: 'edwinfardyanto@gmail.com' },
-          { email: authFirebase.currentUser?.email },
-        ],
-      };
-      const res = await fetch('/api/calendar/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      });
-      const result = await res.json();
-      if (result?.exchange_accounts?.htmlLink) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Onboarding Dijadwalkan',
-          text: `Harap cek email ${
-            authFirebase.currentUser?.email
-          } dan hadir pada online meeting pada ${moment(
-            result?.data?.start?.dateTime
-          ).format('dddd, DD MMMM YYYY, HH:mm')}`,
-        });
-      } else {
-        throw new Error('Error while creating event');
-      }
-      // console.log(result, 'result');
-      await fetch('/api/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          sender: {
-            email: 'byscript@gmail.com',
-            name: 'byScript',
-          },
-          cc: [
-            {
-              name: 'Reinhart',
-              email: 'reinhartsams@gmail.com',
-            },
-          ],
-          to: [
-            {
-              name: 'Edwin Ardyanto',
-              email: 'edwinfardyanto@gmail.com',
-            },
-          ],
-          subject: `Request Add Exchange : ${name}`,
-          htmlContent: `
-              <div>
-                <p>Request Add Exchange : ${name}, 
-                onboarding: ${moment(selectedDate).format(
-                  'dddd, DD MMMM YYYY, HH:mm'
-                )}</p>
-                <a target="_blank" noopener noreferrer href="${
-                  result?.data?.htmlLink
-                }">${result?.data?.htmlLink}</a>
-                Sent automatically from byscript backend
-              </div>`,
-        }),
-      });
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: error.message,
-      });
-      console.log(error.message, 'error');
-    } finally {
-      setOpenModal(false);
-    }
-  };
 
   const {
     data: exchange_accounts,
-    loading,
+    // loading,
     error,
   } = useFetchData({
     collectionName: 'exchange_accounts',
@@ -227,6 +120,8 @@ const ExchangesComponent = () => {
         {error && <p>{error.message}</p>}
       </div>
 
+      <ModalAddExchange openModal={openModal} setOpenModal={setOpenModal} />
+
       {/* MODAL */}
       {/* {openModal && (
         <div className='overflow-y-auto overflow-x-hidden  left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full'>
@@ -301,53 +196,175 @@ const ExchangesComponent = () => {
           </div>
         </div>
       )} */}
-
-      <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <div className='flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600'>
-          <div className='flex flex-col gap-2'>
-            <h3 className='text-xl font-semibold text-gray-900 dark:text-white'>
-              Connect Exchange
-            </h3>
-            <p className='font-extralight text-sm text-slate-400'>
-              Silakan jadwalkan onboarding untuk connect exhcange, wajib memilih
-              jadwal pukul 11.00 - 17.00 Senin - Jumat
-            </p>
-          </div>
-        </div>
-        {/* <!-- Modal body --> */}
-        <div className='p-4 md:p-5 space-y-4'>
-          <p>Pilih Tanggal dan Waktu:{moment().format('YYYY-MM-DDTHH:mm')}</p>
-          <input
-            type={'datetime-local'}
-            className='bg-gray-500 rounded text-white px-5 py-2'
-            min={moment().format('YYYY-MM-DDTHH:mm')}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
-        </div>
-        {/* <!-- Modal footer --> */}
-        <div className='flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600'>
-          <button
-            onClick={handleSubmit}
-            data-modal-hide='default-modal'
-            type='button'
-            className={cn(
-              'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
-              loading && 'cursor-not-allowed opacity-50'
-            )}
-          >
-            {loading ? <Spinner /> : 'Request Onboarding'}
-          </button>
-          <button
-            onClick={() => setOpenModal(false)}
-            type='button'
-            className='py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
-          >
-            Cancel
-          </button>
-        </div>
-      </Modal>
     </>
   );
 };
 
 export default ExchangesComponent;
+
+function ModalAddExchange({ openModal, setOpenModal }) {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const name =
+    authFirebase.currentUser?.displayName ||
+    authFirebase.currentUser?.email?.split('@')[0];
+  const handleSubmit = async () => {
+    setLoading(true);
+    const inTimeWindow =
+      moment(selectedDate).format('HH') >= '11' &&
+      moment(selectedDate).format('HH') <= '17' &&
+      moment(selectedDate).format('mm') <= '59';
+    if (!inTimeWindow)
+      return Swal.fire({
+        icon: 'error',
+        text: 'Silakan pilih waktu Senin-Jumat pukul 11.00 - 17.00',
+      });
+    try {
+      // setLoading(true);
+      // console.log(selectedDate);
+      const postData = {
+        summary: `Onboarding 1 on 1 ${name} bersama byScript`,
+        location: 'Online',
+        description: 'Connect Exchange',
+        start: {
+          dateTime: moment(selectedDate)
+            // .utcOffset(7 * 60)
+            .format('YYYY-MM-DDTHH:mm:ss'),
+          timeZone: 'Asia/Jakarta',
+        },
+        end: {
+          dateTime: moment(selectedDate)
+            .utcOffset(7 * 60)
+            .add(1, 'hours')
+            .format(),
+          timeZone: 'Asia/Jakarta',
+        },
+        attendees: [
+          // { email: 'edwinfardyanto@gmail.com' },
+          { email: authFirebase.currentUser?.email },
+        ],
+      };
+      const res = await fetch('/api/calendar/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+      const result = await res.json();
+      // console.log(result, 'result create calendar');
+      if (result?.data?.htmlLink) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Onboarding Dijadwalkan',
+          text: `Harap cek email ${
+            authFirebase.currentUser?.email
+          } dan hadir pada online meeting pada ${moment(
+            result?.data?.start?.dateTime
+          ).format('dddd, DD MMMM YYYY, HH:mm')}`,
+        });
+      } else {
+        throw new Error('Error while creating event');
+      }
+      // console.log(result, 'result');
+      await fetch('/api/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: {
+            email: 'byscript@gmail.com',
+            name: 'byScript',
+          },
+          cc: [
+            {
+              name: 'Reinhart',
+              email: 'reinhartsams@gmail.com',
+            },
+          ],
+          to: [
+            {
+              name: 'Edwin Ardyanto',
+              email: 'edwinfardyanto@gmail.com',
+            },
+          ],
+          subject: `Request Add Exchange : ${name}`,
+          htmlContent: `
+              <div>
+                <p>Request Add Exchange : ${name}, 
+                onboarding: ${moment(selectedDate).format(
+                  'dddd, DD MMMM YYYY, HH:mm'
+                )}</p>
+                <a target="_blank" noopener noreferrer href="${
+                  result?.data?.htmlLink
+                }">${result?.data?.htmlLink}</a>
+                Sent automatically from byscript backend
+              </div>`,
+        }),
+      });
+    } catch (error) {
+      // console.error(error.message, ':::handleSubmit ExhcnagesComponent');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.message,
+      });
+      console.log(error.message, 'error');
+    } finally {
+      setOpenModal(false);
+      setLoading(false);
+    }
+  };
+  return (
+    <Modal open={openModal} onClose={() => setOpenModal(false)}>
+      <div className='flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600'>
+        <div className='flex flex-col gap-2'>
+          <h3 className='text-xl font-semibold text-gray-900 dark:text-white'>
+            Connect Exchange
+          </h3>
+          <p className='font-extralight text-sm text-slate-400'>
+            Silakan jadwalkan onboarding untuk connect exhcange, wajib memilih
+            jadwal pukul 11.00 - 17.00 Senin - Jumat
+          </p>
+        </div>
+      </div>
+      {/* <!-- Modal body --> */}
+      <div className='p-4 md:p-5 space-y-4'>
+        <p>Pilih Tanggal dan Waktu:{moment().format('YYYY-MM-DDTHH:mm')}</p>
+        <input
+          type={'datetime-local'}
+          className='bg-gray-500 rounded text-white px-5 py-2'
+          min={moment().format('YYYY-MM-DDTHH:mm')}
+          onChange={(e) => setSelectedDate(e.target.value)}
+        />
+      </div>
+      {/* <!-- Modal footer --> */}
+      <div className='flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600'>
+        <button
+          onClick={handleSubmit}
+          data-modal-hide='default-modal'
+          disabled={loading}
+          type='button'
+          className={cn(
+            'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800',
+            loading && 'cursor-not-allowed opacity-50'
+          )}
+        >
+          {loading ? <Spinner /> : 'Request Onboarding'}
+        </button>
+        <button
+          onClick={() => setOpenModal(false)}
+          type='button'
+          className='py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
+        >
+          Cancel
+        </button>
+      </div>
+    </Modal>
+  );
+}
+ModalAddExchange.propTypes = {
+  openModal: PropTypes.bool,
+  setOpenModal: PropTypes.func,
+};

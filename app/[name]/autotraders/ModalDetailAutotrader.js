@@ -118,7 +118,7 @@ export default function ModalDetailAutotrader({
                 <div className='flex gap-2 '>
                   <button
                     onClick={() => handleStartStop('start')}
-                    disabled={detail?.status === 'ACTIVE'}
+                    disabled={detail?.status === 'STOPPED' ? true : false}
                     className={cn(
                       'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white ',
                       detail?.status === 'STOPPED'
@@ -131,7 +131,7 @@ export default function ModalDetailAutotrader({
                   </button>
                   <button
                     onClick={() => handleStartStop('stop')}
-                    disabled={detail?.status === 'STOPPED'}
+                    disabled={detail?.status === 'ACTIVE' ? true : false}
                     className={cn(
                       'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white',
                       detail?.status === 'ACTIVE'
@@ -150,9 +150,12 @@ export default function ModalDetailAutotrader({
               <div className='flex flex-col lg:flex-row gap-2'>
                 <button
                   onClick={() => handleForce('entry')}
-                  disabled={false}
+                  disabled={detail?.status !== 'ACTIVE'}
                   className={cn(
-                    'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white cursor-pointer bg-green-600 hover:bg-green-700 active:bg-green-500 transition duration-200'
+                    'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
+                    detail?.status === 'ACTIVE'
+                        ? 'cursor-pointer bg-green-600 hover:bg-green-700 active:bg-green-500'
+                        : 'cursor-not-allowed bg-gray-600'
                   )}
                 >
                   {loading ? (
@@ -166,9 +169,12 @@ export default function ModalDetailAutotrader({
                 </button>
                 <button
                   onClick={() => handleForce('exit')}
-                  disabled={false}
+                  disabled={detail?.status !== 'ACTIVE'}
                   className={cn(
-                    'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-500 transition duration-200'
+                    'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
+                    detail?.status === 'ACTIVE'
+                        ? 'cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-500'
+                        : 'cursor-not-allowed bg-gray-600'
                   )}
                 >
                   {loading ? (
