@@ -103,14 +103,21 @@ const TradeHistoryComponent = (props) => {
                     Trading Plan
                   </th>
                   <th scope='col' className='px-2 py-1 text-xs'>
+                    Action
+                  </th>
+                  <th scope='col' className='px-2 py-1 text-xs'>
                     Price
                   </th>
                   <th scope='col' className='px-2 py-1 text-xs'>
                     Timestamp
                   </th>
                   <th scope='col' className='px-2 py-1 text-xs'>
-                    Action
+                    Autotrader
                   </th>
+                  <th scope='col' className='px-2 py-1 text-xs'>
+                    Exchange
+                  </th>
+            
                   {/* <th scope='col' className='px-2 py-1 text-xs'>
                     id
                   </th> */}
@@ -161,6 +168,13 @@ const TradeHistoryComponent = (props) => {
                       <td className='px-2 py-1 text-xs'>
                         {x?.trading_plan_id?.split('_')[0]}
                       </td>
+                      <td className='px-2 py-1 text-xs whitespace-nowrap'>
+                        <p
+                          className={`text-center text-md font-bold ${actionColor()}`}
+                        >
+                          {action()}
+                        </p>
+                      </td>
                       <td className='px-2 py-1 text-xs'>
                         ${x?.requestBody ? JSON.parse(x?.requestBody)?.price : '-'}
                       </td>
@@ -174,13 +188,19 @@ const TradeHistoryComponent = (props) => {
                           <p>{moment.unix(x?.createdAt?.seconds).fromNow()}</p>
                         </div>
                       </td>
-                      <td className='px-2 py-1 text-xs whitespace-nowrap'>
-                        <p
-                          className={`text-center text-md font-bold ${actionColor()}`}
-                        >
-                          {action()}
-                        </p>
-                      </td>
+                      <td> {moment.unix(x?.createdAt?.seconds).format('YYYY-MM-DD') +
+                        '-' +
+                        x?.createdAt?.seconds}</td>
+                      <td> <img
+                    alt={'exchange'}
+                    src={
+                      x?.exchange_name === 'GATE'
+                        ? 'https://static.airpackapp.com/fe-next/homepage/prod/_next/static/media/open_sesame_night.47e06968.png?w=750&q=75'
+                        : x?.exchange_thumbnail
+                    }
+                    className='w-[5rem] object-contain'
+                  /></td>
+                      
                       {/* <td className='px-2 py-1 text-xs'>
                         <p className='text-xs'>{x?.id}</p>
                       </td> */}
