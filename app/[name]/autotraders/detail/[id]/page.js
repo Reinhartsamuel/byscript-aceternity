@@ -15,7 +15,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { IoEnter, IoExit } from 'react-icons/io5';
 import Spinner from '@/app/components/ui/Spinner';
 
-const threeCommasUrl = 'https://app.3commas.io/trade_signal/trading_view';
+// const threeCommasUrl = 'https://app.3commas.io/trade_signal/trading_view';
 
 const page = ({ params }) => {
   const [detail, setDetail] = useState(null);
@@ -226,7 +226,7 @@ const page = ({ params }) => {
 
 export default page;
 
-function useStartStopAction({ loading, setLoading, detail, setDetail }) {
+function useStartStopAction({ setLoading, detail, setDetail }) {
   async function handleStartStop(action) {
     // return console.log(detail);
     setLoading(true);

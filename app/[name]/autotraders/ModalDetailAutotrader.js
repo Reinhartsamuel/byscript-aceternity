@@ -9,7 +9,7 @@ import { FaBoltLightning } from 'react-icons/fa6';
 import { IoEnter, IoExit } from 'react-icons/io5';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { IoMdClose } from 'react-icons/io';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'; // ES6
 import { updateDocumentFirebase } from '@/app/utils/firebaseApi';
 
@@ -339,18 +339,18 @@ function useForceAction({ detail, setLoading, pair }) {
       if (action === 'exit') {
         sendBodyTo3Commas.action = 'close_at_market_price';
       }
-      console.log(sendBodyTo3Commas, 'body to 3commas');
-      // const res = await fetch('/api/signal/force-entry', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(sendBodyTo3Commas),
-      // });
+      // console.log(sendBodyTo3Commas, 'body to 3commas');
+      const res = await fetch('/api/signal/force-entry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sendBodyTo3Commas),
+      });
 
-      // const result = await res.json();
-      // if (!res.status == 200 && !result.status == 200)
-      //   throw new Error('action not successful!');
+      const result = await res.json();
+      if (!res.status == 200 && !result.status == 200)
+        throw new Error('action not successful!');
       // console.log(result, 'result');
       Swal.fire({
         title: 'Success',
