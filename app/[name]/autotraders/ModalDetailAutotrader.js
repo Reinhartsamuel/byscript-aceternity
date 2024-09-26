@@ -9,7 +9,7 @@ import { FaBoltLightning } from 'react-icons/fa6';
 import { IoEnter, IoExit } from 'react-icons/io5';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { IoMdClose } from 'react-icons/io';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'; // ES6
 import { updateDocumentFirebase } from '@/app/utils/firebaseApi';
 
@@ -26,8 +26,6 @@ export default function ModalDetailAutotrader({
     detail,
     setDetail,
   });
-
-  const { handleForce } = useForceAction({ detail, setLoading });
 
   return (
     <>
@@ -118,7 +116,7 @@ export default function ModalDetailAutotrader({
                 <div className='flex gap-2 '>
                   <button
                     onClick={() => handleStartStop('start')}
-                    disabled={detail?.status === 'STOPPED' ? true : false}
+                    disabled={detail?.status === 'STOPPED' ? true : loading}
                     className={cn(
                       'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white ',
                       detail?.status === 'STOPPED'
@@ -126,12 +124,18 @@ export default function ModalDetailAutotrader({
                         : 'cursor-not-allowed bg-gray-600'
                     )}
                   >
-                    <FaBoltLightning />
-                    <p className='whitespace-nowrap'>Start autotrader</p>
+                    {loading ? (
+                      <Spinner />
+                    ) : (
+                      <>
+                        <FaBoltLightning />
+                        <p className='whitespace-nowrap'>Start autotrader</p>
+                      </>
+                    )}
                   </button>
                   <button
                     onClick={() => handleStartStop('stop')}
-                    disabled={detail?.status === 'ACTIVE' ? true : false}
+                    disabled={detail?.status === 'ACTIVE' ? true : loading}
                     className={cn(
                       'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white',
                       detail?.status === 'ACTIVE'
@@ -139,56 +143,20 @@ export default function ModalDetailAutotrader({
                         : 'cursor-not-allowed  bg-gray-600'
                     )}
                   >
-                    <IoMdClose />
-                    <p className='whitespace-nowrap'>Stop autotrader</p>
+                    {loading ? (
+                      <Spinner />
+                    ) : (
+                      <>
+                        <IoMdClose />
+                        <p className='whitespace-nowrap'>Stop autotrader</p>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
             </div>
-            <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1 flex-wrap'>
-              <h1>Force Entry / Exit</h1>
-              <div className='flex flex-col lg:flex-row gap-2'>
-                <button
-                  onClick={() => handleForce('entry')}
-                  disabled={detail?.status !== 'ACTIVE'}
-                  className={cn(
-                    'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
-                    detail?.status === 'ACTIVE'
-                        ? 'cursor-pointer bg-green-600 hover:bg-green-700 active:bg-green-500'
-                        : 'cursor-not-allowed bg-gray-600'
-                  )}
-                >
-                  {loading ? (
-                    <Spinner />
-                  ) : (
-                    <>
-                      <IoEnter />
-                      <p className='whitespace-nowrap'>Force Entry</p>
-                    </>
-                  )}
-                </button>
-                <button
-                  onClick={() => handleForce('exit')}
-                  disabled={detail?.status !== 'ACTIVE'}
-                  className={cn(
-                    'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
-                    detail?.status === 'ACTIVE'
-                        ? 'cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-500'
-                        : 'cursor-not-allowed bg-gray-600'
-                  )}
-                >
-                  {loading ? (
-                    <Spinner />
-                  ) : (
-                    <>
-                      <IoExit />
-                      <p className='whitespace-nowrap'>Force Exit</p>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
           </div>
+          <ForceActionComponent detail={detail} />
 
           {/* <div className='flex flex-col gap-4 w-full overflow-scroll'>
             <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
@@ -203,6 +171,85 @@ export default function ModalDetailAutotrader({
         </div>
       </Modal>
     </>
+  );
+}
+
+
+function ForceActionComponent({ detail }) {
+  const [loading, setLoading] = useState(false);
+  const [selectedPair, setSelectedPair] = useState('');
+  const { handleForce } = useForceAction({ detail, setLoading, pair:selectedPair });
+
+  return (
+    <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1 flex-wrap'>
+      <h1>Force Entry / Exit</h1>
+      <div className='flex flex-col gap-0'>
+        {detail?.trading_plan_pair?.map((j, i) => (
+          <div className='flex items-center mb-4' key={i}>
+            <input
+              id='default-radio-1'
+              type='radio'
+              checked={selectedPair === j?.split('_')?.slice(1)?.join('_')}
+              value={j}
+              onChange={(e) => {
+                console.log(e.target.checked);
+                console.log(e.target.value?.split('_')?.slice(1)?.join('_'), 'test changee')
+                if (e.target.checked) return setSelectedPair(e.target.value?.split('_')?.slice(1)?.join('_'))
+                  setSelectedPair('')
+              }}
+              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+            />
+            <label
+              htmlFor=''
+              className='ms-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+            >
+              {j?.split('_')?.slice(1)?.join('_')}
+            </label>
+          </div>
+        ))}
+      </div>
+
+      <div className='flex flex-col lg:flex-row gap-2'>
+        <button
+          onClick={() => handleForce('entry')}
+          disabled={detail?.status !== 'ACTIVE'}
+          className={cn(
+            'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
+            detail?.status === 'ACTIVE'
+              ? 'cursor-pointer bg-green-600 hover:bg-green-700 active:bg-green-500'
+              : 'cursor-not-allowed bg-gray-600'
+          )}
+        >
+          {loading ? (
+            <Spinner />
+          ) : (
+            <>
+              <IoEnter />
+              <p className='whitespace-nowrap'>Force Entry</p>
+            </>
+          )}
+        </button>
+        <button
+          onClick={() => handleForce('exit')}
+          disabled={detail?.status !== 'ACTIVE'}
+          className={cn(
+            'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
+            detail?.status === 'ACTIVE'
+              ? 'cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-500'
+              : 'cursor-not-allowed bg-gray-600'
+          )}
+        >
+          {loading ? (
+            <Spinner />
+          ) : (
+            <>
+              <IoExit />
+              <p className='whitespace-nowrap'>Force Exit</p>
+            </>
+          )}
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -262,10 +309,16 @@ function useStartStopAction({ setLoading, detail, setDetail }) {
   return { handleStartStop };
 }
 
-function useForceAction({ detail, setLoading }) {
+function useForceAction({ detail, setLoading, pair }) {
   const handleForce = async (action) => {
+    console.log(pair);
+    if (!pair)
+      return Swal.fire({
+        icon: 'warning',
+        text: `Please select pair to force ${action} first!`,
+      });
     const { isConfirmed, isDenied } = await Swal.fire({
-      title: `Confirm force ${action}?`,
+      title: `Confirm force ${action} ${pair?.split('_')?.join(' ')}?`,
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: action,
@@ -275,31 +328,30 @@ function useForceAction({ detail, setLoading }) {
     if (isDenied || !isConfirmed) return;
     setLoading(true);
     try {
-      const resultPromise = await Promise.all(
-        detail?.trading_plan_pair?.map(async (x) => {
-          const sendBodyTo3Commas = {
-            message_type: 'bot',
-            bot_id: detail?.bot_id,
-            email_token: '52c6860e-5814-47ed-a5ae-663d78446439',
-            delay_seconds: 0,
-            pair: x?.split('_')?.slice(1)?.join('_'),
-          };
-          if (action === 'exit') {
-            sendBodyTo3Commas.action = 'close_at_market_price';
-          }
-          console.log(sendBodyTo3Commas, 'body to 3commas');
-          const res = await fetch('/api/signal/force-entry', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(sendBodyTo3Commas),
-          });
 
-          return await res.json();
-        })
-      );
-      console.log(resultPromise, 'resultPromise');
+      const sendBodyTo3Commas = {
+        message_type: 'bot',
+        bot_id: detail?.bot_id,
+        email_token: '52c6860e-5814-47ed-a5ae-663d78446439',
+        delay_seconds: 0,
+        pair: pair,
+      };
+      if (action === 'exit') {
+        sendBodyTo3Commas.action = 'close_at_market_price';
+      }
+      console.log(sendBodyTo3Commas, 'body to 3commas');
+      // const res = await fetch('/api/signal/force-entry', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(sendBodyTo3Commas),
+      // });
+
+      // const result = await res.json();
+      // if (!res.status == 200 && !result.status == 200)
+      //   throw new Error('action not successful!');
+      // console.log(result, 'result');
       Swal.fire({
         title: 'Success',
         text: `${action} autotrader success`,
@@ -317,6 +369,10 @@ function useForceAction({ detail, setLoading }) {
   };
   return { handleForce };
 }
+
+ForceActionComponent.propTypes = {
+  detail: PropTypes.any,
+};
 
 ModalDetailAutotrader.propTypes = {
   detail: PropTypes.object,
