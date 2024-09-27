@@ -341,17 +341,17 @@ function useForceAction({ detail, setLoading, pair }) {
         sendBodyTo3Commas.action = 'close_at_market_price';
       }
       console.log(sendBodyTo3Commas, 'body to 3commas');
-      // const res = await fetch('/api/signal/force-entry', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(sendBodyTo3Commas),
-      // });
+      const res = await fetch('/api/signal/force-entry', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(sendBodyTo3Commas),
+      });
 
-      // const result = await res.json();
-      // if (!res.status == 200 && !result.status == 200)
-      //   throw new Error('action not successful!');
+      const result = await res.json();
+      if (!res.status == 200 && !result.status == 200)
+        throw new Error('action not successful!');
       // console.log(result, 'result');
       Swal.fire({
         title: 'Success',
