@@ -29,7 +29,7 @@ export async function POST(request) {
       const resultFetch = await res.text();
       await adminDb.collection('3commas_logs').add({
         createdAt : new Date(),
-        type : body?.actions ? 'force_exit':'force_entry',
+        type : body?.action ? 'force_exit':'force_entry',
         bot_id : body?.bot_id || '',
         requestBody : JSON.stringify(body),
         pair : body?.pair,
