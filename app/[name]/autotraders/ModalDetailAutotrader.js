@@ -34,7 +34,7 @@ export default function ModalDetailAutotrader({
           <div className='flex flex-col gap-4 w-full'>
             <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1'>
               <div className='flex flex-col gap-2 divide-y divide-slate-700'>
-                <div className='flex w-full justify-between h-10 items-end'>
+                <div className='flex w-full justify-between min-h-10 items-end'>
                   <p className='text-gray-100 font-light text-sm'>Status</p>
                   <p
                     className={cn(
@@ -51,7 +51,7 @@ export default function ModalDetailAutotrader({
                     {detail?.status || '-'}
                   </p>
                 </div>
-                <div className='flex w-full justify-between h-10 items-end'>
+                <div className='flex w-full justify-between min-h-10 items-end'>
                   <p className='text-gray-100 font-light text-sm'>Created at</p>
                   <p className='text-gray-100 font-light text-sm'>
                     {moment
@@ -59,7 +59,7 @@ export default function ModalDetailAutotrader({
                       .format('HH:mm DD MMMM YYYY')}
                   </p>
                 </div>
-                <div className='flex w-full justify-between h-10 items-end'>
+                <div className='flex w-full justify-between min-h-10 items-end'>
                   <p className='text-gray-100 font-light text-sm'>
                     Last updated
                   </p>
@@ -69,7 +69,7 @@ export default function ModalDetailAutotrader({
                       .format('HH:mm DD MMMM YYYY')}
                   </p>
                 </div>
-                <div className='flex w-full justify-between h-10 items-end'>
+                <div className='flex w-full justify-between min-h-10 items-end'>
                   <p className='text-gray-100 font-light text-sm'>Exchange</p>
                   <img
                     alt={'exchange'}
@@ -81,7 +81,7 @@ export default function ModalDetailAutotrader({
                     className='w-[5rem] object-contain'
                   />
                 </div>
-                <div className='flex w-full justify-between h-10 items-end'>
+                <div className='flex w-full justify-between min-h-10 items-end'>
                   <p className='text-gray-100 font-light text-sm'>
                     Trade amount
                   </p>
@@ -90,12 +90,13 @@ export default function ModalDetailAutotrader({
                   </p>
                 </div>
 
-                <div className='flex w-full justify-between h-10 items-end'>
+                <div className='flex w-full justify-between min-h-10 items-end'>
                   <p className='text-gray-100 font-light text-sm'>
                     Pairs: {detail?.trading_plan_pair?.length}
                   </p>
                   <div className='flex flex-col justify-center'>
-                    {detail?.trading_plan_pair?.map((x, i) => (
+                    {/* {detail?.trading_plan_pair?.map((x, i) => ( */}
+                    {['XMA_USDT_ETH','XMA_USDT_ETH','XMA_USDT_ETH','XMA_USDT_ETH']?.map((x, i) => (
                       <div key={i} className='flex gap-2 items-center'>
                         <p className='text-gray-100 font-light text-sm'>
                           {x?.split('_')?.shift()}
