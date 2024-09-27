@@ -323,6 +323,12 @@ export const coins = [
     icon: 'https://s2.coinmarketcap.com/static/img/coins/128x128/825.png',
   },
   {
+    symbol: 'ICP',
+    name: 'Internet Cmputer',
+    id: 82225,
+    icon: 'https://s2.coinmarketcap.com/static/img/coins/64x64/8916.png',
+  },
+  {
     symbol: 'BNB',
     name: 'Binance Coin',
     id: 1839,
