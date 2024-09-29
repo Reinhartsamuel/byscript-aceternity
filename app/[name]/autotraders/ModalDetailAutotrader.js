@@ -4,14 +4,12 @@ import PairImageComponent from '@/app/components/ui/PairImageComponent';
 import Spinner from '@/app/components/ui/Spinner';
 import { cn } from '@/lib/util';
 import moment from 'moment';
-// import { useParams, useRouter } from 'next/navigation';
 import { FaBoltLightning } from 'react-icons/fa6';
-import { IoEnter, IoExit } from 'react-icons/io5';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { IoMdClose } from 'react-icons/io';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'; // ES6
-import { updateDocumentFirebase } from '@/app/utils/firebaseApi';
+import useStartStopAction from '@/app/hooks/startStopActionHook';
+import ForceActionComponent from '@/app/components/ForceActionComponent';
 
 export default function ModalDetailAutotrader({
   detail,
@@ -95,8 +93,7 @@ export default function ModalDetailAutotrader({
                     Pairs: {detail?.trading_plan_pair?.length}
                   </p>
                   <div className='flex flex-col justify-center'>
-                    {/* {detail?.trading_plan_pair?.map((x, i) => ( */}
-                    {['XMA_USDT_ETH','XMA_USDT_ETH','XMA_USDT_ETH','XMA_USDT_ETH']?.map((x, i) => (
+                    {detail?.trading_plan_pair?.map((x, i) => (
                       <div key={i} className='flex gap-2 items-center'>
                         <p className='text-gray-100 font-light text-sm'>
                           {x?.split('_')?.shift()}
@@ -135,7 +132,7 @@ export default function ModalDetailAutotrader({
                     )}
                   </button>
                   <button
-                  onClick={() => handleStartStop('stop')}
+                    onClick={() => handleStartStop('stop')}
                     disabled={detail?.status === 'STOPPED' ? true : loading}
                     className={cn(
                       'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white',
@@ -174,206 +171,6 @@ export default function ModalDetailAutotrader({
     </>
   );
 }
-
-
-function ForceActionComponent({ detail }) {
-  const [loading, setLoading] = useState(false);
-  const [selectedPair, setSelectedPair] = useState('');
-  const { handleForce } = useForceAction({ detail, setLoading, pair:selectedPair });
-
-  return (
-    <div className='rounded-lg bg-gray-800 p-4 shadow-md mx-2 font-sans flex flex-col gap-1 flex-wrap'>
-      <h1>Force Entry / Exit</h1>
-      <div className='flex flex-col gap-0'>
-        {detail?.trading_plan_pair?.map((j, i) => (
-          <div className='flex items-center mb-4' key={i}>
-            <input
-              id='default-radio-1'
-              type='radio'
-              checked={selectedPair === j?.split('_')?.slice(1)?.join('_')}
-              value={j}
-              onChange={(e) => {
-                console.log(e.target.checked);
-                console.log(e.target.value?.split('_')?.slice(1)?.join('_'), 'test changee')
-                if (e.target.checked) return setSelectedPair(e.target.value?.split('_')?.slice(1)?.join('_'))
-                  setSelectedPair('')
-              }}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
-            <label
-              htmlFor=''
-              className='ms-2 text-sm font-medium text-gray-900 dark:text-gray-300'
-            >
-              {j?.split('_')?.slice(1)?.join('_')}
-            </label>
-          </div>
-        ))}
-      </div>
-
-      <div className='flex flex-col lg:flex-row gap-2'>
-        <button
-          onClick={() => handleForce('entry')}
-          disabled={detail?.status !== 'ACTIVE'}
-          className={cn(
-            'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
-            detail?.status === 'ACTIVE'
-              ? 'cursor-pointer bg-green-600 hover:bg-green-700 active:bg-green-500'
-              : 'cursor-not-allowed bg-gray-600'
-          )}
-        >
-          {loading ? (
-            <Spinner />
-          ) : (
-            <>
-              <IoEnter />
-              <p className='whitespace-nowrap'>Force Entry</p>
-            </>
-          )}
-        </button>
-        <button
-          onClick={() => handleForce('exit')}
-          disabled={detail?.status !== 'ACTIVE'}
-          className={cn(
-            'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white transition duration-200',
-            detail?.status === 'ACTIVE'
-              ? 'cursor-pointer bg-red-600 hover:bg-red-700 active:bg-red-500'
-              : 'cursor-not-allowed bg-gray-600'
-          )}
-        >
-          {loading ? (
-            <Spinner />
-          ) : (
-            <>
-              <IoExit />
-              <p className='whitespace-nowrap'>Force Exit</p>
-            </>
-          )}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function useStartStopAction({ setLoading, detail, setDetail }) {
-  async function handleStartStop(action) {
-    // return console.log(detail, 'this is detail');
-    setLoading(true);
-    try {
-      const body = {
-        action,
-        bot_id: detail.bot_id,
-      };
-      const result = await fetch('/api/3commas/bot-activation', {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const res = await result.json();
-      if (result.status === 200 || res.status === 'success') {
-        console.log('id bot:::::::', detail?.id);
-        await updateDocumentFirebase('dca_bots', detail?.id, {
-          status:
-            action === 'start'
-              ? 'ACTIVE'
-              : action === 'stop'
-              ? 'STOPPED'
-              : 'invalid status',
-        });
-        Swal.fire({
-          icon: 'success',
-          title: `${action} bot success`,
-        });
-        setDetail({
-          ...detail,
-          status: action === 'start' ? 'ACTIVE' : 'STOPPED',
-        });
-      } else {
-        Swal.fire({
-          icon: 'warning',
-          title: 'update bot to 3commas seems failed',
-          text: `status code : ${res.status || 'unknown'}`,
-        });
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: `Error ${action} bot`,
-        text: error.message + '!',
-      });
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return { handleStartStop };
-}
-
-function useForceAction({ detail, setLoading, pair }) {
-  const handleForce = async (action) => {
-    console.log(pair);
-    if (!pair)
-      return Swal.fire({
-        icon: 'warning',
-        text: `Please select pair to force ${action} first!`,
-      });
-    const { isConfirmed, isDenied } = await Swal.fire({
-      title: `Confirm force ${action} ${pair?.split('_')?.join(' ')}?`,
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: action,
-      denyButtonText: 'cancel',
-    });
-
-    if (isDenied || !isConfirmed) return;
-    setLoading(true);
-    try {
-
-      const sendBodyTo3Commas = {
-        message_type: 'bot',
-        bot_id: detail?.bot_id,
-        email_token: '52c6860e-5814-47ed-a5ae-663d78446439',
-        delay_seconds: 0,
-        pair: pair,
-      };
-      if (action === 'exit') {
-        sendBodyTo3Commas.action = 'close_at_market_price';
-      }
-      console.log(sendBodyTo3Commas, 'body to 3commas');
-      const res = await fetch('/api/signal/force-entry', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(sendBodyTo3Commas),
-      });
-
-      const result = await res.json();
-      if (!res.status == 200 && !result.status == 200)
-        throw new Error('action not successful!');
-      // console.log(result, 'result');
-      Swal.fire({
-        title: 'Success',
-        text: `${action} autotrader success`,
-        icon: 'success',
-      });
-    } catch (error) {
-      Swal.fire({
-        title: 'Error',
-        text: error.message,
-        icon: 'error',
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-  return { handleForce };
-}
-
-ForceActionComponent.propTypes = {
-  detail: PropTypes.any,
-};
 
 ModalDetailAutotrader.propTypes = {
   detail: PropTypes.object,

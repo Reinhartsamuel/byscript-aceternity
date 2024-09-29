@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { authFirebase } from '../config/firebase';
 import moment from 'moment';
 import { useParams } from 'next/navigation';
-import useCountDocuments from '../hooks/CountHook';
+import useCountDocuments from '../hooks/countHook';
 import Spinner from '../components/ui/Spinner';
 import { cn } from '@/lib/util';
 import { RiRobot2Fill } from 'react-icons/ri';

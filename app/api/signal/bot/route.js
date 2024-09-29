@@ -132,19 +132,26 @@ export async function POST(request) {
     if (Array.isArray(result) && result?.length > 0) {
       await Promise.allSettled(
         result?.map(async (x) => {
-          let findBotOwner = {email:'', uid:'', name:''};
+          let findBotOwner = { email: '', uid: '', name: '' };
           const botsRef = adminDb.collection('dca_bots');
-          const snapshot = await botsRef.where('bot_id', '==', x?.value?.sendBodyTo3Commas?.bot_id?.toString()).get();
+          const snapshot = await botsRef
+            .where(
+              'bot_id',
+              '==',
+              x?.value?.sendBodyTo3Commas?.bot_id?.toString()
+            )
+            .get();
           if (!snapshot.empty) {
-            snapshot.forEach(doc => {
+            snapshot.forEach((doc) => {
               findBotOwner.email = doc.data()?.email || '';
               findBotOwner.name = doc.data()?.name || '';
               findBotOwner.uid = doc.data()?.uid || '';
               findBotOwner.exchange_name = doc.data()?.exchange_name || '';
-              findBotOwner.exchange_thumbnail = doc.data()?.exchange_thumbnail || '';
+              findBotOwner.exchange_thumbnail =
+                doc.data()?.exchange_thumbnail || '';
               findBotOwner.autotraderCreatedAt = doc.data()?.createdAt || '';
             });
-          } 
+          }
           await adminDb.collection('3commas_logs').add({
             requestBody: JSON.stringify(body),
             createdAt: new Date(),
@@ -157,7 +164,7 @@ export async function POST(request) {
             timestamp: body?.timestamp || '',
             bot_id: x?.value?.sendBodyTo3Commas?.bot_id,
             type: 'autotrade',
-            ...findBotOwner
+            ...findBotOwner,
           });
         })
       );
