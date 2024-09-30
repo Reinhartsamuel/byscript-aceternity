@@ -9,11 +9,12 @@ import {
   onSnapshot,
   orderBy,
   limit,
+  where,
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import PairImageComponent from './ui/PairImageComponent';
 
-const SignalPreviewComponent = (props) => {
+const SignalPreviewComponent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -23,7 +24,7 @@ const SignalPreviewComponent = (props) => {
     const q = query(
       collection(db, 'webhooks'),
       orderBy('createdAt', 'desc'),
-      // where('trading_plan_name', '==', 'XMA'),
+      where('trading_plan_name', '!=', 'TESTING 3'),
       limit(10)
     );
     const unsubscribe = onSnapshot(

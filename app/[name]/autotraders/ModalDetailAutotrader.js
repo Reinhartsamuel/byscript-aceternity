@@ -114,7 +114,7 @@ export default function ModalDetailAutotrader({
                 <div className='flex gap-2 '>
                   <button
                     onClick={() => handleStartStop('start')}
-                    disabled={detail?.status === 'ACTIVE' ? true : loading}
+                    disabled={detail?.status === 'ACTIVE' || detail?.status === 'REQUESTED' ? true : loading}
                     className={cn(
                       'flex items-center w-full justify-center flex-wrap-nowrap gap-2 px-4 py-2 rounded-xl border border-neutral-600 text-white ',
                       detail?.status === 'STOPPED'

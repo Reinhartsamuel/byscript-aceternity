@@ -7,6 +7,7 @@ import { PricingComponent } from './components/PricingComponent';
 import { TestimonialsComponent } from './components/TestimonialsComponent';
 import Navbar from './components/ui/Navbar';
 import Footer from './components/Footer';
+import React from 'react';
 
 export default function Home() {
   return (
@@ -37,7 +38,7 @@ export default function Home() {
                 </span>
               </button>
             </a>
-            <a href="/auth/login">
+            <a href='/auth/login'>
               <button className='w-[90%] p-[3px] relative my-5'>
                 <div className='absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg' />
                 <div className='px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white bg-transparent active:bg-violet-700'>
@@ -147,7 +148,6 @@ export default function Home() {
       </div>
 
       <HeroHighlightComponent />
-
 
       <div className='w-full h-screen mt-20 inline-block items-center justify-center mx-auto bg-transparent'>
         <h1 className='text-3xl mt-10 font-bold text-center mx-auto md:text-5xl lg:text-7xl'>
