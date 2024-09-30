@@ -14,7 +14,7 @@ import { authFirebase, db } from '@/app/config/firebase';
 import Spinner from '@/app/components/ui/Spinner';
 import PairImageComponent from '@/app/components/ui/PairImageComponent';
 import PropTypes from 'prop-types';
-import useCountDocuments from '@/app/hooks/countHook';
+import useCountDocuments from '@/app/hooks/CountHook';
 
 const TradeHistoryComponent = (props) => {
   const { collectionName = '3commas_logs', } = props;

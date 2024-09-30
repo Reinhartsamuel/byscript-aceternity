@@ -6,11 +6,11 @@ import Spinner from '../components/ui/Spinner';
 import { authFirebase } from '../config/firebase';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
-import useFetchData from '../hooks/queryHook';
-import useCountDocuments from '../hooks/countHook';
+import useFetchData from '../hooks/QueryHook';
 import { exchanges } from '../dummy';
 import Modal from '../components/ui/Modal';
 import PropTypes from 'prop-types';
+import useCountDocuments from '../hooks/CountHook';
 
 const ExchangesComponent = () => {
   const [openModal, setOpenModal] = useState(false);

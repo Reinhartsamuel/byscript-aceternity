@@ -10,7 +10,7 @@ import PairImageComponent from '../components/ui/PairImageComponent';
 import ModalDetailAutotrader from './autotraders/ModalDetailAutotrader';
 import ModalAddAutotrader from './autotraders/ModalAddAutotrader';
 import { useAutotraderStore } from '../store/autotraderStore';
-import useCountDocuments from '../hooks/countHook';
+import useCountDocuments from '../hooks/CountHook';
 
 // const yaitulah = [
 //   {
