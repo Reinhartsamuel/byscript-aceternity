@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { authFirebase } from '../config/firebase';
 import moment from 'moment';
 import { useParams } from 'next/navigation';
-import useCountDocuments from '../hooks/countHook';
 import Spinner from '../components/ui/Spinner';
 import { cn } from '@/lib/util';
 import { RiRobot2Fill } from 'react-icons/ri';
@@ -11,6 +10,7 @@ import PairImageComponent from '../components/ui/PairImageComponent';
 import ModalDetailAutotrader from './autotraders/ModalDetailAutotrader';
 import ModalAddAutotrader from './autotraders/ModalAddAutotrader';
 import { useAutotraderStore } from '../store/autotraderStore';
+import useCountDocuments from '../hooks/countHook';
 
 // const yaitulah = [
 //   {
