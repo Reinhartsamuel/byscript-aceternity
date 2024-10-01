@@ -228,7 +228,7 @@ const AutotraderBotComponent = () => {
                 <div className='flex w-full justify-between'>
                   <div className='flex flex-col'>
                     <h4 className='uppercase font-extrabold text-sm text-slate-200'>
-                      {moment.unix(x?.createdAt?.seconds).format('YYYY-MM-DD') +
+                      {x?.autotrader_name || moment.unix(x?.createdAt?.seconds).format('YYYY-MM-DD') +
                         '-' +
                         x?.createdAt?.seconds}
                     </h4>

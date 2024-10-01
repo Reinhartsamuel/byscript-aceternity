@@ -32,6 +32,7 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
     exchange_thumbnail: '',
     status: 'REQUESTED',
     trading_plan_pair: [],
+    autotrader_name: '',
   });
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +45,8 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
         icon: 'warning',
         text: 'Please fill in trade amount!',
       });
-      if (data?.trading_plan_pair?.length === 0) return Swal.fire({
+    if (data?.trading_plan_pair?.length === 0)
+      return Swal.fire({
         icon: 'warning',
         text: 'Please select trading plan and asset pair!',
       });
@@ -55,9 +57,9 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
       getAutotraders(data?.email);
       if (docId) notifRequestAutotrader(docId);
       Swal.fire({
-        icon:'success',
-        text:'Autotrader requested. We will inform you when autotrader is ACTIVE'
-      })
+        icon: 'success',
+        text: 'Autotrader requested. We will inform you when autotrader is ACTIVE',
+      });
       setAddModal(false);
     } catch (error) {
       Swal.fire({ icon: 'error', text: error.message });
