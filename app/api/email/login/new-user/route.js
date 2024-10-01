@@ -1,62 +1,8 @@
-import moment from 'moment';
+import signUpTemplate from '@/app/utils/emailHtmlTemplates/signUpTemplate';
 
 export async function POST(request) {
   const body = await request.json();
-  const htmlContent = `<!DOCTYPE html>
-    <html lang='en'>
-    <head>
-        <meta charset='UTF-8'>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <title>Document</title>
-        <style>
-        *{padding:0; margin : 0; font-family:Arial, Helvetica, sans-serif}
-          .affiliateButton {
-			width : 100%;;
-          	display : flex;
-          	justify-content:center;
-          	align-items:center;
-          	flex-direction : column;
-          }
-          .affiliateLink {
-			padding : 10px;
-          	background-color:white;
-          	border-radius:1em;
-          	margin-top:10px;
-          	color:blue;
-          	border-color:lightblue;
-          	border:1px;
-          	border-width:2em;
-          	font-weight:bold;
-          	text-decoration:underline;
-          }
-        </style>
-    </head>
-    <body>
-        <div style='width:100%; display:flex; justify-content:center;align-items:center;'>
-          <div style='display:table-row;flex-direction:column; justify-content:center;align-items:center;'>
-          <h1 style='margin-bottom:50px'>Selamat datang di byScript.io!</h1>
-                      <div style='margin-top:50px'>
-              Hai, <strong>Reinhart</strong>, anda telah login ke byScript.io. Jelajahi lebih lanjut trading plan 
-            byScript, atau buat trading plan kamu sendiri untuk autotrade tanpa pikir pusing. HAPPY CUAN!!😇😇
-          </div>
-          <a href='https://byscript.io' style='display:flex; justify-content:center;align-items:center;'>
-            <img src='https://deoapp-bucket.s3.ap-southeast-1.amazonaws.com/folder/v1/xx/you!%20(1).png' alt='affiliate' width='100%' />
-          </a>
-            <div class='affiliateButton'>
-              <img src='https://i0.wp.com/sifugadget.com/wp-content/uploads/2024/02/Arrows-3-pointing-down-arrow-down-animated.gif?fit=300%2C158&ssl=1' width='100' />
-              <div class='affiliateLink'>
-					<a
-                       href='https://wa.me/6281313383848/?text=Halo kak, saya ingin tanya-tanya untuk program affiliatenya'
-                       >Konsultasi affiliate sekarang (WA)</a>
-              </div>
-               <img src='https://i0.wp.com/sifugadget.com/wp-content/uploads/2024/02/Arrows-3-pointing-down-arrow-down-animated.gif?fit=300%2C158&ssl=1' width='100' style='transform:rotate(180deg)' />
-            </div>
-        </div
-      </div>
-    </body>
-    </html>`;
-
-  const emailBody = {
+   const emailBody = {
     sender: {
       name: 'byScript.io',
       email: 'edwinfardyanto@gmail.com',
@@ -67,12 +13,12 @@ export async function POST(request) {
         name: body?.name,
       },
     ],
-    bcc: [
-      { name: 'Reinhart', email: 'reinhartsams@gmail.com' },
-      // {name : 'Edwin', email : 'edwinfardyanto@gmail.com'},
-    ],
-    subject: 'Registrasi byScript',
-    htmlContent: htmlContent,
+    // bcc: [
+    //   // { name: 'Reinhart', email: 'reinhartsams@gmail.com' },
+    //   // {name : 'Edwin', email : 'edwinfardyanto@gmail.com'},
+    // ],
+    subject: 'Registration Successful on byScript',
+    htmlContent: signUpTemplate({name :body?.name}),
   };
 
   if (body?.content) emailBody.htmlContent = body?.content;
@@ -83,6 +29,7 @@ export async function POST(request) {
       body: JSON.stringify(emailBody),
       headers: {
         accept: 'application/json',
+        // eslint-disable-next-line no-undef
         'api-key': process.env.BREVO_API_KEY,
         'content-type': 'application/json',
       },

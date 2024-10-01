@@ -13,7 +13,8 @@ import {
   getCollectionFirebase,
 } from '@/app/utils/firebaseApi';
 import PairImageComponent from '@/app/components/ui/PairImageComponent';
-import notifRequestAutotrader from '@/app/services/notifRequestAutotrader';
+import moment from 'moment';
+import autotraderRequestTemplate from '@/app/utils/emailHtmlTemplates/autotraderRequestTemplate';
 
 const tradingPlans = [
   { name: 'XMA', id: 'XMA' },
@@ -32,7 +33,8 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
     exchange_thumbnail: '',
     status: 'REQUESTED',
     trading_plan_pair: [],
-    autotrader_name: '',
+    autotrader_name: moment().format('YYYY-MM-DD') +
+    '-' +moment().unix()
   });
   const [loading, setLoading] = useState(false);
 
@@ -53,9 +55,26 @@ export default function ModalAddAutotrader({ addModal, setAddModal }) {
 
     try {
       setLoading(true);
-      const docId = await addDocumentFirebase('dca_bots', data, 'byScript');
+      await addDocumentFirebase('dca_bots', data, 'byScript');
       getAutotraders(data?.email);
-      if (docId) notifRequestAutotrader(docId);
+      await fetch('/api/email', {
+        method : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name : authFirebase.currentUser?.displayName,
+          email : authFirebase.currentUser?.email,
+          subject: `Request Add Autotrader`,
+          htmlContent: autotraderRequestTemplate({
+            requestedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+            autotrader_name : data?.autotrader_name,
+            exchange_thumbnail : data?.exchange_thumbnail,
+            tradeAmount: data?.tradeAmount,
+            trading_plan_pair: data?.trading_plan_pair,
+          })
+        }),
+      })
       Swal.fire({
         icon: 'success',
         text: 'Autotrader requested. We will inform you when autotrader is ACTIVE',

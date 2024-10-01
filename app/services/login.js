@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { authFirebase } from '../config/firebase';
 import {
   addDocumentFirebase,
@@ -112,7 +112,8 @@ export const handleLoginEmail = async ({email, password, setLoading, router}) =>
   setLoading(true);
   try {
     //GOOGLE LOGIN
-    const result = await signInWithPopup(authFirebase, provider);
+    // const result = await signInWithPopup(authFirebase, provider);
+    const result = await signInWithEmailAndPassword(authFirebase, email, password);
     // console.log(result, 'result');
     const user = result.user;
     const credential = GoogleAuthProvider.credentialFromResult(result);
