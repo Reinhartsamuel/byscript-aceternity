@@ -14,12 +14,12 @@ export async function POST(request) {
       name: 'byScript.io',
       email: 'edwinfardyanto@gmail.com',
     },
-    bcc: [
-      // {
-      //   name: 'reieie',
-      //   email: 'reinhartsams@gmail.com',
-      // },
-    ],
+    // bcc: [
+    //   // {
+    //   //   name: 'reieie',
+    //   //   email: 'reinhartsams@gmail.com',
+    //   // },
+    // ],
     to: [
       {
         email: body?.email,
