@@ -31,20 +31,12 @@ export default function loginTemplate(props) {
         padding-top: 1rem;
         padding-bottom: 1rem;
       }
-      .subtitle {
-        color: white;
-        font-style: italic;
-        letter-spacing: 1px;
-        font-size: 12px;
-        font-weight: 200;
-      }
-
       .container {
         line-height:1.5rem;
         background-color: #f3f4f6;
         border-radius: 1rem;
         padding: 1rem;
-background: rgb(238,255,239);background: linear-gradient(0deg, rgba(238,255,239,1) 0%, rgba(224,235,255,1) 100%);
+        color:black;
       }
       @font-face {
         font-family: 'eco_coding';

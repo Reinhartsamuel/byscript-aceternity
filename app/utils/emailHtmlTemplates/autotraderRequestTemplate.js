@@ -11,7 +11,11 @@ export default function autotraderRequestTemplate(props) {
         padding: 0;
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
+        color:black;
       }
+        p {
+        color:black;
+        }
 
       .gradient-text {
         background-image: linear-gradient(to right, #6c5ce7, #7a29cb);
@@ -48,8 +52,6 @@ export default function autotraderRequestTemplate(props) {
         background-color: #f3f4f6;
         border-radius: 1rem;
         padding: 1rem;
-        background: rgb(238, 255, 239);
-        background: linear-gradient(0deg, rgba(238, 255, 239, 1) 0%, rgba(224, 235, 255, 1) 100%);
       }
 
       table {

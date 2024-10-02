@@ -37,13 +37,10 @@ export default function signUpTemplate (props) {
         font-size: 12px;
         font-weight: 200;
       }
-
       .container {
-
         background-color: #f3f4f6;
         border-radius: 1rem;
         padding: 1rem;
-background: rgb(238,255,239);background: linear-gradient(0deg, rgba(238,255,239,1) 0%, rgba(224,235,255,1) 100%);
       }
       @font-face {
         font-family: 'eco_coding';
