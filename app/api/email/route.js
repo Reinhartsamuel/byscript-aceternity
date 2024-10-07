@@ -1,5 +1,4 @@
-import autotraderRequestTemplate from '@/app/utils/emailHtmlTemplates/autotraderRequestTemplate';
-import moment from 'moment';
+import tradeExecutedTemplate from '@/app/utils/emailHtmlTemplates/tradeExecutedTemplate';
 
 export async function POST(request) {
   try {
@@ -45,13 +44,14 @@ export async function POST(request) {
       //   // {name : 'Edwin', email : 'edwinfardyanto@gmail.com'},
       // ],
       subject: 'Request Autotrader',
-      htmlContent: autotraderRequestTemplate({
-        requestedAt : moment().format('ddd, DD MMM YYYY HH:mm:ss'),
-        autotrader_name : body?.autotrader_name,
-        exchange_thumbnail: body?.exchange_thumbnail,
-        trading_plan_id:body?.trading_plan_id,
-        tradeAmount:body?.tradeAmount,
-        trading_plan_pairs:body?.trading_plan_pairs,
+      htmlContent: tradeExecutedTemplate({
+        autotrader_name: 'autotradername',
+        exchange_thumbnail: 'https://static.airpackapp.com/fe-next/homepage/prod/_next/static/media/open_sesame_night.47e06968.png?w=750&q=75',
+        trading_plan_id : 'XMA-testsaja',
+        signal_type : 'BUY',
+        tradeAmount : '1000',
+        price : '2657',
+        pair : 'USDT_ETH'
       }),
     
     };

@@ -1,3 +1,4 @@
+import tradeExecutedTemplate from '@/app/utils/emailHtmlTemplates/tradeExecutedTemplate';
 import { adminDb } from '@/lib/firebase-admin-config';
 import { FieldValue } from 'firebase-admin/firestore';
 import moment from 'moment';
@@ -52,7 +53,7 @@ const threeCommasUrl = 'https://app.3commas.io/trade_signal/trading_view';
 //       .collection('trading_plan_pair')
 //       .doc(tp_unique_id)
 //       .get();
-      
+
 //     if (!doc.exists) {
 //       try {
 //         console.log(
@@ -184,7 +185,6 @@ const threeCommasUrl = 'https://app.3commas.io/trade_signal/trading_view';
 //     });
 //   }
 // }
-
 
 export async function POST(request) {
   try {
@@ -323,7 +323,75 @@ export async function POST(request) {
           });
         })
       );
-    }
+
+    //------------------------------ SEND EMAIL ------------------------------
+    //------------------------------ SEND EMAIL ------------------------------
+    //------------------------------ SEND EMAIL ------------------------------
+    //------------------------------ SEND EMAIL ------------------------------
+    //------------------------------ SEND EMAIL ------------------------------
+    //------------------------------ SEND EMAIL ------------------------------
+    const emailNotificationBody = {
+      sender: {
+        email: 'info@byscript.io',
+        name: 'byScript.io',
+      },
+      subject: 'Trade Executed -byScript',
+      htmlContent: `<!DOCTYPE html>
+      <html><body><h1>My Trade executed on byscript</h1>
+      <p>PAIR: ${body?.pair}</p>
+      <br />
+      <p>TRADING PLAN : ${body?.trading_plan_id}</p>
+      <br />
+      <p>PRICE : ${body?.price}</p>
+      <br />
+      <p>SIDE : ${body?.action ? 'SELL' : 'BUY'}</p>
+      <br />
+      </body></html>`,
+      messageVersions: result?.map((x) => {
+        return {
+          to: [
+            {
+              email: x?.value?.email || x?.email || '',
+              name: x?.value?.name || x?.name || '',
+            },
+          ],
+          htmlContent: tradeExecutedTemplate({
+            autotrader_name:
+              x?.autotrader_name ||
+              moment.unix(x?.value?.createdAt?.seconds).format('YYYY-MM-DD') +
+                '-' +
+                x?.value?.createdAt?.seconds,
+            exchange_thumbnail: x?.value?.exchange_thumbnail || '',
+            trading_plan_id: body?.trading_plan_id,
+            signal_type: body?.action ? 'SELL' : 'BUY',
+            tradeAmount: x?.tradeAmount || '-',
+            price: body?.price || '',
+            pair: body?.pair || '',
+          }),
+          subject: 'Trade Executed - byScript',
+        };
+      }),
+    };
+    const resEmail = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'post',
+      body: JSON.stringify(emailNotificationBody),
+      headers: {
+        accept: 'application/json',
+        // eslint-disable-next-line no-undef
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json',
+      },
+    });
+    const resultEmail = await resEmail.json();
+    console.log(JSON.stringify(resultEmail), 'resultEMAIL');
+
+    //------------------------------ SEND EMAIL END ------------------------------
+    //------------------------------ SEND EMAIL END ------------------------------
+    //------------------------------ SEND EMAIL END ------------------------------
+    //------------------------------ SEND EMAIL END ------------------------------
+    //------------------------------ SEND EMAIL END ------------------------------
+    //------------------------------ SEND EMAIL END ------------------------------
+  }
 
     return new Response('ok', {
       status: 200,

@@ -122,15 +122,7 @@ export default function autotraderConnectTemplate(props) {
           </tr>
         </table>
         <div style="width:100%; display:flex; justify-content:center; align-items:center;">
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <div style="display:flex;">
-            <img src='https://firebasestorage.googleapis.com/v0/b/byscript-io.appspot.com/o/byscriptlogo.jpeg?alt=media&token=bb0a63ce-cdf7-4f67-b0f6-32f4f686fbc7' style='width:2rem;height:2rem;margin-right:0.5em' />
-          </div>
+          <img src='https://firebasestorage.googleapis.com/v0/b/byscript-io.appspot.com/o/byscriptlogo.jpeg?alt=media&token=bb0a63ce-cdf7-4f67-b0f6-32f4f686fbc7' style='width:2rem;height:2rem;margin-right:0.5em' />
           <p style='font-family:eco_coding; font-weight:bold;'> byScript.io </p>
         </div>
       </div>

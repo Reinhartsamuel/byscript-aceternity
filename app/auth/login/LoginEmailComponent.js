@@ -3,12 +3,13 @@
 import Spinner from '@/app/components/ui/Spinner';
 import { cn } from '@/lib/util';
 import { useState } from 'react';
+import React from 'react'
 
 export default function LoginEmailComponent() {
   const [loading, setLoading] = useState(false);
-  const handleLoginEmail = async () => {
+  // const handleLoginEmail = async () => {
 
-  };
+  // };
   return (
     <div className='flex flex-col w-full gap-2'>
       <input
@@ -18,9 +19,6 @@ export default function LoginEmailComponent() {
           '
         id='email'
         placeholder='name@example.com'
-        autocapitalize='none'
-        autocomplete='email'
-        autocorrect='off'
       />
       <input
         type='password'
@@ -29,9 +27,6 @@ export default function LoginEmailComponent() {
           '
         id='password'
         placeholder='password'
-        autocapitalize='none'
-        autocomplete='email'
-        autocorrect='off'
       />
       <button
         className={cn(
